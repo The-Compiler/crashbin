@@ -3,6 +3,10 @@
         <title>Crashbin - Home</title>
     </head>
     <body>
-        <p>Hello, World!</p>
+        <ul>
+      {% for report in reports %}
+            <li><a href="">{{ report.created_at }}</a></li>
+      {% endfor %}
+        </ul>
     </body>
 </html>
