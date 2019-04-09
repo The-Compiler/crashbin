@@ -40,6 +40,7 @@ class Report(models.Model):
     bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
     log = models.TextField(blank=True)
     labels = models.ManyToManyField(Label, blank=True)
+    title = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.created_at.ctime()
+        return self.title
