@@ -1,0 +1,11 @@
+{% extends 'crashbin_app/base.html' %}
+
+{% block content %}
+<h1>{{ report.title }}</h1>
+
+<p>Created {{ report.created_at }}</p>
+
+<pre>
+{{ report.log | linebreaksbr }}
+</pre>
+{% endblock %}

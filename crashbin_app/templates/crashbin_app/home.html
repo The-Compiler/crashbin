@@ -3,7 +3,7 @@
 {% block content %}
   <ul>
   {% for report in reports %}
-    <li><a href="">{{ report.created_at }}</a></li>
+    <li><a href="{% url 'report_detail' pk=report.pk %}">{{ report.title }}, created {{ report.created_at }}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}
