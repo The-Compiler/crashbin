@@ -1,12 +1,9 @@
-<html>
-    <head>
-        <title>Crashbin - Home</title>
-    </head>
-    <body>
-        <ul>
-      {% for report in reports %}
-            <li><a href="">{{ report.created_at }}</a></li>
-      {% endfor %}
-        </ul>
-    </body>
-</html>
+{% extends 'crashbin_app/base.html' %}
+
+{% block content %}
+  <ul>
+  {% for report in reports %}
+    <li><a href="">{{ report.created_at }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
