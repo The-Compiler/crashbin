@@ -37,7 +37,8 @@ class Report(models.Model):
 
     email = models.EmailField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
-    bin = models.ForeignKey(Bin, on_delete=models.CASCADE)
+    bin = models.ForeignKey(Bin, on_delete=models.CASCADE,
+                            related_name='reports')
     log = models.TextField(blank=True)
     labels = models.ManyToManyField(Label, blank=True)
     title = models.CharField(max_length=255)

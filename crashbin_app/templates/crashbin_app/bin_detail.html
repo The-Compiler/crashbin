@@ -1,0 +1,15 @@
+{% extends 'crashbin_app/base.html' %}
+
+{% block content %}
+    <div class="container mt-4 p-4 bg-light">
+        <h1>{{ bin.name }}</h1>
+        <p>Created {{ bin.created_at }}</p>
+
+        <h2>Reports</h2>
+        <ul>
+        {% for report in bin.reports.all %}
+        <li><a href="{% url 'report_detail' pk=report.pk %}">{{ report.title }}, created {{ report.created_at }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

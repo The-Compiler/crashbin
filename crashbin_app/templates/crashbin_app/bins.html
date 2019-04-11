@@ -1,0 +1,10 @@
+{% extends 'crashbin_app/base.html' %}
+
+{% block content %}
+
+  <ul>
+  {% for bin in bins %}
+    <li><a href="{% url 'bin_detail' pk=bin.pk %}">{{ bin.name }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
