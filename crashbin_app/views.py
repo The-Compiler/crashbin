@@ -4,10 +4,13 @@ from .models import Report, Bin
 
 
 def home(request):
-    reports = Report.objects.order_by('created_at')
+    num_reports = Report.objects.count()
+    num_bins = Bin.objects.count()
     return render(request,
                   'crashbin_app/home.html',
-                  {'reports': reports, 'title': 'Home'})
+                  {'num_reports': num_reports,
+                   'num_bins': num_bins,
+                   'title': 'Home'})
 
 
 def report_list(request):
