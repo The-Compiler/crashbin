@@ -10,6 +10,13 @@ def home(request):
                   {'reports': reports, 'title': 'Home'})
 
 
+def report_list(request):
+    reports = Report.objects.order_by('created_at')
+    return render(request,
+                  'crashbin_app/reports.html',
+                  {'reports': reports, 'title': 'Home'})
+
+
 def report_detail(request, pk):
     report = get_object_or_404(Report, pk=pk)
     return render(request, 'crashbin_app/report_detail.html',

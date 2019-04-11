@@ -1,9 +1,5 @@
 {% extends 'crashbin_app/base.html' %}
 
 {% block content %}
-  <ul>
-  {% for report in reports %}
-    <li><a href="{% url 'report_detail' pk=report.pk %}">{{ report.title }}, created {{ report.created_at }}</a></li>
-  {% endfor %}
-  </ul>
+    <h1>Welcome to Crashbin!</h1>
 {% endblock %}
