@@ -28,9 +28,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="/">Home</a>
-            <a class="nav-item nav-link" href="/bins">Bins</a>
-            <a class="nav-item nav-link" href="/reports">Reports</a>
+            <a class="nav-item nav-link {% block menu_home_class %}{% endblock %}" href="/">Home</a>
+            <a class="nav-item nav-link {% block menu_bins_class %}{% endblock %}" href="/bins">Bins</a>
+            <a class="nav-item nav-link {% block menu_reports_class %}{% endblock%}" href="/reports">Reports</a>
         </div>
     </div>
 </nav>
