@@ -1,7 +1,7 @@
 {% extends 'crashbin_app/base.html' %}
 
 {% block content %}
-    <div class="container mt-4 p-4 bg-light">
+    <div class="container mt-4 p-4 bg-white">
         <h1>{{ report.title }}</h1>
         <p>Created {{ report.created_at }}</p>
         <pre>{{ report.log | linebreaksbr }}</pre>
