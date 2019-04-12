@@ -11,6 +11,8 @@
         <ul>
         {% for report in bin.reports.all %}
         <li><a href="{% url 'report_detail' pk=report.pk %}">{{ report.title }}, created {{ report.created_at }}</a></li>
+        {% empty %}
+        <li>No reports in this bin yet.
         {% endfor %}
         </ul>
     </div>
