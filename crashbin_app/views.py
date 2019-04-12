@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Report, Bin
+from .forms import BinForm
 
 
 def home(request):
@@ -37,3 +38,15 @@ def bin_detail(request, pk):
     bin = get_object_or_404(Bin, pk=pk)
     return render(request, 'crashbin_app/bin_detail.html',
                   {'bin': bin, 'title': 'Bin: ' + bin.name})
+
+
+def bin_new(request):
+    if request.method == 'POST':
+        form = BinForm(request.POST)
+        if form.is_valid():
+            bin = form.save()
+            return redirect('bin_detail', pk=bin.pk)
+    else:
+        form = BinForm()
+    return render(request, 'crashbin_app/bin_edit.html',
+                  {'title': 'New bin', 'form': form})

@@ -4,11 +4,12 @@
 
 {% block content %}
   <div class="container mt-4 p-4 bg-white">
-  <h1>All Bins</h1>
+      <h1>All Bins</h1>
   <ul>
   {% for bin in bins %}
     <li><a href="{% url 'bin_detail' pk=bin.pk %}">{{ bin.name }}</a></li>
   {% endfor %}
+    <li><a href="{% url 'bin_new' %}" class="top-menu"><i class="fas fa-plus"></i> Add new</a>
   </ul>
   </div>
 {% endblock %}

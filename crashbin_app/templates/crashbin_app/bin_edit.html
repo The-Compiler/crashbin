@@ -1,0 +1,14 @@
+{% extends 'crashbin_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block menu_bins_class %}active{% endblock %}
+
+{% block content %}
+<div class="container mt-4 p-4 bg-white">
+<h2>New bin</h2>
+<form method="POST" class="post-form">{% csrf_token %}
+    {{ form | crispy }}
+    <button type="submit" class="save btn btn-primary">Save</button>
+</form>
+</div>
+{% endblock %}
