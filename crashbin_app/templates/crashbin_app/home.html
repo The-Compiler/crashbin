@@ -48,14 +48,24 @@
             </div>
         </div>
         <div class="row mt-4">
-            <div class="col px-4 pb-4 bg-white">
+            <div class="col px-4 pb-3 bg-white">
                 <h1 class="my-2">Maintaining</h1>
                 <div class="list-container">
                     <div id="headingOne" class="list-group-header bg-light">
                         <button class="btn btn-block p-3" data-toggle="collapse" data-target="#collapseOne"
                                 aria-expanded="true" aria-controls="collapseOne">
                             <div class="d-flex">
-                                <h4 class="mb-0 mr-auto">Bin #1</h4>
+                                <h4 class="text-nowrap mb-0 mr-auto my-auto">Bin #1</h4>
+                                <div class="d-flex flex-row-reverse flex-wrap w-auto mx-2 my-auto">
+                                    <span class="badge mx-1 my-1 p-2"
+                                          style="background-color: #0069d9; color: white">Label 1</span>
+                                    <span class="badge mx-1 my-1 p-2"
+                                          style="background-color: red; color: white">Label 1</span>
+                                    <span class="badge mx-1 my-1 p-2"
+                                          style="background-color: darkgreen; color: white">Label 1</span>
+                                    <span class="badge mx-1 my-1 p-2"
+                                          style="background-color: darkmagenta; color: white">Label 1</span>
+                                </div>
                                 <i class="far fa-clipboard ml-2 my-auto" style="font-size: 1.5em;"></i>
                                 <div class="ml-2 my-auto">10</div>
                             </div>
@@ -67,7 +77,17 @@
                                 <li class="list-group-item p-0">
                                     <a class="btn btn-block" href="#" role="button">
                                         <div class="d-flex">
-                                            <p class="mb-0 mr-auto">Report #1</p>
+                                            <p class="text-nowrap mb-0 mr-auto my-auto">Report #1</p>
+                                            <div class="d-flex flex-row-reverse flex-wrap w-auto mx-2 my-auto">
+                                                <span class="badge mx-1 my-1"
+                                                      style="background-color: #0069d9; color: white">Label 1</span>
+                                                <span class="badge mx-1 my-1"
+                                                      style="background-color: red; color: white">Label 1</span>
+                                                <span class="badge mx-1 my-1"
+                                                      style="background-color: darkgreen; color: white">Label 1</span>
+                                                <span class="badge mx-1 my-1"
+                                                      style="background-color: darkmagenta; color: white">Label 1</span>
+                                            </div>
                                             <i class="far fa-comment-alt ml-2 my-auto" style="font-size: 1em;"></i>
                                             <div class="ml-2 my-auto">10</div>
                                         </div>
@@ -136,11 +156,5 @@
             </div>
         </div>
     </div>
-    <div class="container mt-4 p-4 bg-white">
-        <h3>Welcome to Crashbin!</h3>
-        <ul>
-            <li><a href="/reports">{{ num_reports }} report{{ num_reports | pluralize }}</a>
-            <li><a href="/bins">{{ num_bins }} bin{{ num_bins | pluralize }}</a>
-        </ul>
-    </div>
+
 {% endblock %}
