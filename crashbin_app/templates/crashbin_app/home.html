@@ -3,8 +3,60 @@
 {% block menu_home_class %}active{% endblock %}
 
 {% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col p-0 bg-white">
+                <div class="card-deck p-4">
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">All bins</p>
+                            <h3 class="card-title">{{ num_bins }}</h3>
+                        </div>
+                    </div>
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">All reports</p>
+                            <h3 class="card-title">{{ num_reports }}</h3>
+                        </div>
+                    </div>
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">Bins you maintain</p>
+                            <h3 class="card-title">1000</h3>
+                        </div>
+                    </div>
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">Reports you maintain</p>
+                            <h3 class="card-title">1000</h3>
+                        </div>
+                    </div>
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">Bins you subscribed</p>
+                            <h3 class="card-title">1000</h3>
+                        </div>
+                    </div>
+                    <div class="card mx-0 text-center bg-light">
+                        <div class="card-body">
+                            <p class="card-text">Reports you subscribed</p>
+                            <h3 class="card-title">1000</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-4 mr-2 bg-white">
+                One of three columns
+            </div>
+            <div class="col mt-4 ml-2 bg-white">
+                One of three columns
+            </div>
+        </div>
+    </div>
     <div class="container mt-4 p-4 bg-white">
-        <h1>Welcome to Crashbin!</h1>
+        <h3>Welcome to Crashbin!</h3>
         <ul>
             <li><a href="/reports">{{ num_reports }} report{{ num_reports | pluralize }}</a>
             <li><a href="/bins">{{ num_bins }} bin{{ num_bins | pluralize }}</a>
