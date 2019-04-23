@@ -5,13 +5,10 @@ from .forms import BinForm
 
 
 def home(request):
-    num_reports = Report.objects.count()
-    num_bins = Bin.objects.count()
+    bins = Bin.objects.order_by('created_at')
     return render(request,
                   'crashbin_app/home.html',
-                  {'num_reports': num_reports,
-                   'num_bins': num_bins,
-                   'title': 'Home'})
+                  {'bins': bins, 'title': 'Home'})
 
 
 def report_list(request):
