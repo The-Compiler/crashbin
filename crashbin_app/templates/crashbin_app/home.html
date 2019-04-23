@@ -3,41 +3,42 @@
 {% block menu_home_class %}active{% endblock %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container my-4">
         <div class="row">
-            <div class="col p-0 bg-white">
-                <div class="card-deck p-4">
-                    <div class="card mx-0 text-center bg-light">
+            <div class="col px-4 pb-4 bg-white">
+                <h1 class="my-2">Overview</h1>
+                <div class="card-deck">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">All bins</p>
                             <h3 class="card-title">{{ num_bins }}</h3>
                         </div>
                     </div>
-                    <div class="card mx-0 text-center bg-light">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">All reports</p>
                             <h3 class="card-title">{{ num_reports }}</h3>
                         </div>
                     </div>
-                    <div class="card mx-0 text-center bg-light">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">Bins you maintain</p>
                             <h3 class="card-title">1000</h3>
                         </div>
                     </div>
-                    <div class="card mx-0 text-center bg-light">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">Reports you maintain</p>
                             <h3 class="card-title">1000</h3>
                         </div>
                     </div>
-                    <div class="card mx-0 text-center bg-light">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">Bins you subscribed</p>
                             <h3 class="card-title">1000</h3>
                         </div>
                     </div>
-                    <div class="card mx-0 text-center bg-light">
+                    <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">Reports you subscribed</p>
                             <h3 class="card-title">1000</h3>
@@ -46,12 +47,92 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col bg-white">
-                One of three columns
-            </div>
-            <div class="col bg-white">
-                One of three columns
+        <div class="row mt-4">
+            <div class="col px-4 pb-4 bg-white">
+                <h1 class="my-2">Maintaining</h1>
+                <div class="list-container">
+                    <div id="headingOne" class="list-group-header bg-light">
+                        <button class="btn btn-block p-3" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                            <div class="d-flex">
+                                <h4 class="mb-0 mr-auto">Bin #1</h4>
+                                <i class="far fa-clipboard ml-2 my-auto" style="font-size: 1.5em;"></i>
+                                <div class="ml-2 my-auto">10</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne">
+                        <div>
+                            <ul class="list-group">
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        <div class="d-flex">
+                                            <p class="mb-0 mr-auto">Report #1</p>
+                                            <i class="far fa-comment-alt ml-2 my-auto" style="font-size: 1em;"></i>
+                                            <div class="ml-2 my-auto">10</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        <div class="d-flex">
+                                            <p class="mb-0 mr-auto">Report #2</p>
+                                            <i class="far fa-comment-alt ml-2 my-auto" style="font-size: 1em;"></i>
+                                            <div class="ml-2 my-auto">10</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        View more
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-container">
+                    <div id="headingTwo" class="list-group-header bg-light">
+                        <button class="btn btn-block p-3" data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="true" aria-controls="collapseTwo">
+                            <div class="d-flex">
+                                <h4 class="mb-0 mr-auto">Bin #2</h4>
+                                <i class="far fa-clipboard ml-2 my-auto" style="font-size: 1.5em;"></i>
+                                <div class="ml-2 my-auto">10</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
+                        <div>
+                            <ul class="list-group">
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        <div class="d-flex">
+                                            <p class="mb-0 mr-auto">Report #1</p>
+                                            <i class="far fa-comment-alt ml-2 my-auto" style="font-size: 1em;"></i>
+                                            <div class="ml-2 my-auto">10</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        <div class="d-flex">
+                                            <p class="mb-0 mr-auto">Report #2</p>
+                                            <i class="far fa-comment-alt ml-2 my-auto" style="font-size: 1em;"></i>
+                                            <div class="ml-2 my-auto">10</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item p-0">
+                                    <a class="btn btn-block" href="#" role="button">
+                                        View more
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

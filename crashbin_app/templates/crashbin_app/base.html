@@ -17,6 +17,18 @@
             background-color: #4D4D4D !important;
         }
 
+        .container {
+            min-width: 250px;
+        }
+
+        .navbar {
+            min-width: 250px;
+        }
+
+        .btn {
+            border-radius: initial;
+        }
+
         .card-deck {
             display: grid;
             margin: auto;
@@ -24,8 +36,24 @@
             grid-gap: 1.5em;
         }
 
-        .card-deck .card {
-            margin-bottom: 0px;
+        .list-container {
+            margin-bottom: 0.5em;
+        }
+
+        .list-group-item {
+            margin-bottom: -2px;
+            border: 2px solid #E6E6E6;
+        }
+
+        .list-group-item:first-child {
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .list-group-item:last-child {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
         }
     </style>
 </head>
