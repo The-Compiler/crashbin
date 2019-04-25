@@ -72,30 +72,28 @@
                             </button>
                         </div>
                         <div id="bin-collapse-{{ bin.id }}"
-                             class="collapse {% if bin.id == 0 %}show{% endif %}"
+                             class="collapse {% if forloop.first %}show{% endif %}"
                              aria-labelledby="bin-header-{{ bin.id }}">
                             <div>
                                 <ul class="list-group">
-                                    {% for report in bin.reports.all %}
-                                        {% if forloop.counter0 < 3 %}
-                                            <li class="list-group-item p-0">
-                                                <a class="btn btn-block d-flex flex-wrap"
-                                                   href="/report/{{ report.id }}/" role="button">
-                                                    <p class="text-justify m-0 my-auto">{{ report.title }}</p>
-                                                    <div class="d-flex flex-row ml-auto my-auto">
-                                                        <div class="d-flex flex-row-reverse flex-wrap">
-                                                            {% for label in report.labels.all %}
-                                                                <span class="badge text-wrap m-1"
-                                                                      style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
-                                                            {% endfor %}
-                                                        </div>
-                                                        <i class="far fa-comment-alt ml-2 my-auto"
-                                                           style="font-size: 1em;"></i>
-                                                        <div class="ml-2 my-auto">10</div>
+                                    {% for report in bin.reports.all|slice:":3" %}
+                                        <li class="list-group-item p-0">
+                                            <a class="btn btn-block d-flex flex-wrap"
+                                                href="/report/{{ report.id }}/" role="button">
+                                                <p class="text-justify m-0 my-auto">{{ report.title }}</p>
+                                                <div class="d-flex flex-row ml-auto my-auto">
+                                                    <div class="d-flex flex-row-reverse flex-wrap">
+                                                        {% for label in report.labels.all %}
+                                                            <span class="badge text-wrap m-1"
+                                                                    style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
+                                                        {% endfor %}
                                                     </div>
-                                                </a>
-                                            </li>
-                                        {% endif %}
+                                                    <i class="far fa-comment-alt ml-2 my-auto"
+                                                        style="font-size: 1em;"></i>
+                                                    <div class="ml-2 my-auto">10</div>
+                                                </div>
+                                            </a>
+                                        </li>
                                     {% endfor %}
                                     <li class="list-group-item p-0">
                                         <a class="btn btn-block" href="/bin/{{ bin.id }}/" role="button">
