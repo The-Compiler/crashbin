@@ -8,33 +8,33 @@ def home(request):
     bins = Bin.objects.order_by('created_at')
     return render(request,
                   'crashbin_app/home.html',
-                  {'bins': bins, 'title': 'Home'})
+                  {'bins': bins})
 
 
 def report_list(request):
     reports = Report.objects.order_by('created_at')
     return render(request,
                   'crashbin_app/reports.html',
-                  {'reports': reports, 'title': 'Reports'})
+                  {'reports': reports})
 
 
 def report_detail(request, pk):
     report = get_object_or_404(Report, pk=pk)
     return render(request, 'crashbin_app/report_detail.html',
-                  {'report': report, 'title': 'Report: ' + report.title})
+                  {'report': report})
 
 
 def bin_list(request):
     bins = Bin.objects.order_by('created_at')
     return render(request,
                   'crashbin_app/bins.html',
-                  {'bins': bins, 'title': 'Bins'})
+                  {'bins': bins})
 
 
 def bin_detail(request, pk):
     bin = get_object_or_404(Bin, pk=pk)
     return render(request, 'crashbin_app/bin_detail.html',
-                  {'bin': bin, 'title': 'Bin: ' + bin.name})
+                  {'bin': bin})
 
 
 def bin_new(request):
@@ -46,4 +46,4 @@ def bin_new(request):
     else:
         form = BinForm()
     return render(request, 'crashbin_app/bin_edit.html',
-                  {'title': 'New bin', 'form': form})
+                  {'form': form})

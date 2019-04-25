@@ -1,6 +1,8 @@
 {% extends 'crashbin_app/base.html' %}
+{% load components %}
 
 {% block menu_home_class %}active{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
     <div class="container my-4">
@@ -52,67 +54,14 @@
         <div class="row">
             <div class="col px-4 pb-3 bg-white">
                 <h1 class="my-2">Maintaining</h1>
-                {% for bin in bins %}
-                    <div class="mb-2">
-                        <div id="bin-header-{{ forloop.counter0 }}" class="list-group-header bg-light">
-                            <button class="btn btn-block d-flex flex-wrap p-2" data-toggle="collapse"
-                                    data-target="#bin-collapse-{{ forloop.counter0 }}"
-                                    aria-expanded="true" aria-controls="bin-collapse-{{ forloop.counter0 }}">
-                                <h4 class="text-justify p-2 my-auto">{{ bin.name }}</h4>
-                                <div class="d-flex flex-row p-2 ml-auto my-auto">
-                                    <div class="d-flex flex-row-reverse flex-wrap">
-                                        {% for label in bin.labels.all %}
-                                            <span class="badge text-wrap m-1 p-2"
-                                                  style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
-                                        {% empty %}
-                                        {% endfor %}
-                                    </div>
-                                    <i class="far fa-clipboard ml-2 my-auto" style="font-size: 1.5em;"></i>
-                                    <div class="ml-2 my-auto">{{ bin.reports.count }}</div>
-                                </div>
-                            </button>
-                        </div>
-                        <div id="bin-collapse-{{ forloop.counter0 }}"
-                             class="collapse {% if forloop.counter0 == 0 %}show{% endif %}"
-                             aria-labelledby="bin-header-{{ forloop.counter0 }}">
-                            <div>
-                                <ul class="list-group">
-                                    {% for report in bin.reports.all %}
-                                        {% if forloop.counter0 < 3 %}
-                                            <li class="list-group-item p-0">
-                                                <a class="btn btn-block d-flex flex-wrap"
-                                                   href="/report/{{ report.id }}/" role="button">
-                                                    <p class="text-justify m-0 my-auto">{{ report.title }}</p>
-                                                    <div class="d-flex flex-row ml-auto my-auto">
-                                                        <div class="d-flex flex-row-reverse flex-wrap">
-                                                            {% for label in report.labels.all %}
-                                                                <span class="badge text-wrap m-1"
-                                                                      style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
-                                                            {% empty %}
-                                                            {% endfor %}
-                                                        </div>
-                                                        <i class="far fa-comment-alt ml-2 my-auto"
-                                                           style="font-size: 1em;"></i>
-                                                        <div class="ml-2 my-auto">10</div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                    <li class="list-group-item p-0">
-                                        <a class="btn btn-block" href="/bin/{{ bin.id }}/" role="button">
-                                            View more
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <div class="alert alert-warning mb-1" role="alert">
-                        You aren't maintaining any bins!
-                    </div>
-                {% endfor %}
+                {% bin_list bins 'maintaining' %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col px-4 pb-3 bg-white">
+                <h1 class="my-2">Subscribed</h1>
+                {% bin_list bins 'subscribed' %}
             </div>
         </div>
 
