@@ -4,7 +4,8 @@
 
 {% block content %}
     <div class="container my-4">
-        <div class="row">
+
+        <div class="row mb-4">
             <div class="col px-4 pb-4 bg-white">
                 <h1 class="my-2">Overview</h1>
                 <div class="card-deck">
@@ -47,20 +48,21 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
+
+        <div class="row">
             <div class="col px-4 pb-3 bg-white">
                 <h1 class="my-2">Maintaining</h1>
                 {% for bin in bins %}
-                    <div class="list-container">
+                    <div class="mb-2">
                         <div id="bin-header-{{ forloop.counter0 }}" class="list-group-header bg-light">
-                            <button class="btn btn-block p-3" data-toggle="collapse"
+                            <button class="btn btn-block d-flex flex-wrap p-2" data-toggle="collapse"
                                     data-target="#bin-collapse-{{ forloop.counter0 }}"
                                     aria-expanded="true" aria-controls="bin-collapse-{{ forloop.counter0 }}">
-                                <div class="d-flex">
-                                    <h4 class="text-nowrap mb-0 mr-auto my-auto">{{ bin.name }}</h4>
-                                    <div class="d-flex flex-row-reverse flex-wrap w-auto mx-2 my-auto">
+                                <h4 class="text-justify p-2 my-auto">{{ bin.name }}</h4>
+                                <div class="d-flex flex-row p-2 ml-auto my-auto">
+                                    <div class="d-flex flex-row-reverse flex-wrap">
                                         {% for label in bin.labels.all %}
-                                            <span class="badge mx-1 my-1 p-2"
+                                            <span class="badge text-wrap m-1 p-2"
                                                   style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
                                         {% empty %}
                                         {% endfor %}
@@ -78,13 +80,15 @@
                                     {% for report in bin.reports.all %}
                                         {% if forloop.counter0 < 3 %}
                                             <li class="list-group-item p-0">
-                                                <a class="btn btn-block" href="/report/{{ report.id }}/" role="button">
-                                                    <div class="d-flex">
-                                                        <p class="text-nowrap mb-0 mr-auto my-auto">{{ report.title }}</p>
-                                                        <div class="d-flex flex-row-reverse flex-wrap w-auto mx-2 my-auto">
+                                                <a class="btn btn-block d-flex flex-wrap"
+                                                   href="/report/{{ report.id }}/" role="button">
+                                                    <p class="text-justify m-0 my-auto">{{ report.title }}</p>
+                                                    <div class="d-flex flex-row ml-auto my-auto">
+                                                        <div class="d-flex flex-row-reverse flex-wrap">
                                                             {% for label in report.labels.all %}
-                                                                <span class="badge mx-1 my-1"
+                                                                <span class="badge text-wrap m-1"
                                                                       style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
+                                                            {% empty %}
                                                             {% endfor %}
                                                         </div>
                                                         <i class="far fa-comment-alt ml-2 my-auto"
@@ -111,6 +115,7 @@
                 {% endfor %}
             </div>
         </div>
+
     </div>
 
 {% endblock %}
