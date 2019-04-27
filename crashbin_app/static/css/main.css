@@ -14,8 +14,24 @@
     min-width: 300px;
 }
 
+.btn-secondary {
+    color: black;
+    background-color: #E6E6E6;
+    border-color: #E6E6E6;
+}
+
+.btn-secondary:hover {
+    color: white;
+    background-color: #4D4D4D;
+    border-color: #4D4D4D;
+}
+
 .bin-list .btn {
     border-radius: initial;
+}
+
+.bin-filter .input {
+    border-color: #E6E6E6;
 }
 
 .card-deck {
