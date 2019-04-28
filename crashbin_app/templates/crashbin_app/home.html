@@ -5,10 +5,10 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <div class="container my-4">
+    <div class="container my-2 p-0">
 
-        <div class="row mb-4">
-            <div class="col px-4 pb-4 bg-white">
+        <div class="row">
+            <div class="col-lg m-2 p-0 px-4 pb-4 bg-white">
                 <h1 class="my-2">Overview</h1>
                 <div class="card-deck">
                     <div class="text-center bg-light">
@@ -52,16 +52,17 @@
         </div>
 
         <div class="row">
-            <div class="col px-4 pb-3 bg-white">
-                <h1 class="my-2">Maintaining</h1>
-                {% bin_list bins 'maintaining' %}
+            <div class="col-lg m-2 p-0">
+                <div class="px-4 pb-3 bg-white">
+                    <h1 class="m-0 py-2">Maintaining</h1>
+                    {% bin_list bins 'maintaining' %}
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col px-4 pb-3 bg-white">
-                <h1 class="my-2">Subscribed</h1>
-                {% bin_list bins 'subscribed' %}
+            <div class="col-lg m-2 p-0">
+                <div class="px-4 pb-3 bg-white">
+                    <h1 class="m-0 py-2">Subscribed</h1>
+                    {% bin_list bins 'subscribed' %}
+                </div>
             </div>
         </div>
 
