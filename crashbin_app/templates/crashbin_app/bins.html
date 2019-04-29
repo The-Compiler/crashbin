@@ -7,27 +7,35 @@
 {% block content %}
     <div class="container my-2 p-0">
         <div class="row">
-            <div class="col-lg m-2 p-0 px-4 pb-4 bg-white">
-                <h1 class="my-2">All Bins</h1>
-                <div class="bin-filter d-flex flex-row my-3">
-                    <div class="input-group input-group">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">Filters</button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Filter 1</a>
-                                <a class="dropdown-item" href="#">Filter 2</a>
+            <div class="col-lg m-2 p-0">
+                <div class="px-4 pb-3 bg-white">
+                    <h1 class="m-0 py-2">All Bins</h1>
+                    <div class="row mx-n2 mb-2">
+                        <div class="col-sm p-2">
+                            <div class="input-group input-group d-flex flex-row">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">Filters
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#">Filter 1</a>
+                                        <a class="dropdown-item" href="#">Filter 2</a>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search..."
+                                       aria-label="Text input with dropdown button">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="button">Search</button>
+                                </div>
                             </div>
                         </div>
-                        <input type="text" class="form-control" placeholder="Search..."
-                               aria-label="Text input with dropdown button">
-                        <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Search</button>
+                        <div class="col-sm-auto p-2">
+                            <a class="btn btn-block btn-primary text-nowrap" href="/bin/new/" role="button">New Bin</a>
                         </div>
                     </div>
-                    <a class="btn btn-primary text-nowrap ml-3" href="/bin/new/" role="button">New Bin</a>
+                    {% bin_list bins 'bins' %}
                 </div>
-                {% bin_list bins 'bins' %}
             </div>
         </div>
     </div>
