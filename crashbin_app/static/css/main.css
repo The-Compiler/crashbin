@@ -30,6 +30,10 @@
     border-radius: initial;
 }
 
+.report-list .btn {
+    border-radius: initial;
+}
+
 .bin-filter .input {
     border-color: #E6E6E6;
 }
