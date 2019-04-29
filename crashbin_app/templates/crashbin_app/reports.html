@@ -4,13 +4,77 @@
 {% block title %}Reports{% endblock %}
 
 {% block content %}
-    <div class="container mt-4 p-4 bg-white">
-        <h1>All Reports</h1>
-        <ul>
-            {% for report in reports %}
-                <li><a href="{% url 'report_detail' pk=report.pk %}">{{ report.title }},
-                    created {{ report.created_at }}</a></li>
-            {% endfor %}
-        </ul>
+    <div class="container my-2 p-0">
+        <div class="row">
+            <div class="col-lg m-2 p-0">
+
+                <div class="px-4 pb-3 bg-white">
+                    <h1 class="m-0 pt-2">All Reports</h1>
+                    <div class="input-group input-group d-flex flex-row my-3">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">Filters
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Filter 1</a>
+                                <a class="dropdown-item" href="#">Filter 2</a>
+                            </div>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search..."
+                               aria-label="Text input with dropdown button">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="button">Search</button>
+                        </div>
+                    </div>
+
+                    {% for report in reports %}
+                        <div class="report-list mb-2">
+                            <div id="report-header-{{ report.id }}" class="list-group-header bg-light">
+                                <button class="btn btn-block d-flex flex-wrap p-2" data-toggle="collapse"
+                                        data-target="#report-collapse-{{ report.id }}"
+                                        aria-expanded="true" aria-controls="report-collapse-{{ report.id }}">
+                                    <h4 class="text-justify p-2 my-auto">{{ report.title }}</h4>
+                                    <div class="d-flex flex-row p-2 ml-auto my-auto">
+                                        <div class="d-flex flex-row-reverse flex-wrap">
+                                            {% for label in report.labels.all %}
+                                                <span class="badge text-wrap m-1 p-2"
+                                                      style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
+                                            {% endfor %}
+                                        </div>
+                                        <i class="far fa-comment-alt ml-2 my-auto bin-icon"></i>
+                                        <div class="ml-2 my-auto">10</div>
+                                    </div>
+                                </button>
+                            </div>
+                            <div id="report-collapse-{{ report.id }}"
+                                 class="collapse {% if forloop.first %}show{% endif %}"
+                                 aria-labelledby="report-header-{{ report.id }}">
+                                <div>
+                                    <ul class="list-group">
+                                        <li class="list-group-item p-0">
+                                            <a class="btn btn-block d-flex flex-wrap"
+                                               href="/report/{{ report.id }}/" role="button">
+                                                <p class="text-justify m-0 my-auto">Message content</p>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item p-0">
+                                            <a class="btn btn-block" href="/report/{{ report.id }}/" role="button">
+                                                View more
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="alert alert-warning mb-1" role="alert">
+                            This list is empty!
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}
