@@ -11,3 +11,9 @@ def bin_list(bins, prefix=''):
     be used multiple times on the same page without conflicting IDs.
     """
     return {'bins': bins, 'prefix': prefix}
+
+
+@register.inclusion_tag('crashbin_app/search_component.html')
+def search():
+    """Generate a bin/report search box."""
+    return {}

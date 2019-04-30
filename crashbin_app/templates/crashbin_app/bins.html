@@ -12,23 +12,7 @@
                     <h1 class="m-0 py-2">All Bins</h1>
                     <div class="row mx-n2 mb-2">
                         <div class="col-sm p-2">
-                            <div class="input-group input-group d-flex flex-row">
-                                <div class="input-group-prepend">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">Filters
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Filter 1</a>
-                                        <a class="dropdown-item" href="#">Filter 2</a>
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" placeholder="Search..."
-                                       aria-label="Text input with dropdown button">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button">Search</button>
-                                </div>
-                            </div>
+                            {% search %}
                         </div>
                         <div class="col-sm-auto p-2">
                             <a class="btn btn-block btn-primary text-nowrap" href="/bin/new/" role="button">New Bin</a>
