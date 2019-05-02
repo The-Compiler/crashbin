@@ -6,24 +6,96 @@
 {% block content %}
     <div class="container my-2 p-0">
         <div class="row">
-            <div class="col-lg p-0">
+            <div class="col-md p-0">
                 <div class="row m-0">
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 bg-white">
-                        <h1 class="m-0 py-2">{{ bin.name }}</h1>
+                        <h2 class="m-0 py-2">{{ bin.name }}</h2>
                         <p class="m-0">{{ bin.description }}</p>
                     </div>
                 </div>
                 <div class="row m-0">
                     <div class="d-flex flex-fill m-2 px-4 pb-3 bg-white">
-                        <h1 class="m-0 py-2">Reports</h1>
+                        <h2 class="m-0 py-2">Reports</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-auto m-2 p-0">
-                <div class="px-4 pb-3 bg-white">
-                    <h1 class="m-0 py-2">Settings</h1>
-
+            <div class="col-md-auto width-250-md m-2 p-0">
+                <div class="d-flex flex-column px-4 pb-4 bg-white">
+                    <h2 class="m-0 py-2">Settings</h2>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Maintainers</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <p class="my-auto">Lücu</p>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <p class="my-auto">Flöru</p>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Labels</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        <span class="badge text-wrap d-flex flex-row my-1 p-2"
+                              style="background-color: #009dd5 ; color: white">
+                            <p class="my-auto">Label 1</p>
+                            <i class="fas fa-times ml-auto my-auto pl-2"></i>
+                        </span>
+                        <span class="badge text-wrap d-flex flex-row my-1 p-2"
+                              style="background-color: #d51f24 ; color: white">
+                            <p class="my-auto">Label 1</p>
+                            <i class="fas fa-times ml-auto my-auto pl-2"></i>
+                        </span>
+                        <span class="badge text-wrap d-flex flex-row my-1 p-2"
+                              style="background-color: #edc637 ; color: white">
+                            <p class="my-auto">Label 1</p>
+                            <i class="fas fa-times ml-auto my-auto pl-2"></i>
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Related</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
+                                <p class="my-auto">Other Bin</p>
+                            </a>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
+                                <p class="my-auto">This Bin</p>
+                            </a>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Github Issue</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
+                                <p class="my-auto">#012</p>
+                            </a>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Actions</h5>
+                        </div>
+                        <a class="btn btn-primary my-1" href="#" role="button">Subscribe</a>
+                        <a class="btn btn-success btn-sm my-1" href="#" role="button">Archive</a>
+                        <a class="btn btn-danger btn-sm my-1" href="#" role="button">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
