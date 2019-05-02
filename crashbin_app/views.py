@@ -32,17 +32,17 @@ def bin_list(request):
 
 
 def bin_detail(request, pk):
-    bin = get_object_or_404(Bin, pk=pk)
+    bin_obj = get_object_or_404(Bin, pk=pk)
     return render(request, 'crashbin_app/bin_detail.html',
-                  {'bin': bin})
+                  {'bin': bin_obj})
 
 
 def bin_new(request):
     if request.method == 'POST':
         form = BinForm(request.POST)
         if form.is_valid():
-            bin = form.save()
-            return redirect('bin_detail', pk=bin.pk)
+            bin_obj = form.save()
+            return redirect('bin_detail', pk=bin_obj.pk)
     else:
         form = BinForm()
     return render(request, 'crashbin_app/bin_edit.html',
