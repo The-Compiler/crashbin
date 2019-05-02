@@ -6,6 +6,7 @@ os: linux
 
 env:
   matrix:
+    - TOXENV=py37
     - TOXENV=pylint
     - TOXENV=flake8
 
