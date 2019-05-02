@@ -1,0 +1,10 @@
+[MASTER]
+load-plugins=pylint_django
+
+[MESSAGES CONTROL]
+enable=all
+disable=missing-docstring,
+        fixme
+
+[BASIC]
+argument-rgx=[a-z_][a-z0-9_]{0,30}$
