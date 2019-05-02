@@ -4,7 +4,9 @@ load-plugins=pylint_django
 [MESSAGES CONTROL]
 enable=all
 disable=missing-docstring,
-        fixme
+        fixme,
+        locally-disabled,
+        suppressed-message
 
 [BASIC]
 argument-rgx=[a-z_][a-z0-9_]{0,30}$

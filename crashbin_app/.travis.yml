@@ -9,6 +9,7 @@ env:
     - TOXENV=py37
     - TOXENV=pylint
     - TOXENV=flake8
+    - TOXENV=mypy
 
 install:
   - pip install tox
