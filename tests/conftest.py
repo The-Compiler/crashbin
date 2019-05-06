@@ -16,3 +16,9 @@ def bin_obj(db):
 @pytest.fixture
 def report_obj(db, bin_obj):
     return Report.objects.create(title='testreport', bin=bin_obj, log='Debug log')
+
+
+@pytest.fixture
+def admin_client(client, admin_user):
+    client.force_login(user=admin_user)
+    return client
