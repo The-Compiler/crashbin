@@ -45,16 +45,14 @@ def test_bin_detail(client, bin_obj):
 
 
 def test_bin_new_post(client):
-    assert Bin.objects.count() == 1
-
     response = client.post(urls.reverse('bin_new'), {'name': 'newbin'})
 
     assert response.status_code == 302
-    assert response.url == '/bin/2/'
 
-    assert Bin.objects.count() == 2
     bin_obj = Bin.objects.get(name='newbin')
     assert bin_obj.name == 'newbin'
+    assert response.url == urls.reverse('bin_detail',
+                                        kwargs={'pk': bin_obj.id})
 
 
 def test_bin_new_get(client):
