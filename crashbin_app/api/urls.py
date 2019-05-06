@@ -1,12 +1,7 @@
-from django.urls import include, path
-from rest_framework import routers
+from django.urls import path
 from crashbin_app.api import views
 
 
-router = routers.DefaultRouter()
-router.register('report', views.ReportViewSet)
-
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('report/new/', views.ReportNew.as_view()),
 ]
