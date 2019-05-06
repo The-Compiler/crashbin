@@ -15,7 +15,7 @@
                             {% search %}
                         </div>
                         <div class="col-sm-auto p-2">
-                            <a class="btn btn-block btn-primary text-nowrap" href="/bin/new/" role="button">New Bin</a>
+                            <a class="btn btn-block btn-primary text-nowrap" href="{% url 'bin_new' %}" role="button">New Bin</a>
                         </div>
                     </div>
                     {% bin_list bins 'bins' %}

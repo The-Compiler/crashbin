@@ -40,12 +40,12 @@
                                     <ul class="list-group">
                                         <li class="list-group-item p-0">
                                             <a class="btn btn-block d-flex flex-wrap"
-                                               href="/report/{{ report.id }}/" role="button">
+                                               href="{% url 'report_detail' pk=report.id %}" role="button">
                                                 <p class="text-justify m-0 my-auto">Message content</p>
                                             </a>
                                         </li>
                                         <li class="list-group-item p-0">
-                                            <a class="btn btn-block" href="/report/{{ report.id }}/" role="button">
+                                            <a class="btn btn-block" href="{% url 'report_detail' pk=report.id %}" role="button">
                                                 View more
                                             </a>
                                         </li>
