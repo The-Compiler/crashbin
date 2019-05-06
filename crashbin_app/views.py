@@ -6,10 +6,13 @@ from .forms import BinForm
 
 
 def home(request: HttpRequest) -> HttpResponse:
-    bins = Bin.objects.order_by('created_at')
-    return render(request,
-                  'crashbin_app/home.html',
-                  {'bins': bins})
+    data = {
+        'bins': Bin.objects.order_by('created_at'),
+        'reports': Report.objects,
+        'maintained_bins': Bin.objects.filter(maintainers=request.user),
+        'subscribed_bins': Bin.objects.filter(subscribers=request.user),
+    }
+    return render(request, 'crashbin_app/home.html', data)
 
 
 def report_list(request: HttpRequest) -> HttpResponse:

@@ -20,31 +20,19 @@
                     <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">All reports</p>
-                            <h3 class="card-title">1000</h3>
+                            <h3 class="card-title">{{ reports.count }}</h3>
                         </div>
                     </div>
                     <div class="text-center bg-light">
                         <div class="card-body">
                             <p class="card-text">Bins you maintain</p>
-                            <h3 class="card-title">1000</h3>
+                            <h3 class="card-title">{{ maintained_bins.count }}</h3>
                         </div>
                     </div>
                     <div class="text-center bg-light">
                         <div class="card-body">
-                            <p class="card-text">Reports you maintain</p>
-                            <h3 class="card-title">1000</h3>
-                        </div>
-                    </div>
-                    <div class="text-center bg-light">
-                        <div class="card-body">
-                            <p class="card-text">Bins you subscribed</p>
-                            <h3 class="card-title">1000</h3>
-                        </div>
-                    </div>
-                    <div class="text-center bg-light">
-                        <div class="card-body">
-                            <p class="card-text">Reports you subscribed</p>
-                            <h3 class="card-title">1000</h3>
+                            <p class="card-text">Bins you subscribed to</p>
+                            <h3 class="card-title">{{ subscribed_bins.count }}</h3>
                         </div>
                     </div>
                 </div>
