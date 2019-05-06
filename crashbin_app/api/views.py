@@ -1,6 +1,6 @@
-from crashbin_app.api.serializers import ReportSerializer
-
 from rest_framework import mixins, permissions, generics
+
+from crashbin_app.api.serializers import ReportSerializer
 
 
 class ReportNew(mixins.CreateModelMixin, generics.GenericAPIView):
