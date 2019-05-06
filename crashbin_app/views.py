@@ -6,11 +6,12 @@ from .forms import BinForm
 
 
 def home(request: HttpRequest) -> HttpResponse:
+    user = request.user  # type: ignore
     data = {
         'bins': Bin.objects.order_by('created_at'),
         'reports': Report.objects,
-        'maintained_bins': Bin.objects.filter(maintainers=request.user),
-        'subscribed_bins': Bin.objects.filter(subscribers=request.user),
+        'maintained_bins': Bin.objects.filter(maintainers=user),
+        'subscribed_bins': Bin.objects.filter(subscribers=user),
     }
     return render(request, 'crashbin_app/home.html', data)
 
