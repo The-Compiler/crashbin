@@ -1,4 +1,5 @@
 {% extends 'crashbin_app/base.html' %}
+{% load components %}
 
 {% block menu_bins_class %}active{% endblock %}
 {% block title %}Bin: {{ bin.name }}{% endblock %}
@@ -14,8 +15,9 @@
                     </div>
                 </div>
                 <div class="row m-0">
-                    <div class="d-flex flex-fill m-2 px-4 pb-3 bg-white">
+                    <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 bg-white">
                         <h2 class="m-0 py-2">Reports</h2>
+                        {% report_list bin.reports.all %}
                     </div>
                 </div>
             </div>
