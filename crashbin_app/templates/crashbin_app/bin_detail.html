@@ -64,7 +64,7 @@
                         {% for related_bin in bin.related_bins.all %}
                             <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
                                 <a class="btn btn-block text-justify m-0 p-0 border-0"
-                                   href="../../bin/{{ related_bin.id }}" role="button">
+                                   href="{% url 'bin_detail' pk=related_bin.id %}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
                                 </a>
                                 <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>

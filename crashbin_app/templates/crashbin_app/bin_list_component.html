@@ -25,7 +25,7 @@
                     {% for report in bin.reports.all|slice:":3" %}
                         <li class="list-group-item p-0">
                             <a class="btn btn-block d-flex flex-wrap"
-                                href="/report/{{ report.id }}/" role="button">
+                                href="{% url 'report_detail' pk=report.id %}" role="button">
                                 <p class="text-justify m-0 my-auto">{{ report.title }}</p>
                                 <div class="d-flex flex-row ml-auto my-auto">
                                     <div class="d-flex flex-row-reverse flex-wrap">
@@ -41,7 +41,7 @@
                         </li>
                     {% endfor %}
                     <li class="list-group-item p-0">
-                        <a class="btn btn-block" href="/bin/{{ bin.id }}/" role="button">
+                        <a class="btn btn-block" href="{% url 'bin_detail' pk=bin.id %}" role="button">
                             View more
                         </a>
                     </li>
