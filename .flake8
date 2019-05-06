@@ -1,0 +1,3 @@
+[flake8]
+exclude=crashbin_app/migrations/,
+        crashbin_site/settings.py

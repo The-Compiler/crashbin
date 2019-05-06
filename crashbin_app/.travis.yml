@@ -1,0 +1,18 @@
+dist: xenial
+language: python
+group: edge
+python: 3.7
+os: linux
+
+env:
+  matrix:
+    - TOXENV=py37
+    - TOXENV=pylint
+    - TOXENV=flake8
+    - TOXENV=mypy
+
+install:
+  - pip install tox
+
+script:
+  - tox

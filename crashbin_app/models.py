@@ -11,7 +11,7 @@ class Label(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -29,7 +29,7 @@ class Bin(models.Model):
     related_bins = models.ManyToManyField('self', blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -43,5 +43,5 @@ class Report(models.Model):
     labels = models.ManyToManyField(Label, blank=True)
     title = models.CharField(max_length=255)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
