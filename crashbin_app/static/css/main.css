@@ -69,3 +69,18 @@
     font-size: 1.5em;
     color: white;
 }
+
+.close-icon {
+    color: red;
+}
+
+.header-underline {
+    width: 100%;
+    border-bottom: 2px solid #4D4D4D
+}
+
+@media (min-width: 768px) {
+    .width-200-md {
+        width: 200px;
+    }
+}

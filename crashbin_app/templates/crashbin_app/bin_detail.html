@@ -6,24 +6,95 @@
 {% block content %}
     <div class="container my-2 p-0">
         <div class="row">
-            <div class="col-lg p-0">
+            <div class="col-md p-0">
                 <div class="row m-0">
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 bg-white">
-                        <h1 class="m-0 py-2">{{ bin.name }}</h1>
+                        <h2 class="m-0 py-2">{{ bin.name }}</h2>
                         <p class="m-0">{{ bin.description }}</p>
                     </div>
                 </div>
                 <div class="row m-0">
                     <div class="d-flex flex-fill m-2 px-4 pb-3 bg-white">
-                        <h1 class="m-0 py-2">Reports</h1>
+                        <h2 class="m-0 py-2">Reports</h2>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-auto m-2 p-0">
-                <div class="px-4 pb-3 bg-white">
-                    <h1 class="m-0 py-2">Settings</h1>
-
+            <div class="col-md-auto width-200-md m-2 p-0">
+                <div class="d-flex flex-column px-4 pb-2 bg-white">
+                    <h2 class="m-0 pt-2">Settings</h2>
+                    <div class="d-flex flex-column py-2">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Maintainers</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        {% for maintainer in bin.maintainers.all %}
+                            <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                                <p class="my-auto">{{ maintainer }}</p>
+                                <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                            </div>
+                        {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No maintainers
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-column py-2">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Labels</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        {% for label in bin.labels.all %}
+                            <span class="badge text-wrap d-flex flex-row my-1 p-2"
+                                  style="background-color: {{ label.color }} ; color: white">
+                                <p class="my-auto">{{ label.name }}</p>
+                                <i class="fas fa-times ml-auto my-auto pl-2"></i>
+                            </span>
+                        {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No labels
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-column py-2">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Related</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        {% for related_bin in bin.related_bins.all %}
+                            <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                                <a class="btn btn-block text-justify m-0 p-0 border-0"
+                                   href="../../bin/{{ related_bin.id }}" role="button">
+                                    <p class="my-auto">{{ related_bin.name }}</p>
+                                </a>
+                                <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                            </div>
+                        {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No related bins
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="d-flex flex-column py-2">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Github Issue</h5>
+                            <i class="fas fa-plus ml-auto my-auto"></i>
+                        </div>
+                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
+                                <p class="my-auto">#012</p>
+                            </a>
+                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column py-2">
+                        <div class="d-flex flex-row mb-1 header-underline">
+                            <h5 class="m-0 mr-2">Actions</h5>
+                        </div>
+                        <a class="btn btn-primary my-1" href="#" role="button">Subscribe</a>
+                        <a class="btn btn-success btn-sm my-1" href="#" role="button">Archive</a>
+                        <a class="btn btn-danger btn-sm my-1" href="#" role="button">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
