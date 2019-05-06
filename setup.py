@@ -15,5 +15,6 @@ setuptools.setup(
     install_requires=[
         'django',
         'django-crispy-forms',
+        'djangorestframework',
     ]
 )

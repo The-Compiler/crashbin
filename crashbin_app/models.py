@@ -32,13 +32,20 @@ class Bin(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    @staticmethod
+    def get_inbox():
+        """Get the inbox bin to be used for new reports."""
+        # FIXME Make this configurable
+        return Bin.objects.get(name='Inbox')
+
 
 class Report(models.Model):
 
     email = models.EmailField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     bin = models.ForeignKey(Bin, on_delete=models.CASCADE,
-                            related_name='reports')
+                            related_name='reports',
+                            default=Bin.get_inbox)
     log = models.TextField(blank=True)
     labels = models.ManyToManyField(Label, blank=True)
     title = models.CharField(max_length=255)
