@@ -34,6 +34,9 @@
                                 <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
                             </div>
                         {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No maintainers
+                            </div>
                         {% endfor %}
                     </div>
                     <div class="d-flex flex-column py-2">
@@ -47,6 +50,10 @@
                                 <p class="my-auto">{{ label.name }}</p>
                                 <i class="fas fa-times ml-auto my-auto pl-2"></i>
                             </span>
+                        {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No labels
+                            </div>
                         {% endfor %}
                     </div>
                     <div class="d-flex flex-column py-2">
@@ -56,10 +63,15 @@
                         </div>
                         {% for related_bin in bin.related_bins.all %}
                             <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
-                                <a class="btn btn-block text-justify m-0 p-0 border-0" href="../../bin/{{ related_bin.id }}" role="button">
+                                <a class="btn btn-block text-justify m-0 p-0 border-0"
+                                   href="../../bin/{{ related_bin.id }}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
                                 </a>
                                 <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
+                            </div>
+                        {% empty %}
+                            <div class="alert alert-warning my-1 p-2" role="alert">
+                                No related bins
                             </div>
                         {% endfor %}
                     </div>
