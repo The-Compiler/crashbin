@@ -7,7 +7,8 @@ from crashbin_app.models import Bin
 pytestmark = pytest.mark.django_db
 
 
-def test_home(client):
+def test_home(client, admin_user):
+    client.force_login(user=admin_user)
     response = client.get(urls.reverse('home'))
     assert response.status_code == 200
     assert b'Bins you maintain' in response.content
