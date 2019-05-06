@@ -1,4 +1,5 @@
 Django==2.2.1
 django-crispy-forms==1.7.2
+djangorestframework==3.9.3
 pytz==2019.1
 sqlparse==0.3.0
