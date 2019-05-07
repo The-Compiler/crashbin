@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
+import django_mailbox.models
+
 
 class Label(models.Model):
 
@@ -52,3 +54,34 @@ class Report(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class Message(models.Model):
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+
+        abstract = True
+
+
+class IncomingMessage(Message):
+
+    mail = models.ForeignKey(django_mailbox.models.Message,
+                             on_delete=models.CASCADE)
+
+
+class NoteMessage(Message):
+
+    text = models.TextField()
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.SET_NULL,
+                               blank=True, null=True)
+
+
+class OutgoingMessage(Message):
+
+    text = models.TextField()
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.SET_NULL,
+                               blank=True, null=True)

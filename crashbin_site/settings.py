@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crashbin_app',
     'crispy_forms',
     'rest_framework',
+    'django_mailbox',
 ]
 
 MIDDLEWARE = [
