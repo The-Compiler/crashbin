@@ -59,6 +59,7 @@ class Report(models.Model):
 class Message(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
 
     class Meta:
 
