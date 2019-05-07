@@ -109,13 +109,24 @@
 /*
 ==================== OWN CSS ====================
 */
-
 .bin-list .btn {
-    border-radius: initial;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.bin-list .collapsed {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 }
 
 .report-list .btn {
-    border-radius: initial;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.report-list .collapsed {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 }
 
 .form-control {
