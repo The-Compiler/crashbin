@@ -102,6 +102,14 @@
     border-color: var(--main-color);
 }
 
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show > .btn-secondary.dropdown-toggle {
+    color: white;
+    background-color: var(--main-dark-color);
+    border-color: var(--main-dark-color);
+}
+
 .btn:focus {
     box-shadow: none;
 }
