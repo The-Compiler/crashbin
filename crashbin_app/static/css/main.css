@@ -110,7 +110,7 @@
     border-color: var(--main-dark-color);
 }
 
-.btn:focus {
+.btn.focus {
     box-shadow: none;
 }
 
