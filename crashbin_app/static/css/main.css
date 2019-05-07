@@ -90,6 +90,10 @@
 /*
 ===== BUTTONS =====
 */
+.btn.focus, .btn:focus {
+    box-shadow: none;
+}
+
 .btn-secondary {
     color: black;
     background-color: var(--main-light-color);
@@ -102,6 +106,10 @@
     border-color: var(--main-color);
 }
 
+.btn-secondary.focus, .btn-secondary:focus {
+    box-shadow: none;
+}
+
 .btn-secondary:not(:disabled):not(.disabled).active,
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show > .btn-secondary.dropdown-toggle {
@@ -110,7 +118,9 @@
     border-color: var(--main-dark-color);
 }
 
-.btn.focus {
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
     box-shadow: none;
 }
 
