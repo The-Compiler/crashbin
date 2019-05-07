@@ -24,8 +24,8 @@ def test_report_detail(admin_client, report_obj):
     response = admin_client.get(
         urls.reverse('report_detail', kwargs={'pk': report_obj.id}))
     assert response.status_code == 200
-    assert b'<h1>testreport</h1>' in response.content
-    assert b'<pre>Debug log</pre>' in response.content
+    assert b'>testreport<' in response.content
+    assert b'>Debug log<' in response.content
 
 
 def test_bin_list(admin_client, bin_obj):
