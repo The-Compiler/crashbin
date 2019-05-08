@@ -1,3 +1,6 @@
+import itertools
+from typing import Iterable
+
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
@@ -55,11 +58,26 @@ class Report(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def all_messages(self) -> Iterable['Message']:
+        return sorted(itertools.chain(
+            self.incomingmessage_set.all(),
+            self.outgoingmessage_set.all(),
+            self.notemessage_set.all()
+        ), key=lambda msg: msg.created_at)
+
 
 class Message(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    NAME = None
+
+    def author(self):
+        return '<unknown>'
+
+    def __str__(self):
+        return '<{} from {} at {}>'.format(self.NAME, self.author(),
+                                           self.created_at.ctime())
 
     class Meta:
 
@@ -70,6 +88,13 @@ class IncomingMessage(Message):
 
     mail = models.ForeignKey(django_mailbox.models.Message,
                              on_delete=models.CASCADE)
+    NAME = 'Message'
+
+    def author_str(self):
+        return self.mail.from_address[0]
+
+    def contents(self):
+        return self.mail.text
 
 
 class NoteMessage(Message):
@@ -78,6 +103,16 @@ class NoteMessage(Message):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.SET_NULL,
                                blank=True, null=True)
+    NAME = 'Note'
+
+    def author_str(self):
+        if self.author is None:
+            return '<unknown>'
+        else:
+            return self.author.get_username()
+
+    def contents(self):
+        return self.text
 
 
 class OutgoingMessage(Message):
@@ -86,3 +121,13 @@ class OutgoingMessage(Message):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.SET_NULL,
                                blank=True, null=True)
+    NAME = 'Reply'
+
+    def author_str(self):
+        if self.author is None:
+            return '<unknown>'
+        else:
+            return self.author.get_username()
+
+    def contents(self):
+        return self.text
