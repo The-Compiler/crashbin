@@ -130,6 +130,8 @@
 .bin-list .btn {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    -webkit-transition: background 0.5s, border-radius 1s;
+    transition: background 0.5s, border-radius 1s;
 }
 
 .bin-list .collapsed {
@@ -140,6 +142,8 @@
 .report-list .btn {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    -webkit-transition: background 0.5s, border-radius 1s;
+    transition: background 0.5s, border-radius 1s;
 }
 
 .report-list .collapsed {
