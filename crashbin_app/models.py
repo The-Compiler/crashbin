@@ -1,11 +1,14 @@
+import re
 import itertools
 from typing import Iterable
 
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.dispatch import receiver
 
 import django_mailbox.models
+import django_mailbox.signals
 
 
 class Label(models.Model):
@@ -95,6 +98,16 @@ class IncomingMessage(Message):
 
     def contents(self):
         return self.mail.text
+
+
+@receiver(django_mailbox.signals.message_received)
+def process_incoming_mail(message, **kwargs):
+    match = re.fullmatch(r'.*qutebrowser report #(.*)', message.subject)
+    assert match is not None   # FIXME
+
+    report_id = int(match.group(1))
+    report = Report.objects.get(id=report_id)
+    IncomingMessage.objects.create(mail=message, report=report)
 
 
 class NoteMessage(Message):
