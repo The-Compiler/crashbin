@@ -31,7 +31,7 @@
                             <i class="fas fa-plus ml-auto my-auto"></i>
                         </div>
                         {% for maintainer in bin.maintainers.all %}
-                            <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
                                 <p class="my-auto">{{ maintainer }}</p>
                                 <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
                             </div>
@@ -64,7 +64,7 @@
                             <i class="fas fa-plus ml-auto my-auto"></i>
                         </div>
                         {% for related_bin in bin.related_bins.all %}
-                            <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                            <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
                                 <a class="btn btn-block text-justify m-0 p-0 border-0"
                                    href="{% url 'bin_detail' pk=related_bin.id %}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
@@ -82,7 +82,7 @@
                             <h5 class="m-0 mr-2">Github Issue</h5>
                             <i class="fas fa-plus ml-auto my-auto"></i>
                         </div>
-                        <div class="d-flex flex-row text-wrap my-1 p-2 bg-light">
+                        <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
                             <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
                                 <p class="my-auto">#012</p>
                             </a>
