@@ -127,7 +127,7 @@
 /*
 ==================== OWN CSS ====================
 */
-.bin-list .btn {
+.bin-list .btn-secondary {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     -webkit-transition: background 0.5s, border-radius 1s;
@@ -139,7 +139,7 @@
     border-bottom-right-radius: 0.25rem;
 }
 
-.report-list .btn {
+.report-list .btn-secondary {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     -webkit-transition: background 0.5s, border-radius 1s;
