@@ -1,8 +1,8 @@
 {% for report in reports %}
     <div class="report-list mb-2">
         <div id="report-header-{{ prefix }}{{ report.id }}" class="list-group-header">
-            <button class="btn btn-secondary btn-block d-flex flex-wrap p-2
-                    {% if forloop.first %}{% else %}collapsed{% endif %}" data-toggle="collapse"
+            <button class="btn btn-secondary btn-block d-flex flex-wrap p-2 {% if not forloop.first %}collapsed{% endif %}"
+                    data-toggle="collapse"
                     data-target="#report-collapse-{{ prefix }}{{ report.id }}"
                     aria-expanded="true" aria-controls="report-collapse-{{ prefix }}{{ report.id }}">
                 <h6 class="text-justify my-auto pl-1">{{ report.title }}</h6>
