@@ -1,21 +1,38 @@
+/*
+==================== OVERRIDE BOOTSTRAP 4 ====================
+*/
+
+/*
+===== COLORS =====
+*/
 .bg-light {
-    background-color: #E6E6E6 !important;
+    background-color: var(--main-light-color) !important;
 }
 
 .bg-dark {
-    background-color: #4D4D4D !important;
+    background-color: var(--main-dark-color) !important;
 }
 
+/*
+===== LAYOUT =====
+*/
 .container {
     min-width: 300px;
 }
 
+/*
+===== NAVIGATION =====
+*/
 .navbar {
     min-width: 300px;
 }
 
+.nav-tabs {
+    border-bottom: none;
+}
+
 .nav-tabs .nav-item .active {
-    background-color: #E6E6E6;
+    background-color: var(--main-light-color);
     border-bottom: 0px;
 }
 
@@ -23,44 +40,19 @@
     color: black;
 }
 
-.tab-content {
-    background-color: #E6E6E6;
+/*
+===== TABLES =====
+*/
+.table td, .table th {
+    border-top: initial;
 }
 
-.btn-secondary {
-    color: black;
-    background-color: #E6E6E6;
-    border-color: #E6E6E6;
-}
-
-.btn-secondary:hover {
-    color: white;
-    background-color: #4D4D4D;
-    border-color: #4D4D4D;
-}
-
-.bin-list .btn {
-    border-radius: initial;
-}
-
-.report-list .btn {
-    border-radius: initial;
-}
-
-.bin-filter .input {
-    border-color: #E6E6E6;
-}
-
-.card-deck {
-    display: grid;
-    margin: auto;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 1.5em;
-}
-
+/*
+===== LISTS =====
+*/
 .list-group-item {
     margin-bottom: -2px;
-    border: 2px solid #E6E6E6;
+    border: 2px solid var(--main-light-color);
 }
 
 .list-group-item:first-child {
@@ -70,10 +62,113 @@
 }
 
 .list-group-item:last-child {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
 }
 
+/*
+===== TABS =====
+*/
+.tab-content {
+    background-color: var(--main-light-color);
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    border-color: var(--main-light-color);
+}
+
+/*
+===== CARDS =====
+*/
+.card-deck {
+    display: grid;
+    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1.5em;
+}
+
+/*
+===== BUTTONS =====
+*/
+.btn.focus, .btn:focus {
+    box-shadow: none;
+}
+
+.btn-secondary {
+    color: black;
+    background-color: var(--main-light-color);
+    border-color: var(--main-light-color);
+}
+
+.btn-secondary:hover {
+    color: black;
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.btn-secondary.focus, .btn-secondary:focus {
+    box-shadow: none;
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active,
+.btn-secondary:not(:disabled):not(.disabled):active,
+.show > .btn-secondary.dropdown-toggle {
+    color: white;
+    background-color: var(--main-dark-color);
+    border-color: var(--main-dark-color);
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+    box-shadow: none;
+}
+
+/*
+==================== OWN CSS ====================
+*/
+.bin-list .btn-secondary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    -webkit-transition: background 0.5s, border-radius 1s;
+    transition: background 0.5s, border-radius 1s;
+}
+
+.bin-list .collapsed {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.report-list .btn-secondary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    -webkit-transition: background 0.5s, border-radius 1s;
+    transition: background 0.5s, border-radius 1s;
+}
+
+.report-list .collapsed {
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.form-control {
+    background-clip: initial;
+    border-top: 2px solid var(--main-light-color);
+    border-bottom: 2px solid var(--main-light-color);
+}
+
+/*
+===== COLORS =====
+*/
+:root {
+    --main-color: #d7d7d7;
+    --main-dark-color: #4D4D4D;
+    --main-light-color: #E6E6E6;
+}
+
+/*
+===== ICONS =====
+*/
 .bin-icon {
     font-size: 1.2em;
 }
@@ -87,10 +182,16 @@
     color: red;
 }
 
+/*
+===== DECORATORS =====
+*/
 .header-underline {
-    border-bottom: 2px solid #4D4D4D
+    border-bottom: 2px solid var(--main-dark-color)
 }
 
+/*
+===== MEDIA QUERIES =====
+*/
 @media (min-width: 768px) {
     .width-200-md {
         width: 200px;

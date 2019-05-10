@@ -1,7 +1,8 @@
 {% for report in reports %}
     <div class="report-list mb-2">
-        <div id="report-header-{{ prefix }}{{ report.id }}" class="list-group-header bg-light">
-            <button class="btn btn-block d-flex flex-wrap p-2" data-toggle="collapse"
+        <div id="report-header-{{ prefix }}{{ report.id }}" class="list-group-header">
+            <button class="btn btn-secondary btn-block d-flex flex-wrap p-2 {% if not forloop.first %}collapsed{% endif %}"
+                    data-toggle="collapse"
                     data-target="#report-collapse-{{ prefix }}{{ report.id }}"
                     aria-expanded="true" aria-controls="report-collapse-{{ prefix }}{{ report.id }}">
                 <h6 class="text-justify my-auto pl-1">{{ report.title }}</h6>
@@ -9,7 +10,7 @@
                     <div class="d-flex flex-row-reverse flex-wrap">
                         {% for label in report.labels.all %}
                             <span class="badge text-wrap m-1"
-                                    style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
+                                  style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
                         {% endfor %}
                     </div>
                     <i class="far fa-comment-alt ml-2 my-auto"></i>
@@ -18,19 +19,19 @@
             </button>
         </div>
         <div id="report-collapse-{{ prefix }}{{ report.id }}"
-                class="collapse {% if forloop.first %}show{% endif %}"
-                aria-labelledby="report-header-{{ prefix }}{{ report.id }}">
+             class="collapse {% if forloop.first %}show{% endif %}"
+             aria-labelledby="report-header-{{ prefix }}{{ report.id }}">
             <div>
                 <ul class="list-group">
                     <li class="list-group-item p-0">
                         <a class="btn btn-block d-flex flex-wrap"
-                            href="{% url 'report_detail' pk=report.id %}" role="button">
+                           href="{% url 'report_detail' pk=report.id %}" role="button">
                             <p class="text-justify m-0 my-auto">Message content</p>
                         </a>
                     </li>
                     <li class="list-group-item p-0">
                         <a class="btn btn-block" href="{% url 'report_detail' pk=report.id %}" role="button">
-                            View more
+                            <strong>View more</strong>
                         </a>
                     </li>
                 </ul>
@@ -39,6 +40,6 @@
     </div>
 {% empty %}
     <div class="alert alert-warning mb-1" role="alert">
-        This list is empty!
+        There are no reports yet!
     </div>
 {% endfor %}
