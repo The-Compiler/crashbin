@@ -137,3 +137,4 @@ REST_FRAMEWORK = {
 }
 
 MEDIA_ROOT = os.path.expanduser('~/.crashbin/media')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

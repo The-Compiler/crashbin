@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
+from django.core import mail
 
 from .models import Report, Bin, NoteMessage, OutgoingMessage
 from .forms import BinForm, ReportReplyForm
@@ -53,7 +54,13 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
 
     if typ == 'Reply':
         msg = OutgoingMessage.objects.create(text=text, author=user, report=report)
-        # FIXME send mail
+        mail.send_mail(
+            subject='qutebrowser report #{}'.format(report.id),
+            message=text,
+            from_email='crashbin@the-compiler.org',  # FIXME
+            recipient_list=[report.email],
+            fail_silently=False,
+        )
         fragment = 'reply-{}'.format(msg.id)
     elif typ == 'Note':
         msg = NoteMessage.objects.create(text=text, author=user, report=report)
