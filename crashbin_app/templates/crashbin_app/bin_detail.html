@@ -6,6 +6,17 @@
 
 {% block javascript %}
     <script>
+        document.getElementById('buttonArchive').addEventListener('click', function () {
+            fetch("{% url 'api-bin-detail' pk=bin.id %}", {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({is_archived: {{ bin.is_archived|yesno:'false,true' }}})
+            }).then(response => window.location.href = "{% url 'bin_detail' pk=bin.id %}");
+        });
+
         document.getElementById('modalDeleteButton').addEventListener('click', function () {
             fetch("{% url 'api-bin-detail' pk=bin.id %}", {
                 method: 'DELETE',
@@ -102,7 +113,10 @@
                             <h5 class="m-0 mr-2">Actions</h5>
                         </div>
                         <a class="btn btn-primary my-1" href="#" role="button">Subscribe</a>
-                        <a class="btn btn-success btn-sm my-1" href="#" role="button">Archive</a>
+                        <button type="button" id="buttonArchive"
+                                class="btn btn-{% if bin.is_archived %}outline-{% endif %}success my-1">
+                            {% if bin.is_archived %}Unarchive{% else %}Archive{% endif %}
+                        </button>
                         <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
                                 data-target="#deleteWarningMessage">Delete
                         </button>
