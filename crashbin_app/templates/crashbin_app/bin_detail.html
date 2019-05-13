@@ -4,6 +4,17 @@
 {% block menu_bins_class %}active{% endblock %}
 {% block title %}Bin: {{ bin.name }}{% endblock %}
 
+{% block javascript %}
+    <script>
+        document.getElementById('modalDeleteButton').addEventListener('click', function () {
+            fetch("{% url 'api-bin-detail' pk=bin.id %}", {
+                method: 'DELETE',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'}
+            }).then(response => window.location.replace("{% url 'bin_list' %}"));
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="container my-2 p-0">
         <div class="row">
@@ -28,12 +39,11 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Maintainers</h5>
-                            <i class="fas fa-plus ml-auto my-auto"></i>
+                            <i class="fas fa-pen ml-auto my-auto"></i>
                         </div>
                         {% for maintainer in bin.maintainers.all %}
-                            <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
+                            <div class="text-left text-wrap my-1 p-2 rounded bg-light">
                                 <p class="my-auto">{{ maintainer }}</p>
-                                <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
                             </div>
                         {% empty %}
                             <div class="alert alert-warning my-1 p-2" role="alert">
@@ -44,13 +54,12 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
-                            <i class="fas fa-plus ml-auto my-auto"></i>
+                            <i class="fas fa-pen ml-auto my-auto"></i>
                         </div>
                         {% for label in bin.labels.all %}
-                            <span class="badge text-wrap d-flex flex-row my-1 p-2"
+                            <span class="badge text-left text-wrap my-1 p-2"
                                   style="background-color: {{ label.color }} ; color: white">
                                 <p class="my-auto">{{ label.name }}</p>
-                                <i class="fas fa-times ml-auto my-auto pl-2"></i>
                             </span>
                         {% empty %}
                             <div class="alert alert-warning my-1 p-2" role="alert">
@@ -61,15 +70,14 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Related</h5>
-                            <i class="fas fa-plus ml-auto my-auto"></i>
+                            <i class="fas fa-pen ml-auto my-auto"></i>
                         </div>
                         {% for related_bin in bin.related_bins.all %}
-                            <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
-                                <a class="btn btn-block text-justify m-0 p-0 border-0"
+                            <div class="my-1 p-2 rounded bg-light">
+                                <a class="btn btn-block text-left text-wrap m-0 p-0 border-0"
                                    href="{% url 'bin_detail' pk=related_bin.id %}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
                                 </a>
-                                <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
                             </div>
                         {% empty %}
                             <div class="alert alert-warning my-1 p-2" role="alert">
@@ -80,13 +88,12 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Github Issue</h5>
-                            <i class="fas fa-plus ml-auto my-auto"></i>
+                            <i class="fas fa-pen ml-auto my-auto"></i>
                         </div>
-                        <div class="d-flex flex-row text-wrap my-1 p-2 rounded bg-light">
-                            <a class="btn btn-block text-justify m-0 p-0 border-0" href="#" role="button">
+                        <div class="my-1 p-2 rounded bg-light">
+                            <a class="btn btn-block text-left text-wrap m-0 p-0 border-0" href="#" role="button">
                                 <p class="my-auto">#012</p>
                             </a>
-                            <i class="fas fa-times close-icon ml-auto my-auto pl-2"></i>
                         </div>
                     </div>
                     <div class="d-flex flex-column py-2">
@@ -95,8 +102,33 @@
                         </div>
                         <a class="btn btn-primary my-1" href="#" role="button">Subscribe</a>
                         <a class="btn btn-success btn-sm my-1" href="#" role="button">Archive</a>
-                        <a class="btn btn-danger btn-sm my-1" href="#" role="button">Delete</a>
+                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
+                                data-target="#deleteWarningMessage">Delete
+                        </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteWarningMessage" tabindex="-1" role="dialog"
+         aria-labelledby="deleteWarningMessageTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteWarningMessageTitle">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this bin{% if bin.reports.count == 0 %}?{% else %}, including
+                    <strong>{{ bin.reports.count }} report{{ bin.reports.count | pluralize }}</strong>?
+                {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="modalDeleteButton" class="btn btn-danger">Delete bin</button>
                 </div>
             </div>
         </div>
