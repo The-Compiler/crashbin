@@ -135,3 +135,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+MEDIA_ROOT = os.path.expanduser('~/.crashbin/media')
