@@ -28,6 +28,7 @@ class Bin(models.Model):
     labels = models.ManyToManyField(Label, blank=True)
     related_bins = models.ManyToManyField('self', blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    is_archived = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
