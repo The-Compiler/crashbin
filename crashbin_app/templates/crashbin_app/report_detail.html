@@ -63,7 +63,7 @@
                     <div class="d-flex flex-fill m-2 p-3 rounded bg-white">
                         <div class="d-flex flex-column">
                             {% for message in report.all_messages %}
-                                <div class="d-flex flex-row">
+                                <div class="d-flex flex-row" id="{{ message.NAME | lower }}-{{ message.id }}">
                                     <div class="alert
                                                 {% if message.NAME == 'Message' %}
                                                 alert-primary w-75 m-2 ml-auto
@@ -79,23 +79,20 @@
                                 </div>
                             {% endfor %}
 
-                            <div class="input-group input-group d-flex flex-row p-2">
-                                <div class="input-group-prepend dropup">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">Reply
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Reply</a>
-                                        <a class="dropdown-item" href="#">Note</a>
+                            <form method="POST" action="{% url 'report_reply' pk=report.id %}">
+                                {% csrf_token %}
+                                <div class="input-group input-group d-flex flex-row p-2">
+                                    <select name="typ" class="btn btn-secondary">
+                                        <option selected>Reply</option>
+                                        <option>Note</option>
+                                    </select>
+                                    <input type="text" name="text" class="form-control" placeholder="Enter your message here..."
+                                        aria-label="Text input with dropdown button">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">Send</button>
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Enter your message here..."
-                                       aria-label="Text input with dropdown button">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button">Send</button>
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
