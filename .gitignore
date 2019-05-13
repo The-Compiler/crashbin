@@ -143,6 +143,7 @@ dmypy.json
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
+.idea/**/codeStyleConfig.xml
 .idea/**/dictionaries
 .idea/**/shelf
 
@@ -152,6 +153,7 @@ dmypy.json
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
+.idea/**/dataSources.xml
 .idea/**/dataSources.local.xml
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
@@ -274,3 +276,4 @@ modules.xml
 # Pyre type checker
 
 # End of https://www.gitignore.io/api/django,python,pycharm
+

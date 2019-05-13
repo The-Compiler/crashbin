@@ -6,7 +6,9 @@ enable=all
 disable=missing-docstring,
         fixme,
         locally-disabled,
-        suppressed-message
+        suppressed-message,
+		too-many-ancestors
 
 [BASIC]
+const-rgx=[a-zA-Z_][a-zA-Z0-9_]{0,30}$
 argument-rgx=[a-z_][a-z0-9_]{0,30}$
