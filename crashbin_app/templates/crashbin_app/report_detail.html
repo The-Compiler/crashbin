@@ -61,7 +61,7 @@
                 </div>
                 <div class="row m-0">
                     <div class="d-flex flex-fill m-2 p-3 rounded bg-white">
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column flex-fill">
                             {% for message in report.all_messages %}
                                 <div class="d-flex flex-row" id="{{ message.NAME | lower }}-{{ message.id }}">
                                     <div class="alert
