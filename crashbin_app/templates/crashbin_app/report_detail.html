@@ -69,7 +69,7 @@
                                                 {% if message.NAME == 'Message' %}
                                                 alert-primary w-75 m-2 ml-auto
                                                 {% elif message.NAME == 'Note' %}
-                                                alert-danger w-75 m-2 mr-auto
+                                                alert-warning w-75 m-2 mr-auto
                                                 {% elif message.NAME == 'Reply' %}
                                                 alert-success w-75 m-2 mr-auto
                                                 {% endif %}
@@ -80,17 +80,17 @@
                                 </div>
                             {% endfor %}
 
-                            <form method="POST" action="{% url 'report_reply' pk=report.id %}">
+                            <form class="m-0" method="POST" action="{% url 'report_reply' pk=report.id %}">
                                 {% csrf_token %}
                                 <div class="input-group input-group d-flex flex-row p-2">
                                     <select name="typ" class="btn btn-secondary">
                                         <option selected>Reply</option>
                                         <option>Note</option>
                                     </select>
-                                    <input type="text" name="text" class="form-control" placeholder="Enter your message here..."
-                                        aria-label="Text input with dropdown button">
+                                    <textarea name="text" class="form-control" placeholder="Enter your message here..."
+                                              aria-label="Textarea with dropdown selection"></textarea>
                                     <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button">Send</button>
+                                        <button class="btn btn-secondary" type="submit">Send</button>
                                     </div>
                                 </div>
                             </form>
