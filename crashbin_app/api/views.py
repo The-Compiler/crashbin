@@ -24,14 +24,13 @@ class BinViewSet(viewsets.ModelViewSet):
     queryset = Bin.objects.all()
     serializer_class = BinSerializer
 
+
 @api_view(['POST'])
 def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
-    if request.method == 'POST':
-        user = request.user  # type: ignore
-        bin: Bin = Bin.objects.get(id=pk)
-        if user in bin.subscribers.all():
-            bin.subscribers.remove(user)
-        else:
-            bin.subscribers.add(user)
-        return Response(status=status.HTTP_202_ACCEPTED)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    user = request.user  # type: ignore
+    bin_obj: Bin = Bin.objects.get(id=pk)
+    if user in bin_obj.subscribers.all():
+        bin_obj.subscribers.remove(user)
+    else:
+        bin_obj.subscribers.add(user)
+    return Response(status=status.HTTP_200_OK)
