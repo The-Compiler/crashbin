@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
 
-from .models import Report, Bin, NoteMessage, OutgoingMessage
+from .models import Report, Bin, NoteMessage, OutgoingMessage, Message
 from .forms import BinForm, ReportReplyForm
 
 
@@ -51,6 +51,7 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
 
     typ = form.cleaned_data['typ']
     text = form.cleaned_data['text']
+    msg: Message
 
     if typ == 'Reply':
         msg = OutgoingMessage.objects.create(text=text, author=user, report=report)

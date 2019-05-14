@@ -1,6 +1,6 @@
 import re
 import itertools
-from typing import Iterable
+from typing import Iterable, Optional
 
 from django.db import models
 from django.utils import timezone
@@ -63,9 +63,9 @@ class Report(models.Model):
 
     def all_messages(self) -> Iterable['Message']:
         return sorted(itertools.chain(
-            self.incomingmessage_set.all(),
-            self.outgoingmessage_set.all(),
-            self.notemessage_set.all()
+            self.incomingmessage_set.all(),  # type: ignore
+            self.outgoingmessage_set.all(),  # type: ignore
+            self.notemessage_set.all()  # type: ignore
         ), key=lambda msg: msg.created_at)
 
 
@@ -73,13 +73,13 @@ class Message(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
-    NAME = None
+    NAME: Optional[str] = None
 
-    def author(self):
+    def author_str(self) -> str:
         return '<unknown>'
 
-    def __str__(self):
-        return '<{} from {} at {}>'.format(self.NAME, self.author(),
+    def __str__(self) -> str:
+        return '<{} from {} at {}>'.format(self.NAME, self.author_str(),
                                            self.created_at.ctime())
 
     class Meta:
@@ -93,10 +93,10 @@ class IncomingMessage(Message):
                              on_delete=models.CASCADE)
     NAME = 'Message'
 
-    def author_str(self):
+    def author_str(self) -> str:
         return self.mail.from_address[0]
 
-    def contents(self):
+    def contents(self) -> str:
         return self.mail.text
 
 
@@ -118,13 +118,13 @@ class NoteMessage(Message):
                                blank=True, null=True)
     NAME = 'Note'
 
-    def author_str(self):
+    def author_str(self) -> str:
         if self.author is None:
             return '<unknown>'
         else:
             return self.author.get_username()
 
-    def contents(self):
+    def contents(self) -> str:
         return self.text
 
 
