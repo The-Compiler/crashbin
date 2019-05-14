@@ -62,55 +62,38 @@
                 </div>
                 <div class="row m-0">
                     <div class="d-flex flex-fill m-2 p-3 rounded bg-white">
-                        <div class="d-flex flex-column">
-                            <div class="d-flex flex-row">
-                                <div class="alert alert-primary w-75 m-2 ml-auto" role="alert">
-                                    Message from <strong>{{ report.email }}</strong>:<br>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu
-                                    ultrices vitae. Diam phasellus vestibulum lorem sed risus ultricies tristique nulla.
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row">
-                                <div class="alert alert-warning flex-fill text-center m-2" role="alert">
-                                    <strong>Flo</strong> assigned Report to <a
-                                        href="{% url 'bin_detail' pk=report.bin.id %}"
-                                        class="alert-link">{{ report.bin.name }}</a>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row">
-                                <div class="alert alert-danger w-75 m-2 mr-auto" role="alert">
-                                    Note from <strong>Flo</strong>:<br>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu
-                                    ultrices vitae. Diam phasellus vestibulum lorem sed risus ultricies tristique nulla.
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row">
-                                <div class="alert alert-success w-75 m-2 mr-auto" role="alert">
-                                    Reply from <strong>Flo</strong>:<br>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu
-                                    ultrices vitae. Diam phasellus vestibulum lorem sed risus ultricies tristique nulla.
-                                </div>
-                            </div>
-                            <div class="input-group input-group d-flex flex-row p-2">
-                                <div class="input-group-prepend dropup">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">Reply
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Reply</a>
-                                        <a class="dropdown-item" href="#">Note</a>
+                        <div class="d-flex flex-column flex-fill">
+                            {% for message in report.all_messages %}
+                                <div class="d-flex flex-row" id="{{ message.NAME | lower }}-{{ message.id }}">
+                                    <div class="alert
+                                                {% if message.NAME == 'Message' %}
+                                                alert-primary w-75 m-2 ml-auto
+                                                {% elif message.NAME == 'Note' %}
+                                                alert-danger w-75 m-2 mr-auto
+                                                {% elif message.NAME == 'Reply' %}
+                                                alert-success w-75 m-2 mr-auto
+                                                {% endif %}
+                                                " role="alert">
+                                        <p>{{ message.NAME }} from <strong>{{ message.author_str }}</strong><br>at {{ message.created_at.ctime }}:</p>
+                                        {{ message.contents | linebreaks }}
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Enter your message here..."
-                                       aria-label="Text input with dropdown button">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="button">Send</button>
+                            {% endfor %}
+
+                            <form method="POST" action="{% url 'report_reply' pk=report.id %}">
+                                {% csrf_token %}
+                                <div class="input-group input-group d-flex flex-row p-2">
+                                    <select name="typ" class="btn btn-secondary">
+                                        <option selected>Reply</option>
+                                        <option>Note</option>
+                                    </select>
+                                    <input type="text" name="text" class="form-control" placeholder="Enter your message here..."
+                                        aria-label="Text input with dropdown button">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="button">Send</button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

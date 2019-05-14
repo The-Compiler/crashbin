@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crashbin_app',
     'crispy_forms',
     'rest_framework',
+    'django_mailbox',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+MEDIA_ROOT = os.path.expanduser('~/.crashbin/media')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
