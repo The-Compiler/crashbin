@@ -17,4 +17,5 @@ class ReportNewSerializer(serializers.ModelSerializer):
 class BinSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bin
-        fields = ('name', 'description', 'subscribers', 'maintainers', 'labels', 'related_bins')
+        fields = ('name', 'description', 'subscribers', 'maintainers', 'labels', 'related_bins',
+                  'is_archived')

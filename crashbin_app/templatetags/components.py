@@ -23,6 +23,11 @@ def report_list(reports, prefix=''):
     return {'reports': reports, 'prefix': prefix}
 
 
+@register.inclusion_tag('crashbin_app/modal_delete_component.html')
+def modal_delete(bin_obj=None):
+    return {'bin': bin_obj}
+
+
 @register.inclusion_tag('crashbin_app/search_component.html')
 def search():
     """Generate a bin/report search box."""
