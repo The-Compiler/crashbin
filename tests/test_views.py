@@ -31,7 +31,6 @@ def test_report_detail(admin_client, report_obj):
 def test_bin_list(admin_client, bin_obj):
     response = admin_client.get(urls.reverse('bin_list'))
     assert response.status_code == 200
-    print(response.content.decode('utf-8'))
     assert b'>testbin<' in response.content
     assert b'href="/bin/1/"' in response.content
 
@@ -39,7 +38,6 @@ def test_bin_list(admin_client, bin_obj):
 def test_bin_detail(admin_client, bin_obj):
     response = admin_client.get(
         urls.reverse('bin_detail', kwargs={'pk': bin_obj.id}))
-    print(response.content.decode())
     assert response.status_code == 200
     assert b'>testbin<' in response.content
 
