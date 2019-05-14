@@ -101,7 +101,7 @@ class IncomingMessage(Message):
 
 
 @receiver(django_mailbox.signals.message_received)
-def process_incoming_mail(message, **kwargs):
+def process_incoming_mail(message, **kwargs):  # pylint: disable=unused-argument
     match = re.fullmatch(r'.*qutebrowser report #(.*)', message.subject)
     assert match is not None   # FIXME
 
@@ -121,8 +121,7 @@ class NoteMessage(Message):
     def author_str(self) -> str:
         if self.author is None:
             return '<unknown>'
-        else:
-            return self.author.get_username()
+        return self.author.get_username()
 
     def contents(self) -> str:
         return self.text
@@ -139,8 +138,7 @@ class OutgoingMessage(Message):
     def author_str(self):
         if self.author is None:
             return '<unknown>'
-        else:
-            return self.author.get_username()
+        return self.author.get_username()
 
     def contents(self):
         return self.text
