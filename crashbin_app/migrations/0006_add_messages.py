@@ -9,7 +9,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_mailbox', '0007_auto_20190507_1731'),
+        ('django_mailbox', '0006_mailbox_last_polling'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('crashbin_app', '0005_use_inbox'),
     ]
