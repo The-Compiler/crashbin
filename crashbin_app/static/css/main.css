@@ -153,8 +153,6 @@
 
 .form-control {
     background-clip: initial;
-    border-left: 0;
-    border-right: 0;
     border-top: 2px solid var(--main-light-color);
     border-bottom: 2px solid var(--main-light-color);
 }
@@ -164,13 +162,14 @@
     box-shadow: none;
 }
 
-form textarea {
+.input-group textarea {
+    border-left: 0;
+    border-right: 0;
     min-height: fit-content;
 }
 
-form select {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+select option {
+    background-color: white;
 }
 
 /*

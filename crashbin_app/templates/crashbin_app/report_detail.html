@@ -82,11 +82,13 @@
 
                             <form class="m-0" method="POST" action="{% url 'report_reply' pk=report.id %}">
                                 {% csrf_token %}
-                                <div class="input-group input-group d-flex flex-row p-2">
-                                    <select name="typ" class="btn btn-secondary">
+                                <div class="input-group d-flex flex-row p-2">
+                                    <div class="input-group-prepend">
+                                        <select name="typ" class="btn btn-secondary">
                                         <option selected>Reply</option>
                                         <option>Note</option>
                                     </select>
+                                    </div>
                                     <textarea name="text" class="form-control" placeholder="Enter your message here..."
                                               aria-label="Textarea with dropdown selection"></textarea>
                                     <div class="input-group-append">
