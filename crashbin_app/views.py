@@ -26,9 +26,15 @@ def home(request: HttpRequest) -> HttpResponse:
 @login_required
 def report_list(request: HttpRequest) -> HttpResponse:
     reports = Report.objects.order_by('created_at')
+    if 'q' in request.GET:
+        query = request.GET['q']
+        reports = reports.filter(title__icontains=query)
+    else:
+        query = None
+
     return render(request,
                   'crashbin_app/reports.html',
-                  {'reports': reports})
+                  {'reports': reports, 'query': query})
 
 
 @login_required
@@ -76,9 +82,15 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
 @login_required
 def bin_list(request: HttpRequest) -> HttpResponse:
     bins = Bin.objects.order_by('created_at')
+    if 'q' in request.GET:
+        query = request.GET['q']
+        bins = bins.filter(name__icontains=query)
+    else:
+        query = None
+
     return render(request,
                   'crashbin_app/bins.html',
-                  {'bins': bins})
+                  {'bins': bins, 'query': query})
 
 
 @login_required
@@ -99,3 +111,14 @@ def bin_new(request: HttpRequest) -> HttpResponse:
         form = BinForm()
     return render(request, 'crashbin_app/bin_edit.html',
                   {'form': form})
+
+
+@login_required
+def search_dispatch(request: HttpRequest) -> HttpResponse:
+    scope: str = request.GET['scope']
+    if scope == 'Reports':
+        return report_list(request)
+    if scope == 'Bins':
+        return bin_list(request)
+    assert False, scope
+    return None
