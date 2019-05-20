@@ -13,7 +13,7 @@ import django_mailbox.signals
 
 class Label(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     # FIXME color-field using django-color{ful,field}?
     color = models.CharField(max_length=7)
     description = models.TextField(blank=True)
@@ -25,7 +25,7 @@ class Label(models.Model):
 
 class Bin(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     subscribers = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                          related_name='subscribed_bins',
