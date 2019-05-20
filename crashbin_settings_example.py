@@ -26,6 +26,9 @@ EMAIL = {
     # Regex for incoming messages. The capture group needs to capture the
     # report ID.
     'incoming_subject': r'.*qutebrowser report #(.*)',
+
+    'outgoing_subject': 'qutebrowser report #{}',
+    'outgoing_address': 'crashbin@qutebrowser.org',
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
