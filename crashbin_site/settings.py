@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import typing  # pylint: disable=unused-import
 
+try:
+    import crashbin_settings as config
+except ImportError:
+    import crashbin_settings_example as config
+
+config.HOMEDIR.mkdir(exist_ok=True)
+CRASHBIN_CONFIG = config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,10 +29,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3^p5wti7slr#md+2)4xl(w$bmce3-==&0awxws7w(y_=^2izxm'
+SECRET_KEY = config.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config.DEBUG
 
 ALLOWED_HOSTS = []  # type: typing.List[str]
 
@@ -79,12 +86,12 @@ WSGI_APPLICATION = 'crashbin_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = {'default': config.DATABASE}
+try:
+    # Support pathlib.Path objects
+    DATABASES['default']['NAME'] = str(DATABASES['default']['NAME'])
+except KeyError:
+    pass
 
 
 # Password validation
@@ -109,9 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Europe/Zurich'
+LANGUAGE_CODE = config.LANGUAGE_CODE
+TIME_ZONE = config.TIME_ZONE
 
 USE_I18N = True
 
@@ -136,5 +142,10 @@ REST_FRAMEWORK = {
     )
 }
 
-MEDIA_ROOT = os.path.expanduser('~/.crashbin/media')
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+MEDIA_ROOT = config.MEDIA_ROOT
+EMAIL_BACKEND = 'django.core.mail.backends.{}.EmailBackend'.format(config.EMAIL['backend'])
+EMAIL_HOST = config.EMAIL['smtp_host']
+EMAIL_PORT = config.EMAIL['smtp_port']
+EMAIL_HOST_USER = config.EMAIL['smtp_user']
+EMAIL_HOST_PASSWORD = config.EMAIL['smtp_password']
+EMAIL_USE_TLS = config.EMAIL['smtp_tls']
