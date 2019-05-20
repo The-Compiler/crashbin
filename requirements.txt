@@ -1,5 +1,6 @@
 Django==2.2.1
 django-crispy-forms==1.7.2
+django-fieldsignals==0.4.0
 django-mailbox==4.7.1
 djangorestframework==3.9.3
 pytz==2019.1

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_mailbox',
+    'fieldsignals',
 ]
 
 MIDDLEWARE = [
