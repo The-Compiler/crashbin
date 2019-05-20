@@ -1,14 +1,11 @@
 import re
 import itertools
-import logging
 from typing import Iterable, Optional
 
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-from django.dispatch import receiver
 import django_mailbox.models
-import django_mailbox.signals
 
 from crashbin_app import utils
 
@@ -125,14 +122,6 @@ class IncomingMessage(Message):
         return self.mail.text
 
 
-@receiver(django_mailbox.signals.message_received)
-def process_incoming_mail(message, **kwargs):  # pylint: disable=unused-argument
-    try:
-        report = Report.for_mail_subject(message.subject)
-    except InvalidMailError as ex:
-        logging.error(str(ex))
-        return
-    IncomingMessage.objects.create(mail=message, report=report)
 
 
 class NoteMessage(Message):
