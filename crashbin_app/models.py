@@ -1,19 +1,21 @@
 import re
 import itertools
+import logging
 from typing import Iterable, Optional
 
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.dispatch import receiver
-
 import django_mailbox.models
 import django_mailbox.signals
+
+from crashbin_app import utils
 
 
 class Label(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     # FIXME color-field using django-color{ful,field}?
     color = models.CharField(max_length=7)
     description = models.TextField(blank=True)
@@ -25,7 +27,7 @@ class Label(models.Model):
 
 class Bin(models.Model):
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField(blank=True)
     subscribers = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                          related_name='subscribed_bins',
@@ -44,8 +46,12 @@ class Bin(models.Model):
     @staticmethod
     def get_inbox():
         """Get the inbox bin to be used for new reports."""
-        # FIXME Make this configurable
-        return Bin.objects.get(name='Inbox')
+        return Bin.objects.get(name=utils.config.INBOX_BIN)
+
+
+class InvalidMailError(Exception):
+
+    pass
 
 
 class Report(models.Model):
@@ -68,6 +74,24 @@ class Report(models.Model):
             self.outgoingmessage_set.all(),  # type: ignore
             self.notemessage_set.all()  # type: ignore
         ), key=lambda msg: msg.created_at)
+
+    @staticmethod
+    def for_mail_subject(subject: str) -> 'Report':
+        pattern = utils.config.EMAIL['incoming_subject']
+        match = re.fullmatch(pattern, subject)
+        if match is None:
+            raise InvalidMailError("Got incoming email with unknown subject: {}".format(subject))
+
+        try:
+            report_id = int(match.group(1))
+        except ValueError:
+            raise InvalidMailError("Could not parse report ID from mail subject: {}"
+                                   .format(subject))
+
+        try:
+            return Report.objects.get(id=report_id)
+        except Report.DoesNotExist:
+            raise InvalidMailError("Could not find report for mail: {}".format(subject))
 
 
 class Message(models.Model):
@@ -103,11 +127,11 @@ class IncomingMessage(Message):
 
 @receiver(django_mailbox.signals.message_received)
 def process_incoming_mail(message, **kwargs):  # pylint: disable=unused-argument
-    match = re.fullmatch(r'.*qutebrowser report #(.*)', message.subject)
-    assert match is not None   # FIXME
-
-    report_id = int(match.group(1))
-    report = Report.objects.get(id=report_id)
+    try:
+        report = Report.for_mail_subject(message.subject)
+    except InvalidMailError as ex:
+        logging.error(str(ex))
+        return
     IncomingMessage.objects.create(mail=message, report=report)
 
 
