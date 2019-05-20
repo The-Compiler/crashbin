@@ -23,6 +23,9 @@ EMAIL = {
     'smtp_tls': None,
 
     'incoming_url': None,
+    # Regex for incoming messages. The capture group needs to capture the
+    # report ID.
+    'incoming_subject': r'.*qutebrowser report #(.*)',
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
