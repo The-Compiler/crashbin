@@ -33,3 +33,6 @@ DEBUG = True
 
 CUSTOM_CSS = """
 """
+
+# Name of the bin to be used as an inbox.
+INBOX_BIN = "Inbox"

@@ -44,8 +44,7 @@ class Bin(models.Model):
     @staticmethod
     def get_inbox():
         """Get the inbox bin to be used for new reports."""
-        # FIXME Make this configurable
-        return Bin.objects.get(name='Inbox')
+        return Bin.objects.get(name=settings.CRASHBIN_CONFIG.INBOX_BIN)
 
 
 class Report(models.Model):
