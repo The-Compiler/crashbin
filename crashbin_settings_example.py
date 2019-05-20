@@ -30,3 +30,6 @@ SECRET_KEY = '3^p5wti7slr#md+2)4xl(w$bmce3-==&0awxws7w(y_=^2izxm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+CUSTOM_CSS = """
+"""
