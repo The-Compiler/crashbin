@@ -14,9 +14,9 @@ import os
 import typing  # pylint: disable=unused-import
 
 try:
-    import crashbin_settings as config
+    import crashbin_settings as config  # type: ignore
 except ImportError:
-    import crashbin_settings_example as config
+    import crashbin_settings_example as config  # type: ignore
 
 config.HOMEDIR.mkdir(exist_ok=True)
 CRASHBIN_CONFIG = config

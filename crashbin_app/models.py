@@ -10,6 +10,8 @@ from django.dispatch import receiver
 import django_mailbox.models
 import django_mailbox.signals
 
+from crashbin_app import utils
+
 
 class Label(models.Model):
 
@@ -44,7 +46,7 @@ class Bin(models.Model):
     @staticmethod
     def get_inbox():
         """Get the inbox bin to be used for new reports."""
-        return Bin.objects.get(name=settings.CRASHBIN_CONFIG.INBOX_BIN)
+        return Bin.objects.get(name=utils.config.INBOX_BIN)
 
 
 class InvalidMailError(Exception):
@@ -75,7 +77,7 @@ class Report(models.Model):
 
     @staticmethod
     def for_mail_subject(subject: str) -> 'Report':
-        pattern = settings.CRASHBIN_CONFIG.EMAIL['incoming_subject']
+        pattern = utils.config.EMAIL['incoming_subject']
         match = re.fullmatch(pattern, subject)
         if match is None:
             raise InvalidMailError("Got incoming email with unknown subject: {}".format(subject))
