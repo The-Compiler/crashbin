@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
 
+from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message
 from .forms import BinForm, ReportReplyForm
 
@@ -62,9 +63,9 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
     if typ == 'Reply':
         msg = OutgoingMessage.objects.create(text=text, author=user, report=report)
         mail.send_mail(
-            subject='qutebrowser report #{}'.format(report.id),
+            subject=utils.config.EMAIL['outgoing_subject'].format(report.id),
             message=text,
-            from_email='crashbin@the-compiler.org',  # FIXME
+            from_email=utils.config.EMAIL['outgoing_address'],
             recipient_list=[report.email],
             fail_silently=False,
         )
