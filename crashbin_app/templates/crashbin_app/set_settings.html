@@ -23,10 +23,9 @@
 
                     <form id="selection" class="checkbox-selection m-0"
                           action="
-                            {% if 'bin' in request.path %}
+                            {% if '/bin/' in request.path %}
                                 {% url 'bin_settings' pk=pk setting=setting %}
-                            {% endif %}
-                            {% if 'report' in request.path %}
+                            {% elif '/report/' in request.path %}
                                 {% url 'report_settings' pk=pk setting=setting %}
                             {% endif %}" method="post">
                         {% csrf_token %}

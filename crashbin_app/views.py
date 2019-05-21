@@ -192,15 +192,15 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
 def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     element: typing.Union[Report, Bin]
-    redirect_path: str
+    redirect_view: str
     query_list: typing.Sequence = request.POST.getlist(key=setting)
 
     if request.path.startswith('/bin/'):
         element = Bin.objects.get(id=pk)
-        redirect_path = 'bin_detail'
+        redirect_view = 'bin_detail'
     elif request.path.startswith('/report/'):
         element = Report.objects.get(id=pk)
-        redirect_path = 'report_detail'
+        redirect_view = 'report_detail'
     else:
         return HttpResponseBadRequest("Invalid request")
 
@@ -224,7 +224,7 @@ def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         element.save()
     else:
         return HttpResponseBadRequest("Invalid setting request")
-    return redirect(redirect_path, pk=pk)
+    return redirect(redirect_view, pk=pk)
 
 
 @login_required
