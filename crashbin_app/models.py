@@ -5,6 +5,7 @@ from typing import Iterable, Optional
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+import colorful.fields
 import django_mailbox.models
 
 from crashbin_app import utils
@@ -13,8 +14,7 @@ from crashbin_app import utils
 class Label(models.Model):
 
     name = models.CharField(max_length=255, unique=True)
-    # FIXME color-field using django-color{ful,field}?
-    color = models.CharField(max_length=7)
+    color = colorful.fields.RGBColorField(colors=utils.config.LABEL_COLORS)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
