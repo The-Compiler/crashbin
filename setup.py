@@ -17,6 +17,5 @@ setuptools.setup(
         'django-crispy-forms',
         'djangorestframework',
         'django-mailbox',
-        'django-fieldsignals',
     ]
 )
