@@ -12,7 +12,7 @@ from django.core import mail
 
 from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message, Label
-from .forms import BinForm, ReportReplyForm
+from .forms import BinForm, ReportReplyForm, LabelForm
 
 
 @login_required
@@ -115,6 +115,18 @@ def bin_new(request: HttpRequest) -> HttpResponse:
         form = BinForm()
     return render(request, 'crashbin_app/form.html',
                   {'title': 'New bin', 'form': form, 'menu': 'bins'})
+
+
+@login_required
+def label_new(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        form = LabelForm(request.POST)
+        if form.is_valid():
+            return HttpResponse('<script type="text/javascript">window.close()</script>')
+    else:
+        form = LabelForm()
+    return render(request, 'crashbin_app/form.html',
+                  {'title': 'New label', 'form': form, 'menu': 'labels'})
 
 
 @login_required

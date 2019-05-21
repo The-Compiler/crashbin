@@ -12,6 +12,8 @@ urlpatterns = [
     path('bin/<int:pk>/', views.bin_detail, name='bin_detail'),
     path('bin/<int:pk>/subscribe', views.bin_subscribe, name='bin_subscribe'),
     path('bin/<int:pk>/settings/<str:setting>', views.settings, name='bin_settings'),
+
+    path('label/new/', views.label_new, name='label_new'),
     path('search/', views.search_dispatch, name='search_dispatch'),
     path('api/', include('crashbin_app.api.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
