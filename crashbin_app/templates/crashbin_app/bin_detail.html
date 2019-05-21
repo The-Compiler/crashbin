@@ -15,25 +15,27 @@
             }).then(response => window.location.href = "{% url 'bin_detail' pk=bin.id %}");
         });
 
-        document.getElementById('buttonArchive').addEventListener('click', function () {
-            fetch("{% url 'api-bin-detail' pk=bin.id %}", {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify({
-                    is_archived: {{ bin.is_archived|yesno:'false,true' }}
-                })
-            }).then(response => window.location.href = "{% url 'bin_detail' pk=bin.id %}");
-        });
+        {% if bin != bin.get_inbox %}
+            document.getElementById('buttonArchive').addEventListener('click', function () {
+                fetch("{% url 'api-bin-detail' pk=bin.id %}", {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        is_archived: {{ bin.is_archived|yesno:'false,true' }}
+                    })
+                }).then(response => window.location.href = "{% url 'bin_detail' pk=bin.id %}");
+            });
 
-        document.getElementById('modalDeleteButton').addEventListener('click', function () {
-            fetch("{% url 'api-bin-detail' pk=bin.id %}", {
-                method: 'DELETE',
-                headers: {'X-CSRFToken': '{{ csrf_token }}'}
-            }).then(response => window.location.replace("{% url 'bin_list' %}"));
-        });
+            document.getElementById('modalDeleteButton').addEventListener('click', function () {
+                fetch("{% url 'api-bin-detail' pk=bin.id %}", {
+                    method: 'DELETE',
+                    headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                }).then(response => window.location.replace("{% url 'bin_list' %}"));
+            });
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -61,7 +63,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Maintainers</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id setting='maintainer' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for maintainer in bin.maintainers.all %}
                             <div class="text-left text-wrap my-1 p-2 rounded bg-light">
@@ -76,7 +81,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id setting='label' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for label in bin.labels.all %}
                             <span class="badge text-left text-wrap my-1 p-2"
@@ -92,7 +100,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Related</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id setting='related' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for related_bin in bin.related_bins.all %}
                             <div class="my-1 p-2 rounded bg-light">
@@ -109,18 +120,6 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2">Github Issue</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
-                        </div>
-                        <div class="my-1 p-2 rounded bg-light">
-                            <a class="btn btn-block text-left text-wrap m-0 p-0 border-0" href="#"
-                               role="button">
-                                <p class="my-auto">#012</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column py-2">
-                        <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Actions</h5>
                         </div>
                         <button type="button" id="buttonSubscribe"
@@ -128,13 +127,16 @@
                             {% if user in bin.subscribers.all %}Unsubscribe{% else %}
                                 Subscribe{% endif %}
                         </button>
-                        <button type="button" id="buttonArchive"
-                                class="btn btn-{% if bin.is_archived %}outline-{% endif %}success my-1">
-                            {% if bin.is_archived %}Unarchive{% else %}Archive{% endif %}
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
-                                data-target="#deleteWarningMessage">Delete
-                        </button>
+                        {% if bin != bin.get_inbox %}
+                            <button type="button" id="buttonArchive"
+                                    class="btn btn-{% if bin.is_archived %}outline-{% endif %}success my-1">
+                                {% if bin.is_archived %}Unarchive{% else %}Archive{% endif %}
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm my-1"
+                                    data-toggle="modal"
+                                    data-target="#deleteWarningMessage">Delete
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
             </div>

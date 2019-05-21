@@ -10,9 +10,9 @@
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
                     <h1 class="m-0 py-2">{% if query %}Bins matching "{{ query }}"{% else %}All Bins{% endif %}</h1>
-                    <div class="row mx-n2 mb-2">
+                    <div class="row mx-n2 mt-n2 mb-2">
                         <div class="col-sm p-2">
-                            {% search 'bin_list' %}
+                            {% search request.path %}
                         </div>
                         <div class="col-sm-auto p-2">
                             <a class="btn btn-block btn-primary text-nowrap" href="{% url 'bin_new' %}" role="button">New Bin</a>

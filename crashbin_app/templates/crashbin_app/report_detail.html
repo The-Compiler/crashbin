@@ -69,7 +69,7 @@
                                                 {% if message.NAME == 'Message' %}
                                                 alert-primary w-75 m-2 ml-auto
                                                 {% elif message.NAME == 'Note' %}
-                                                alert-danger w-75 m-2 mr-auto
+                                                alert-warning w-75 m-2 mr-auto
                                                 {% elif message.NAME == 'Reply' %}
                                                 alert-success w-75 m-2 mr-auto
                                                 {% endif %}
@@ -80,17 +80,19 @@
                                 </div>
                             {% endfor %}
 
-                            <form method="POST" action="{% url 'report_reply' pk=report.id %}">
+                            <form class="m-0" method="POST" action="{% url 'report_reply' pk=report.id %}">
                                 {% csrf_token %}
-                                <div class="input-group input-group d-flex flex-row p-2">
-                                    <select name="typ" class="btn btn-secondary">
+                                <div class="input-group d-flex flex-row p-2">
+                                    <div class="input-group-prepend">
+                                        <select name="typ" class="btn btn-secondary">
                                         <option selected>Reply</option>
                                         <option>Note</option>
                                     </select>
-                                    <input type="text" name="text" class="form-control" placeholder="Enter your message here..."
-                                        aria-label="Text input with dropdown button">
+                                    </div>
+                                    <textarea name="text" class="form-control" placeholder="Enter your message here..."
+                                              aria-label="Textarea with dropdown selection"></textarea>
                                     <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button">Send</button>
+                                        <button class="btn btn-secondary" type="submit">Send</button>
                                     </div>
                                 </div>
                             </form>
@@ -104,8 +106,11 @@
                     <h2 class="m-0 pt-2">Settings</h2>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2">Assigned to</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <h5 class="m-0 mr-2">Bin</h5>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'report_settings' pk=report.id setting='assigned' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         <div class="my-1 p-2 rounded bg-light">
                             <a class="btn btn-block text-left text-wrap m-0 p-0 border-0"
@@ -117,7 +122,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'report_settings' pk=report.id setting='label' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for label in report.labels.all %}
                             <span class="badge text-left text-wrap my-1 p-2"

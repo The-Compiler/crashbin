@@ -1,0 +1,65 @@
+{% extends 'crashbin_app/base.html' %}
+{% load components %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <div class="container my-2 p-0">
+        <div class="row">
+            <div class="col-lg m-2 p-0">
+                <div class="px-4 pb-3 rounded bg-white">
+                    <h1 class="m-0 pt-2">{{ title }}</h1>
+
+                    <div class="row mx-n2 mb-2">
+                        <div class="col-sm p-2">
+                            {% search request.path %}
+                        </div>
+                        <div class="col-sm-auto p-2">
+                            <button class="btn btn-block btn-primary text-nowrap" form="selection"
+                                    type="submit">Save
+                            </button>
+                        </div>
+                    </div>
+
+                    <form id="selection" class="checkbox-selection m-0"
+                          action="
+                            {% if '/bin/' in request.path %}
+                                {% url 'bin_settings' pk=pk setting=setting %}
+                            {% elif '/report/' in request.path %}
+                                {% url 'report_settings' pk=pk setting=setting %}
+                            {% endif %}" method="post">
+                        {% csrf_token %}
+                        {% for element in all_elements %}
+                            <div class="d-flex flex-row mb-2 rounded bg-light" style="
+                                    {% if element not in visible_elements %}
+                                        display: none !important;
+                                    {% endif %}
+                                    {% if setting == 'label' %}
+                                        background-color: {{ element.color }} !important;
+                                        color: white;
+                                    {% endif %}">
+                                <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
+                                       id="element-{{ element.id }}"
+                                       name="{{ setting }}"
+                                       value="{{ element.id }}" hidden
+                                        {% if element in selected_elements %}
+                                        checked
+                                        {% endif %}>
+                                <label for="element-{{ element.id }}"
+                                       class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
+                                    <span>{{ element }}</span>
+                                    <i class="fas fa-check my-auto ml-auto"></i>
+                                </label>
+                            </div>
+                        {% endfor %}
+                        {% if visible_elements.count == 0 %}
+                            <div class="alert alert-warning mb-1" role="alert">
+                                No elements found
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

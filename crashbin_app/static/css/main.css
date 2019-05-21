@@ -21,6 +21,18 @@
 }
 
 /*
+===== LINKS =====
+*/
+
+a {
+    color: var(--main-dark-color);
+}
+
+a:hover {
+    color: var(--main-color);
+}
+
+/*
 ===== NAVIGATION =====
 */
 .navbar {
@@ -151,10 +163,48 @@
     border-bottom-right-radius: 0.25rem;
 }
 
+.checkbox-selection label:hover {
+    color: black;
+    background-color: var(--main-color);
+}
+
+.checkbox-selection label:hover > i {
+    visibility: visible;
+}
+
+.checkbox-selection input:checked + label {
+    color: white;
+    background-color: var(--main-dark-color);
+}
+
+.checkbox-selection i {
+    color: white;
+    visibility: hidden;
+}
+
+.checkbox-selection input:checked ~ label > i {
+    visibility: visible;
+}
+
 .form-control {
     background-clip: initial;
     border-top: 2px solid var(--main-light-color);
     border-bottom: 2px solid var(--main-light-color);
+}
+
+.form-control:focus {
+    border-color: var(--main-light-color);
+    box-shadow: none;
+}
+
+.input-group textarea {
+    border-left: 0;
+    border-right: 0;
+    min-height: fit-content;
+}
+
+select option {
+    background-color: white;
 }
 
 /*

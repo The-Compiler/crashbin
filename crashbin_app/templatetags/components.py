@@ -29,6 +29,6 @@ def modal_delete(bin_obj=None):
 
 
 @register.inclusion_tag('crashbin_app/search_component.html')
-def search(view):
+def search(path):
     """Generate a bin/report search box."""
-    return {'view': view}
+    return {'path': path}
