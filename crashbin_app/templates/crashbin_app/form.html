@@ -1,12 +1,15 @@
 {% extends 'crashbin_app/base.html' %}
 {% load crispy_forms_tags %}
 
+{% if menu == 'bins' %}
 {% block menu_bins_class %}active{% endblock %}
-{% block title %}New bin{% endblock %}
+{% endif %}
+
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
 <div class="container mt-4 p-4 bg-white">
-<h2>New bin</h2>
+<h2>{{ title }}</h2>
 <form method="POST" class="post-form">
     {% csrf_token %}
     {{ form | crispy }}

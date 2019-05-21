@@ -113,8 +113,8 @@ def bin_new(request: HttpRequest) -> HttpResponse:
             return redirect('bin_detail', pk=bin_obj.pk)
     else:
         form = BinForm()
-    return render(request, 'crashbin_app/bin_edit.html',
-                  {'form': form})
+    return render(request, 'crashbin_app/form.html',
+                  {'title': 'New bin', 'form': form, 'menu': 'bins'})
 
 
 @login_required
