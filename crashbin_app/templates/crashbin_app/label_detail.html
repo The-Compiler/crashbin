@@ -1,0 +1,27 @@
+{% extends 'crashbin_app/base.html' %}
+{% load components %}
+
+{% block menu_labels_class %}active{% endblock %}
+{% block title %}Label: {{ label.name }}{% endblock %}
+
+{% block content %}
+    <div class="container my-2 p-0">
+        <div class="row">
+            <div class="col-md p-0">
+                <div class="row m-0">
+                    <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 rounded bg-white">
+                        <div class="d-flex flex-row m-0 pt-2">
+                            <h1>{{ label.name }}</h1>
+                            <a class="ml-auto my-auto title-icon"
+                                href="{% url 'label_new_edit' pk=label.id %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        </div>
+                        <p class="m-0">{{ label.description }}</p>
+                        <span class="m-0 p-2 rounded" style="background-color: {{ label.color }} ; color: white">{{ label.color }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

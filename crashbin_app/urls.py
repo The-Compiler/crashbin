@@ -19,5 +19,8 @@ urlpatterns = [
     path('bin/<int:pk>/subscribe', views.bin_subscribe, name='bin_subscribe'),
     path('bin/<int:pk>/settings/<str:setting>', views.settings, name='bin_settings'),
 
-    path('label/new/', views.label_new, name='label_new'),
+    path('labels', views.label_list, name='label_list'),
+    path('label/<int:pk>/', views.label_detail, name='label_detail'),
+    path('label/new/', views.label_new_edit, name='label_new_edit'),
+    path('label/<int:pk>/edit', views.label_new_edit, name='label_new_edit'),
 ]

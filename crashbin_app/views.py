@@ -122,16 +122,41 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
                   {'title': 'Edit bin' if pk else 'New bin', 'form': form, 'menu': 'bins'})
 
 
+def label_list(request: HttpRequest) -> HttpResponse:
+    labels = Label.objects.order_by('created_at')
+    if 'q' in request.GET:
+        query = request.GET['q']
+        labels = labels.filter(name__icontains=query)
+    else:
+        query = None
+
+    return render(request,
+                  'crashbin_app/labels.html',
+                  {'labels': labels, 'query': query})
+
+
 @login_required
-def label_new(request: HttpRequest) -> HttpResponse:
+def label_detail(request: HttpRequest, pk: int) -> HttpResponse:
+    label_obj = get_object_or_404(Label, pk=pk)
+    return render(request, 'crashbin_app/label_detail.html',
+                  {'label': label_obj})
+
+
+@login_required
+def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = LabelForm(request.POST)
         if form.is_valid():
-            return HttpResponse('<script type="text/javascript">window.close()</script>')
+            label_obj = form.save()
+            return redirect('label_detail', pk=label_obj.pk)
     else:
-        form = LabelForm()
+        if pk is None:
+            form = LabelForm()
+        else:
+            label_obj = get_object_or_404(Label, pk=pk)
+            form = LabelForm(instance=label_obj)
     return render(request, 'crashbin_app/form.html',
-                  {'title': 'New label', 'form': form, 'menu': 'labels'})
+                  {'title': 'Edit label' if pk else 'New label', 'form': form, 'menu': 'labels'})
 
 
 @login_required
@@ -176,7 +201,7 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         title = 'Maintainers for {}'.format(bin_obj)
     elif setting == 'label':
         all_elements = Label.objects.order_by('created_at')
-        new_button = _ButtonInfo("New label", 'label_new')
+        new_button = _ButtonInfo("New label", 'label_new_edit')
         if request.path.startswith('/bin/'):
             bin_obj = get_object_or_404(Bin, pk=pk)
             selected_elements = bin_obj.labels.all()
