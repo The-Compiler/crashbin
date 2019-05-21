@@ -39,13 +39,13 @@
                                         color: white;
                                     {% endif %}">
                                 <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
-                                       id="{{ forloop.counter0 }}"
+                                       id="element-{{ element.id }}"
                                        name="{{ setting }}"
                                        value="{{ element.id }}" hidden
                                         {% if element in selected_elements %}
                                         checked
                                         {% endif %}>
-                                <label for="{{ forloop.counter0 }}"
+                                <label for="element-{{ element.id }}"
                                        class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
                                     <span>{{ element }}</span>
                                     <i class="fas fa-check my-auto ml-auto"></i>
