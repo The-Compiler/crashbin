@@ -143,22 +143,35 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
     visible_elements: typing.Iterable[Element]
+    title: str
 
     if scope == 'maintainer':
+        bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = User.objects.order_by('id')
-        selected_elements = get_object_or_404(Bin, pk=pk).maintainers.all()
+        selected_elements = bin_obj.maintainers.all()
+        title = 'Maintainers for {}'.format(bin_obj)
     elif scope == 'label':
         all_elements = Label.objects.order_by('created_at')
-        if 'bin' in request.path:
-            selected_elements = get_object_or_404(Bin, pk=pk).labels.all()
-        if 'report' in request.path:
-            selected_elements = get_object_or_404(Report, pk=pk).labels.all()
+        if request.path.startswith('/bin/'):
+            bin_obj = get_object_or_404(Bin, pk=pk)
+            selected_elements = bin_obj.labels.all()
+            title = 'Labels for {}'.format(bin_obj)
+        elif request.path.startswith('/report/'):
+            report_obj = get_object_or_404(Report, pk=pk)
+            selected_elements = report_obj.labels.all()
+            title = 'Labels for {}'.format(report_obj)
+        else:
+            assert False, request.path
     elif scope == 'related':
+        bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = Bin.objects.exclude(id=pk)
-        selected_elements = get_object_or_404(Bin, pk=pk).related_bins.all()
+        selected_elements = bin_obj.related_bins.all()
+        title = 'Related to {}'.format(bin_obj)
     elif scope == 'assigned':
+        report_obj = get_object_or_404(Report, pk=pk)
         all_elements = Bin.objects.order_by('created_at')
-        selected_elements = [get_object_or_404(Report, pk=pk).bin]
+        selected_elements = [report_obj.bin]
+        title = 'Bin for {}'.format(report_obj)
     else:
         return HttpResponseBadRequest("Invalid scope request")
 
@@ -173,7 +186,8 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
         visible_elements = all_elements
     return render(request, 'crashbin_app/set_settings.html',
                   {'pk': pk, 'scope': scope, 'query': query, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'visible_elements': visible_elements})
+                   'selected_elements': selected_elements, 'visible_elements': visible_elements,
+                   'title': title})
 
 
 def _set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
