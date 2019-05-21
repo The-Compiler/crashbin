@@ -118,7 +118,28 @@ def bin_new(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+@require_POST
+def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
+    user = request.user  # type: ignore
+    bin_obj: Bin = Bin.objects.get(id=pk)
+    if user in bin_obj.subscribers.all():
+        bin_obj.subscribers.remove(user)
+    else:
+        bin_obj.subscribers.add(user)
+    return HttpResponse(status=200)
+
+
+@login_required
+def settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+    if request.method == 'GET':
+        return _get_settings(request, pk, scope)
+    elif request.method == 'POST':
+        return _set_settings(request, pk, scope)
+    else:
+        return HttpResponseBadRequest("Invalid method request")
+
+
+def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
@@ -140,7 +161,7 @@ def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
         all_elements = Bin.objects.order_by('created_at')
         selected_elements = [get_object_or_404(Report, pk=pk).bin]
     else:
-        return HttpResponseBadRequest("Invalid request")
+        return HttpResponseBadRequest("Invalid scope request")
 
     if 'q' in request.GET:
         query = request.GET['q']
@@ -151,6 +172,43 @@ def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     return render(request, 'crashbin_app/set_settings.html',
                   {'pk': pk, 'scope': scope, 'query': query, 'all_elements': all_elements,
                    'selected_elements': selected_elements, 'visible_elements': visible_elements})
+
+
+def _set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+    element: typing.Union[Report, Bin]
+    redirect_path: str
+    query_list: typing.Iterable = request.POST.getlist(key=scope)
+
+    if request.path.startswith('/bin/'):
+        element = Bin.objects.get(id=pk)
+        redirect_path = 'bin_detail'
+    elif request.path.startswith('/report/'):
+        element = Report.objects.get(id=pk)
+        redirect_path = 'report_detail'
+    else:
+        return HttpResponseBadRequest("Invalid request")
+
+    if scope == 'maintainer':
+        assert isinstance(element, Bin)
+        element.maintainers.clear()
+        for maintainer in query_list:
+            element.maintainers.add(User.objects.get(id=maintainer))
+    elif scope == 'label':
+        element.labels.clear()
+        for label in query_list:
+            element.labels.add(Label.objects.get(id=label))
+    elif scope == 'related':
+        assert isinstance(element, Bin)
+        element.related_bins.clear()
+        for related_bin in query_list:
+            element.related_bins.add(Bin.objects.get(id=related_bin))
+    elif scope == 'assigned':
+        assert isinstance(element, Report)
+        element.bin = Bin.objects.get(id=query_list[0])
+        element.save()
+    else:
+        return HttpResponseBadRequest("Invalid scope request")
+    return redirect(redirect_path, pk=pk)
 
 
 @login_required

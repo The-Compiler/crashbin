@@ -24,10 +24,10 @@
                     <form id="selection" class="checkbox-selection m-0"
                           action="
                             {% if 'bin' in request.path %}
-                                {% url 'set_bin_settings' pk=pk scope=scope %}
+                                {% url 'bin_settings' pk=pk scope=scope %}
                             {% endif %}
                             {% if 'report' in request.path %}
-                                {% url 'set_report_settings' pk=pk scope=scope %}
+                                {% url 'report_settings' pk=pk scope=scope %}
                             {% endif %}" method="post">
                         {% csrf_token %}
                         {% for element in all_elements %}
