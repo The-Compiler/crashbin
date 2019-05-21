@@ -21,6 +21,18 @@
 }
 
 /*
+===== LAYOUT =====
+*/
+
+a {
+    color: var(--main-dark-color);
+}
+
+a:hover {
+    color: var(--main-color);
+}
+
+/*
 ===== NAVIGATION =====
 */
 .navbar {
