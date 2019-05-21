@@ -75,7 +75,7 @@ def test_bin_detail(admin_client, bin_obj):
 
 
 def test_bin_new_post(admin_client):
-    response = admin_client.post(urls.reverse('bin_new'), {'name': 'newbin'})
+    response = admin_client.post(urls.reverse('bin_new_edit'), {'name': 'newbin'})
 
     assert response.status_code == 302
 
@@ -86,7 +86,7 @@ def test_bin_new_post(admin_client):
 
 
 def test_bin_new_get(admin_client):
-    response = admin_client.get(urls.reverse('bin_new'))
+    response = admin_client.get(urls.reverse('bin_new_edit'))
     assert response.status_code == 200
     assert b'<form method="POST"' in response.content
     assert b'csrfmiddlewaretoken' in response.content

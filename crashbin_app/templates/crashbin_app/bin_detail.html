@@ -45,7 +45,13 @@
             <div class="col-md p-0">
                 <div class="row m-0">
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 rounded bg-white">
-                        <h1 class="m-0 py-2">{{ bin.name }}</h1>
+                        <div class="d-flex flex-row m-0 pt-2">
+                            <h1>{{ bin.name }}</h1>
+                            <a class="ml-auto my-auto title-icon"
+                                href="{% url 'bin_new_edit' pk=bin.id %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        </div>
                         <p class="m-0">{{ bin.description }}</p>
                     </div>
                 </div>

@@ -8,8 +8,9 @@ urlpatterns = [
     path('report/<int:pk>/reply', views.report_reply, name='report_reply'),
     path('report/<int:pk>/settings/<str:setting>', views.settings, name='report_settings'),
     path('bins', views.bin_list, name='bin_list'),
-    path('bin/new/', views.bin_new, name='bin_new'),
+    path('bin/new/', views.bin_new_edit, name='bin_new_edit'),
     path('bin/<int:pk>/', views.bin_detail, name='bin_detail'),
+    path('bin/<int:pk>/edit', views.bin_new_edit, name='bin_new_edit'),
     path('bin/<int:pk>/subscribe', views.bin_subscribe, name='bin_subscribe'),
     path('bin/<int:pk>/settings/<str:setting>', views.settings, name='bin_settings'),
 

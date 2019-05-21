@@ -106,16 +106,20 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-def bin_new(request: HttpRequest) -> HttpResponse:
+def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = BinForm(request.POST)
         if form.is_valid():
             bin_obj = form.save()
             return redirect('bin_detail', pk=bin_obj.pk)
     else:
-        form = BinForm()
+        if pk is None:
+            form = BinForm()
+        else:
+            bin_obj = get_object_or_404(Bin, pk=pk)
+            form = BinForm(instance=bin_obj)
     return render(request, 'crashbin_app/form.html',
-                  {'title': 'New bin', 'form': form, 'menu': 'bins'})
+                  {'title': 'Edit bin' if pk else 'New bin', 'form': form, 'menu': 'bins'})
 
 
 @login_required
@@ -185,13 +189,13 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         else:
             assert False, request.path
     elif setting == 'related':
-        new_button = _ButtonInfo("New bin", 'bin_new')
+        new_button = _ButtonInfo("New bin", 'bin_new_edit')
         bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = Bin.objects.exclude(id=pk)
         selected_elements = bin_obj.related_bins.all()
         title = 'Related to {}'.format(bin_obj)
     elif setting == 'assigned':
-        new_button = _ButtonInfo("New bin", 'bin_new')
+        new_button = _ButtonInfo("New bin", 'bin_new_edit')
         report_obj = get_object_or_404(Report, pk=pk)
         all_elements = Bin.objects.order_by('created_at')
         selected_elements = [report_obj.bin]
