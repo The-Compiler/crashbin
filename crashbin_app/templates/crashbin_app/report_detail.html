@@ -108,7 +108,7 @@
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Assigned to</h5>
                             <a class=" ml-auto my-auto"
-                               href="{% url 'report_settings' pk=report.id scope='assigned' %}">
+                               href="{% url 'report_settings' pk=report.id setting='assigned' %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
@@ -123,7 +123,7 @@
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
                             <a class=" ml-auto my-auto"
-                               href="{% url 'report_settings' pk=report.id scope='label' %}">
+                               href="{% url 'report_settings' pk=report.id setting='label' %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>

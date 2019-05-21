@@ -24,10 +24,10 @@
                     <form id="selection" class="checkbox-selection m-0"
                           action="
                             {% if 'bin' in request.path %}
-                                {% url 'bin_settings' pk=pk scope=scope %}
+                                {% url 'bin_settings' pk=pk setting=setting %}
                             {% endif %}
                             {% if 'report' in request.path %}
-                                {% url 'report_settings' pk=pk scope=scope %}
+                                {% url 'report_settings' pk=pk setting=setting %}
                             {% endif %}" method="post">
                         {% csrf_token %}
                         {% for element in all_elements %}
@@ -35,13 +35,13 @@
                                     {% if element not in visible_elements %}
                                         display: none !important;
                                     {% endif %}
-                                    {% if scope == 'label' %}
+                                    {% if setting == 'label' %}
                                         background-color: {{ element.color }} !important;
                                         color: white;
                                     {% endif %}">
-                                <input type="{% if scope == 'assigned' %}radio{% else %}checkbox{% endif %}"
+                                <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
                                        id="{{ forloop.counter0 }}"
-                                       name="{{ scope }}"
+                                       name="{{ setting }}"
                                        value="{{ element.id }}" hidden
                                         {% if element in selected_elements %}
                                         checked

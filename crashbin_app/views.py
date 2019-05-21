@@ -130,27 +130,27 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-def settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     if request.method == 'GET':
-        return _get_settings(request, pk, scope)
+        return _get_settings(request, pk, setting)
     if request.method == 'POST':
-        return _set_settings(request, pk, scope)
+        return _set_settings(request, pk, setting)
     return HttpResponseBadRequest("Invalid method request")
 
 
-def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
     visible_elements: typing.Iterable[Element]
     title: str
 
-    if scope == 'maintainer':
+    if setting == 'maintainer':
         bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = User.objects.order_by('id')
         selected_elements = bin_obj.maintainers.all()
         title = 'Maintainers for {}'.format(bin_obj)
-    elif scope == 'label':
+    elif setting == 'label':
         all_elements = Label.objects.order_by('created_at')
         if request.path.startswith('/bin/'):
             bin_obj = get_object_or_404(Bin, pk=pk)
@@ -162,22 +162,22 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
             title = 'Labels for {}'.format(report_obj)
         else:
             assert False, request.path
-    elif scope == 'related':
+    elif setting == 'related':
         bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = Bin.objects.exclude(id=pk)
         selected_elements = bin_obj.related_bins.all()
         title = 'Related to {}'.format(bin_obj)
-    elif scope == 'assigned':
+    elif setting == 'assigned':
         report_obj = get_object_or_404(Report, pk=pk)
         all_elements = Bin.objects.order_by('created_at')
         selected_elements = [report_obj.bin]
         title = 'Bin for {}'.format(report_obj)
     else:
-        return HttpResponseBadRequest("Invalid scope request")
+        return HttpResponseBadRequest("Invalid setting request")
 
     if 'q' in request.GET:
         query = request.GET['q']
-        if scope == 'maintainer':
+        if setting == 'maintainer':
             visible_elements = all_elements.filter(username__icontains=query).all()
         else:
             visible_elements = all_elements.filter(name__icontains=query).all()
@@ -185,15 +185,15 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
         query = None
         visible_elements = all_elements
     return render(request, 'crashbin_app/set_settings.html',
-                  {'pk': pk, 'scope': scope, 'query': query, 'all_elements': all_elements,
+                  {'pk': pk, 'setting': setting, 'query': query, 'all_elements': all_elements,
                    'selected_elements': selected_elements, 'visible_elements': visible_elements,
                    'title': title})
 
 
-def _set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
+def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     element: typing.Union[Report, Bin]
     redirect_path: str
-    query_list: typing.Sequence = request.POST.getlist(key=scope)
+    query_list: typing.Sequence = request.POST.getlist(key=setting)
 
     if request.path.startswith('/bin/'):
         element = Bin.objects.get(id=pk)
@@ -204,35 +204,35 @@ def _set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     else:
         return HttpResponseBadRequest("Invalid request")
 
-    if scope == 'maintainer':
+    if setting == 'maintainer':
         assert isinstance(element, Bin)
         element.maintainers.clear()
         for maintainer in query_list:
             element.maintainers.add(User.objects.get(id=maintainer))
-    elif scope == 'label':
+    elif setting == 'label':
         element.labels.clear()
         for label in query_list:
             element.labels.add(Label.objects.get(id=label))
-    elif scope == 'related':
+    elif setting == 'related':
         assert isinstance(element, Bin)
         element.related_bins.clear()
         for related_bin in query_list:
             element.related_bins.add(Bin.objects.get(id=related_bin))
-    elif scope == 'assigned':
+    elif setting == 'assigned':
         assert isinstance(element, Report)
         element.bin = Bin.objects.get(id=query_list[0])
         element.save()
     else:
-        return HttpResponseBadRequest("Invalid scope request")
+        return HttpResponseBadRequest("Invalid setting request")
     return redirect(redirect_path, pk=pk)
 
 
 @login_required
 def search_dispatch(request: HttpRequest) -> HttpResponse:
-    scope: str = request.GET['scope']
-    if scope == 'Reports':
+    setting: str = request.GET['setting']
+    if setting == 'Reports':
         return report_list(request)
-    if scope == 'Bins':
+    if setting == 'Bins':
         return bin_list(request)
-    assert False, scope
+    assert False, setting
     return None

@@ -64,7 +64,7 @@
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Maintainers</h5>
                             <a class=" ml-auto my-auto"
-                               href="{% url 'bin_settings' pk=bin.id scope='maintainer' %}">
+                               href="{% url 'bin_settings' pk=bin.id setting='maintainer' %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
                             <a class=" ml-auto my-auto"
-                               href="{% url 'bin_settings' pk=bin.id scope='label' %}">
+                               href="{% url 'bin_settings' pk=bin.id setting='label' %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
@@ -101,7 +101,7 @@
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Related</h5>
                             <a class=" ml-auto my-auto"
-                               href="{% url 'bin_settings' pk=bin.id scope='related' %}">
+                               href="{% url 'bin_settings' pk=bin.id setting='related' %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
