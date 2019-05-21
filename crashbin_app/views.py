@@ -129,13 +129,16 @@ def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
         selected_elements = get_object_or_404(Bin, pk=pk).maintainers.all()
     elif scope == 'label':
         all_elements = Label.objects.order_by('created_at')
-        selected_elements = get_object_or_404(Bin, pk=pk).labels.all()
+        if 'bin' in request.path:
+            selected_elements = get_object_or_404(Bin, pk=pk).labels.all()
+        if 'report' in request.path:
+            selected_elements = get_object_or_404(Report, pk=pk).labels.all()
     elif scope == 'related':
         all_elements = Bin.objects.exclude(id=pk)
         selected_elements = get_object_or_404(Bin, pk=pk).related_bins.all()
     elif scope == 'assigned':
         all_elements = Bin.objects.order_by('created_at')
-        selected_elements =  [get_object_or_404(Report, pk=pk).bin]
+        selected_elements = [get_object_or_404(Report, pk=pk).bin]
     else:
         return HttpResponseBadRequest("Invalid request")
 

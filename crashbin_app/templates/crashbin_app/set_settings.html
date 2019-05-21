@@ -22,7 +22,13 @@
                     </div>
 
                     <form id="selection" class="checkbox-selection m-0"
-                          action="{% url 'set_bin_settings' pk=pk scope=scope %}" method="post">
+                          action="
+                            {% if 'bin' in request.path %}
+                                {% url 'set_bin_settings' pk=pk scope=scope %}
+                            {% endif %}
+                            {% if 'report' in request.path %}
+                                {% url 'set_report_settings' pk=pk scope=scope %}
+                            {% endif %}" method="post">
                         {% csrf_token %}
                         {% for element in all_elements %}
                             <div class="d-flex flex-row mb-2 rounded bg-light" style="

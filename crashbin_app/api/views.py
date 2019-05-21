@@ -1,3 +1,6 @@
+import typing
+from typing import Sequence
+
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect
@@ -40,41 +43,37 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
 
 @api_view(['POST'])
 def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
-    bin_obj: Bin
-    report_obj: Report
+    element: typing.Union[Report, Bin]
     redirect_path: str
-    query_list = request.POST.getlist(key=scope)
+    query_list: Sequence = request.POST.getlist(key=scope)
 
-    if request.path.__contains__('bins'):
-        bin_obj = Bin.objects.get(id=pk)
+    if request.path.startswith('/api/bins/'):
+        element = Bin.objects.get(id=pk)
         redirect_path = 'bin_detail'
-    elif request.path.__contains__('reports'):
-        report_obj = Report.objects.get(id=pk)
+    elif request.path.startswith('/api/reports/'):
+        element = Report.objects.get(id=pk)
         redirect_path = 'report_detail'
     else:
         return HttpResponseBadRequest("Invalid request")
 
     if scope == 'maintainer':
-        bin_obj.maintainers.clear()
+        assert isinstance(element, Bin)
+        element.maintainers.clear()
         for maintainer in query_list:
-            bin_obj.maintainers.add(User.objects.get(id=maintainer))
+            element.maintainers.add(User.objects.get(id=maintainer))
     elif scope == 'label':
-        if bin_obj is not None:
-            bin_obj.labels.clear()
-            for label in query_list:
-                bin_obj.labels.add(Label.objects.get(id=label))
-        elif report_obj is not None:
-            report_obj.labels.clear()
-            for label in query_list:
-                report_obj.labels.add(Label.objects.get(id=label))
-        else:
-            return HttpResponseBadRequest("Invalid request")
+        element.labels.clear()
+        for label in query_list:
+            element.labels.add(Label.objects.get(id=label))
     elif scope == 'related':
-        bin_obj.related_bins.clear()
+        assert isinstance(element, Bin)
+        element.related_bins.clear()
         for related_bin in query_list:
-            bin_obj.related_bins.add(Bin.objects.get(id=related_bin))
+            element.related_bins.add(Bin.objects.get(id=related_bin))
     elif scope == 'assigned':
-        report_obj.bin = Bin.objects.get(id=query_list[0])
+        assert isinstance(element, Report)
+        element.bin = Bin.objects.get(id=query_list[0])
+        element.save()
     else:
         return HttpResponseBadRequest("Invalid request")
     return redirect(redirect_path, pk=pk)
