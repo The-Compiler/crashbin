@@ -122,8 +122,6 @@ class IncomingMessage(Message):
         return self.mail.text
 
 
-
-
 class NoteMessage(Message):
 
     text = models.TextField()

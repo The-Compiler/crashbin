@@ -20,7 +20,7 @@ def load_plugins() -> None:
         name = full_name[len(prefix):]
         try:
             finder.find_module(full_name).load_module(full_name)
-        except Exception:
-            logging.exception("Exception while loading plugin: {}".format(name))
+        except Exception:  # pylint: disable=broad-except
+            logging.exception("Exception while loading plugin: %s", name)
         else:
-            logging.info("Loaded plugin: {}".format(name))
+            logging.info("Loaded plugin: %s", name)
