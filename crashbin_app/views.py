@@ -142,7 +142,6 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
-    visible_elements: typing.Iterable[Element]
     title: str
 
     if setting == 'maintainer':
@@ -175,19 +174,9 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     else:
         return HttpResponseBadRequest("Invalid setting request")
 
-    if 'q' in request.GET:
-        query = request.GET['q']
-        if setting == 'maintainer':
-            visible_elements = all_elements.filter(username__icontains=query).all()
-        else:
-            visible_elements = all_elements.filter(name__icontains=query).all()
-    else:
-        query = None
-        visible_elements = all_elements
     return render(request, 'crashbin_app/set_settings.html',
-                  {'pk': pk, 'setting': setting, 'query': query, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'visible_elements': visible_elements,
-                   'title': title})
+                  {'pk': pk, 'setting': setting, 'all_elements': all_elements,
+                   'selected_elements': selected_elements, 'title': title})
 
 
 def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
