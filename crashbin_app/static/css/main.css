@@ -151,6 +151,29 @@
     border-bottom-right-radius: 0.25rem;
 }
 
+.checkbox-selection label:hover {
+    color: black;
+    background-color: var(--main-color);
+}
+
+.checkbox-selection label:hover > i {
+    visibility: visible;
+}
+
+.checkbox-selection input:checked + label {
+    color: white;
+    background-color: var(--main-dark-color);
+}
+
+.checkbox-selection i {
+    color: white;
+    visibility: hidden;
+}
+
+.checkbox-selection input:checked ~ label > i {
+    visibility: visible;
+}
+
 .form-control {
     background-clip: initial;
     border-top: 2px solid var(--main-light-color);

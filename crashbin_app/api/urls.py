@@ -9,5 +9,7 @@ router.register(r'bins', views.BinViewSet, basename='api-bin')
 urlpatterns = [
     path('', include(router.urls)),
     path('report/new/', views.ReportNew.as_view()),
+    path('reports/<int:pk>/settings/<str:scope>', views.set_settings, name='set_report_settings'),
     path('bins/<int:pk>/subscribe', views.bin_subscribe, name='bin_subscribe'),
+    path('bins/<int:pk>/settings/<str:scope>', views.set_settings, name='set_bin_settings'),
 ]

@@ -61,7 +61,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Maintainers</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id scope='maintainer' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for maintainer in bin.maintainers.all %}
                             <div class="text-left text-wrap my-1 p-2 rounded bg-light">
@@ -76,7 +79,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Labels</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id scope='label' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for label in bin.labels.all %}
                             <span class="badge text-left text-wrap my-1 p-2"
@@ -92,7 +98,10 @@
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
                             <h5 class="m-0 mr-2">Related</h5>
-                            <i class="fas fa-pen ml-auto my-auto"></i>
+                            <a class=" ml-auto my-auto"
+                               href="{% url 'bin_settings' pk=bin.id scope='related' %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
                         </div>
                         {% for related_bin in bin.related_bins.all %}
                             <div class="my-1 p-2 rounded bg-light">
