@@ -126,7 +126,7 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
         bin_obj.subscribers.remove(user)
     else:
         bin_obj.subscribers.add(user)
-    return HttpResponse(status=200)
+    return HttpResponse()
 
 
 @login_required
