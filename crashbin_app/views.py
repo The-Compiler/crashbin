@@ -229,10 +229,10 @@ def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
 @login_required
 def search_dispatch(request: HttpRequest) -> HttpResponse:
-    setting: str = request.GET['setting']
-    if setting == 'Reports':
+    scope: str = request.GET['scope']
+    if scope == 'Reports':
         return report_list(request)
-    if setting == 'Bins':
+    if scope == 'Bins':
         return bin_list(request)
-    assert False, setting
+    assert False, scope
     return None
