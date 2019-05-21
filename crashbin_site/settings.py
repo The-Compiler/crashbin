@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crashbin_app',
+    'crashbin_app.apps.CrashbinAppConfig',
     'crispy_forms',
     'rest_framework',
     'django_mailbox',
