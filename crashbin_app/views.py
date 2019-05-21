@@ -133,10 +133,9 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
 def settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     if request.method == 'GET':
         return _get_settings(request, pk, scope)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         return _set_settings(request, pk, scope)
-    else:
-        return HttpResponseBadRequest("Invalid method request")
+    return HttpResponseBadRequest("Invalid method request")
 
 
 def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
@@ -165,7 +164,10 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
 
     if 'q' in request.GET:
         query = request.GET['q']
-        visible_elements = all_elements.filter(username__icontains=query).all()
+        if scope == 'maintainer':
+            visible_elements = all_elements.filter(username__icontains=query).all()
+        else:
+            visible_elements = all_elements.filter(name__icontains=query).all()
     else:
         query = None
         visible_elements = all_elements
@@ -177,7 +179,7 @@ def _get_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
 def _set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
     element: typing.Union[Report, Bin]
     redirect_path: str
-    query_list: typing.Iterable = request.POST.getlist(key=scope)
+    query_list: typing.Sequence = request.POST.getlist(key=scope)
 
     if request.path.startswith('/bin/'):
         element = Bin.objects.get(id=pk)

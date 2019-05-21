@@ -1,15 +1,7 @@
-import typing
-from typing import Sequence
-
-from django.contrib.auth.models import User
-from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import redirect
-from rest_framework import viewsets, mixins, permissions, generics, status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import viewsets, mixins, permissions, generics
 
 from crashbin_app.api.serializers import ReportSerializer, ReportNewSerializer, BinSerializer
-from crashbin_app.models import Report, Bin, Label
+from crashbin_app.models import Report, Bin
 
 
 class ReportViewSet(viewsets.ModelViewSet):
