@@ -18,5 +18,6 @@ setuptools.setup(
         'djangorestframework',
         'django-mailbox',
         'django-colorful',
+        'attrs',
     ]
 )
