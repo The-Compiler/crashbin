@@ -1,9 +1,10 @@
 import logging
+import typing
 
 from django import urls
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import QuerySet, Model
+from django.db.models import QuerySet
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
@@ -118,36 +119,35 @@ def bin_new(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def set_settings(request: HttpRequest, pk: int, scope: str) -> HttpResponse:
-    all_elements: QuerySet = QuerySet()
-    selected_elements: QuerySet = QuerySet()
-    selected_element: Bin = Bin()
-    visible_elements: QuerySet = QuerySet()
+    Element = typing.Union[User, Label, Bin]
+    all_elements: QuerySet
+    selected_elements: typing.Iterable[Element]
+    visible_elements: typing.Iterable[Element]
 
     if scope == 'maintainer':
         all_elements = User.objects.order_by('id')
-        selected_elements = get_object_or_404(Bin, pk=pk).maintainers
+        selected_elements = get_object_or_404(Bin, pk=pk).maintainers.all()
     elif scope == 'label':
         all_elements = Label.objects.order_by('created_at')
-        selected_elements = get_object_or_404(Bin, pk=pk).labels
+        selected_elements = get_object_or_404(Bin, pk=pk).labels.all()
     elif scope == 'related':
         all_elements = Bin.objects.exclude(id=pk)
-        selected_elements = get_object_or_404(Bin, pk=pk).related_bins
+        selected_elements = get_object_or_404(Bin, pk=pk).related_bins.all()
     elif scope == 'assigned':
         all_elements = Bin.objects.order_by('created_at')
-        selected_element = get_object_or_404(Report, pk=pk).bin
+        selected_elements =  [get_object_or_404(Report, pk=pk).bin]
     else:
         return HttpResponseBadRequest("Invalid request")
 
     if 'q' in request.GET:
         query = request.GET['q']
-        visible_elements = all_elements.filter(username__icontains=query)
+        visible_elements = all_elements.filter(username__icontains=query).all()
     else:
         query = None
         visible_elements = all_elements
     return render(request, 'crashbin_app/set_settings.html',
                   {'pk': pk, 'scope': scope, 'query': query, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'selected_element': selected_element,
-                   'visible_elements': visible_elements})
+                   'selected_elements': selected_elements, 'visible_elements': visible_elements})
 
 
 @login_required

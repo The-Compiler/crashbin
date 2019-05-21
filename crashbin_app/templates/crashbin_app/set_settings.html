@@ -24,95 +24,35 @@
                     <form id="selection" class="checkbox-selection m-0"
                           action="{% url 'set_bin_settings' pk=pk scope=scope %}" method="post">
                         {% csrf_token %}
-<!--
-                        {% if scope == 'maintainer' %}
-                            {% for maintainer in all_maintainers.all %}
-                                <div class="d-flex flex-row mb-2 rounded bg-light"
-                                        {% if maintainer not in visible_maintainers.all %}
-                                     style="display: none !important;"
-                                        {% endif %}>
-                                    <input type="checkbox" id="{{ forloop.counter0 }}"
-                                           name="{{ scope }}"
-                                           value="{{ maintainer.id }}" hidden
-                                            {% if maintainer in selected_maintainers.all %}
-                                           checked
-                                            {% endif %}>
-                                    <label for="{{ forloop.counter0 }}"
-                                           class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
-                                        <span>{{ maintainer }}</span>
-                                        <i class="fas fa-check my-auto ml-auto"></i>
-                                    </label>
-                                </div>
-                            {% endfor %}
-                            {% if visible_maintainers.count == 0 %}
-                                <div class="alert alert-warning mb-1" role="alert">
-                                    No users found
-                                </div>
-                            {% endif %}
-                        {% endif %}
--->
-
-                    {% for element in all_elements.all %}
-                        <div class="d-flex flex-row mb-2 rounded bg-light" style="
-                                {% if element not in visible_elements.all %}
-                                    display: none !important;
-                                {% endif %}
-                                {% if scope == 'label' %}
-                                    background-color: {{ element.color }} !important;
-                                    color: white;
-                                {% endif %}">
-                            <input type="{% if scope == 'assigned' %}radio{% else %}checkbox{% endif %}"
-                                   id="{{ forloop.counter0 }}"
-                                   name="{{ scope }}"
-                                   value="{{ element.id }}" hidden
-                                    {% if element in selected_elements.all %}
-                                   checked
+                        {% for element in all_elements %}
+                            <div class="d-flex flex-row mb-2 rounded bg-light" style="
+                                    {% if element not in visible_elements %}
+                                        display: none !important;
                                     {% endif %}
-                                    {% if element is selected_element %}
-                                   checked
-                                    {% endif %}>
-                            <label for="{{ forloop.counter0 }}"
-                                   class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
-                                <span>{{ element }}</span>
-                                <i class="fas fa-check my-auto ml-auto"></i>
-                            </label>
-                        </div>
-                    {% endfor %}
-                    {% if visible_elements.count == 0 %}
-                        <div class="alert alert-warning mb-1" role="alert">
-                            No elements found
-                        </div>
-                    {% endif %}
-
-                    <!--
-                        {% if scope == 'related' %}
-                            {% for bin in all_bins.all %}
-                                <div class="d-flex flex-row mb-2 rounded bg-light"
-                                        {% if bin not in visible_related_bins.all %}
-                                     style="display: none !important;"
+                                    {% if scope == 'label' %}
+                                        background-color: {{ element.color }} !important;
+                                        color: white;
+                                    {% endif %}">
+                                <input type="{% if scope == 'assigned' %}radio{% else %}checkbox{% endif %}"
+                                       id="{{ forloop.counter0 }}"
+                                       name="{{ scope }}"
+                                       value="{{ element.id }}" hidden
+                                        {% if element in selected_elements %}
+                                        checked
                                         {% endif %}>
-                                    <input type="checkbox" id="{{ forloop.counter0 }}"
-                                           name="{{ scope }}"
-                                           value="{{ bin.id }}" hidden
-                                            {% if bin in selected_related_bins.all %}
-                                           checked
-                                            {% endif %}>
-                                    <label for="{{ forloop.counter0 }}"
-                                           class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
-                                        <span>{{ bin.name }}</span>
-                                        <i class="fas fa-check my-auto ml-auto"></i>
-                                    </label>
-                                </div>
-                            {% endfor %}
-                            {% if visible_related_bins.count == 0 %}
-                                <div class="alert alert-warning mb-1" role="alert">
-                                    No bins found
-                                </div>
-                            {% endif %}
+                                <label for="{{ forloop.counter0 }}"
+                                       class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
+                                    <span>{{ element }}</span>
+                                    <i class="fas fa-check my-auto ml-auto"></i>
+                                </label>
+                            </div>
+                        {% endfor %}
+                        {% if visible_elements.count == 0 %}
+                            <div class="alert alert-warning mb-1" role="alert">
+                                No elements found
+                            </div>
                         {% endif %}
--->
                     </form>
-
                 </div>
             </div>
         </div>
