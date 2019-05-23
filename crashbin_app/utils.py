@@ -1,5 +1,6 @@
 import logging
 import pkgutil
+import typing
 
 from django.conf import settings
 
@@ -24,3 +25,19 @@ def load_plugins() -> None:
             logging.exception("Exception while loading plugin: %s", name)
         else:
             logging.info("Loaded plugin: %s", name)
+
+
+def parse_hex_color(color: str) -> typing.Tuple[int, int, int]:
+    """Parse a string like #rrggbb into three ints."""
+    color = color.lstrip('#')
+    r = int(color[:2], 16)
+    g = int(color[2:4], 16)
+    b = int(color[4:], 16)
+    return r, g, b
+
+
+def font_color(r: int, g: int, b: int) -> str:
+    """Given three r/g/b ints, get a color name for a font color."""
+    # https://www.w3.org/Graphics/Color/sRGB
+    luminance = (0.2126*r + 0.7152*g + 0.0722*b) / 255
+    return 'black' if luminance > 0.5 else 'white'

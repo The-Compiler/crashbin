@@ -14,4 +14,5 @@ def custom_css() -> str:
 
 @register.simple_tag
 def label_style(label: Label) -> str:
-    return 'background-color: {} !important; color: white !important;'.format(label.color)
+    font_color = utils.font_color(*utils.parse_hex_color(label.color))
+    return 'background-color: {} !important; color: {} !important;'.format(label.color, font_color)
