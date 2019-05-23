@@ -163,7 +163,7 @@ a:hover {
     border-bottom-right-radius: 0.25rem;
 }
 
-.list-group-item > a:hover {
+.list-group-item > a:hover > p , .list-group-item > a:hover > strong {
     text-decoration: underline;
 }
 
