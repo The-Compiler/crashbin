@@ -24,8 +24,8 @@ def report_list(reports, prefix=''):
 
 
 @register.inclusion_tag('crashbin_app/modal_delete_component.html')
-def modal_delete(bin_obj=None):
-    return {'bin': bin_obj}
+def modal_delete(what, bin_obj=None):
+    return {'what': what, 'bin': bin_obj}
 
 
 @register.inclusion_tag('crashbin_app/search_component.html')

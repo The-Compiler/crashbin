@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins, permissions, generics
 
-from crashbin_app.api.serializers import ReportSerializer, ReportNewSerializer, BinSerializer
-from crashbin_app.models import Report, Bin
+from crashbin_app.api.serializers import ReportSerializer, ReportNewSerializer, BinSerializer, LabelSerializer
+from crashbin_app.models import Report, Bin, Label
 
 
 class ReportViewSet(viewsets.ModelViewSet):
@@ -20,3 +20,8 @@ class ReportNew(mixins.CreateModelMixin, generics.GenericAPIView):
 class BinViewSet(viewsets.ModelViewSet):
     queryset = Bin.objects.all()
     serializer_class = BinSerializer
+
+
+class LabelViewSet(viewsets.ModelViewSet):
+    queryset = Label.objects.all()
+    serializer_class = LabelSerializer

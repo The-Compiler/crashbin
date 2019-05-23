@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from crashbin_app.models import Report, Bin
+from crashbin_app.models import Report, Bin, Label
 
 
 class ReportSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class BinSerializer(serializers.ModelSerializer):
         model = Bin
         fields = ('name', 'description', 'subscribers', 'maintainers', 'labels', 'related_bins',
                   'is_archived')
+
+
+class LabelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Label
+        fields = ('name', 'description', 'color')

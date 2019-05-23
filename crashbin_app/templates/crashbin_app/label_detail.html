@@ -4,6 +4,17 @@
 {% block menu_labels_class %}active{% endblock %}
 {% block title %}Label: {{ label.name }}{% endblock %}
 
+{% block javascript %}
+    <script>
+        document.getElementById('modalDeleteButton').addEventListener('click', function () {
+            fetch("{% url 'api-label-detail' pk=label.id %}", {
+                method: 'DELETE',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'}
+            }).then(response => window.location.replace("{% url 'label_list' %}"));
+        });
+    </script>
+{% endblock %}
+
 {% block content %}
     <div class="container my-2 p-0">
         <div class="row">
@@ -12,6 +23,10 @@
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 rounded bg-white">
                         <div class="d-flex flex-row m-0 pt-2">
                             <h1>{{ label.name }}</h1>
+                            <a class="ml-auto my-auto title-icon" href="#"
+                                data-toggle="modal" data-target="#deleteWarningMessage">
+                                <i class="fas fa-trash"></i>
+                            </a>
                             <a class="ml-auto my-auto title-icon"
                                 href="{% url 'label_new_edit' pk=label.id %}">
                                 <i class="fas fa-pen"></i>
@@ -24,4 +39,5 @@
             </div>
         </div>
     </div>
+    {% modal_delete 'label' %}
 {% endblock %}

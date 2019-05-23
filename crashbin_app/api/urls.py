@@ -5,6 +5,7 @@ from crashbin_app.api import views
 router = routers.DefaultRouter()
 router.register(r'reports', views.ReportViewSet, basename='api-report')
 router.register(r'bins', views.BinViewSet, basename='api-bin')
+router.register(r'labels', views.LabelViewSet, basename='api-label')
 
 urlpatterns = [
     path('', include(router.urls)),
