@@ -107,24 +107,31 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 @login_required
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
-    delete_button = ''
     if request.method == 'POST':
         form = BinForm(request.POST)
         if not form.is_valid():
             return HttpResponseBadRequest("Invalid form data")
         bin_obj = form.save()
         return redirect('bin_detail', pk=bin_obj.pk)
+
+    if pk is None:
+        data = {
+            'title': 'New bin',
+            'form': BinForm(),
+            'menu': 'bins',
+        }
     else:
-        if pk is None:
-            form = BinForm()
-        else:
-            bin_obj = get_object_or_404(Bin, pk=pk)
-            if bin_obj != Bin.get_inbox():
-                delete_button = 'bin'
-            form = BinForm(instance=bin_obj)
-    return render(request, 'crashbin_app/form.html',
-                  {'title': 'Edit bin' if pk else 'New bin', 'form': form, 'menu': 'bins',
-                   'delete_button': delete_button, 'pk': pk, 'bin': bin_obj})
+        bin_obj = get_object_or_404(Bin, pk=pk)
+        data = {
+            'title': 'Edit bin',
+            'form': BinForm(instance=bin_obj),
+            'menu': 'bins',
+            'delete_button': '' if bin_obj == Bin.get_inbox() else 'bin',
+            'pk': pk,
+            'bin': bin_obj,
+        }
+
+    return render(request, 'crashbin_app/form.html', data)
 
 
 def label_list(request: HttpRequest) -> HttpResponse:
