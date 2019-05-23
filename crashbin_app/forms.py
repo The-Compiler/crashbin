@@ -6,7 +6,7 @@ class BinForm(forms.ModelForm):
 
     class Meta:
         model = Bin
-        fields = 'name', 'description', 'maintainers', 'labels'
+        fields = 'name', 'description'
 
 
 class LabelForm(forms.ModelForm):
