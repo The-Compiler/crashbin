@@ -238,8 +238,9 @@ def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
             element.related_bins.add(Bin.objects.get(id=related_bin))
     elif setting == 'assigned':
         assert isinstance(element, Report)
-        element.bin = Bin.objects.get(id=query_list[0])
-        element.save()
+        user = request.user  # type: ignore
+        bin_obj = Bin.objects.get(id=query_list[0])
+        element.assign_to_bin(bin_obj, user=user)
     else:
         return HttpResponseBadRequest("Invalid setting request")
     return redirect(redirect_view, pk=pk)
