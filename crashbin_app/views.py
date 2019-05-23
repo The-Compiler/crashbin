@@ -155,15 +155,23 @@ def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
             return HttpResponseBadRequest("Invalid form data")
         label_obj = form.save()
         return redirect('label_list')
+
+    if pk is None:
+        data = {
+            'title': 'New label',
+            'form': LabelForm(),
+            'menu': 'labels',
+        }
     else:
-        if pk is None:
-            form = LabelForm()
-        else:
-            label_obj = get_object_or_404(Label, pk=pk)
-            form = LabelForm(instance=label_obj)
-    return render(request, 'crashbin_app/form.html',
-                  {'title': 'Edit label' if pk else 'New label', 'form': form, 'menu': 'labels',
-                   'delete_button': 'label' if pk else '', 'pk': pk})
+        label_obj = get_object_or_404(Label, pk=pk)
+        data = {
+            'title': 'Edit label',
+            'form': LabelForm(instance=label_obj),
+            'menu': 'labels',
+            'delete_button': 'label',
+            'pk': pk,
+        }
+    return render(request, 'crashbin_app/form.html', data)
 
 
 @login_required
