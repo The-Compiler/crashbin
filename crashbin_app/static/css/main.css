@@ -236,6 +236,10 @@ select option {
     color: white;
 }
 
+.navbar-icon:hover {
+    color: var(--main-light-color);
+}
+
 /*
 ===== DECORATORS =====
 */
