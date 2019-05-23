@@ -118,14 +118,12 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
         data = {
             'title': 'New bin',
             'form': BinForm(),
-            'menu': 'bins',
         }
     else:
         bin_obj = get_object_or_404(Bin, pk=pk)
         data = {
             'title': 'Edit bin',
             'form': BinForm(instance=bin_obj),
-            'menu': 'bins',
             'delete_button': '' if bin_obj == Bin.get_inbox() else 'bin',
             'pk': pk,
             'bin': bin_obj,
@@ -160,14 +158,12 @@ def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
         data = {
             'title': 'New label',
             'form': LabelForm(),
-            'menu': 'labels',
         }
     else:
         label_obj = get_object_or_404(Label, pk=pk)
         data = {
             'title': 'Edit label',
             'form': LabelForm(instance=label_obj),
-            'menu': 'labels',
             'delete_button': 'label',
             'pk': pk,
         }
