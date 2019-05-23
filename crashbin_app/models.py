@@ -1,6 +1,6 @@
 import re
 import itertools
-from typing import Iterable, Optional
+from typing import Optional, Sequence
 
 from django.db import models
 from django.utils import timezone
@@ -65,7 +65,7 @@ class Report(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def all_messages(self) -> Iterable['Message']:
+    def all_messages(self) -> Sequence['Message']:
         return sorted(itertools.chain(
             self.incomingmessage_set.all(),  # type: ignore
             self.outgoingmessage_set.all(),  # type: ignore
@@ -101,8 +101,7 @@ class Message(models.Model):
         return '<unknown>'
 
     def __str__(self) -> str:
-        return '<{} from {} at {}>'.format(self.NAME, self.author_str(),
-                                           self.created_at.ctime())
+        return '{} from {} at {}'.format(self.NAME, self.author_str(), self.created_at.ctime())
 
     class Meta:
 
