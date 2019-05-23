@@ -1,6 +1,7 @@
 import logging
 import typing
 
+import attr
 from django import urls
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -12,7 +13,7 @@ from django.core import mail
 
 from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message, Label
-from .forms import BinForm, ReportReplyForm
+from .forms import BinForm, ReportReplyForm, LabelForm
 
 
 @login_required
@@ -105,16 +106,32 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
-def bin_new(request: HttpRequest) -> HttpResponse:
+def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = BinForm(request.POST)
         if form.is_valid():
             bin_obj = form.save()
             return redirect('bin_detail', pk=bin_obj.pk)
     else:
-        form = BinForm()
-    return render(request, 'crashbin_app/bin_edit.html',
-                  {'form': form})
+        if pk is None:
+            form = BinForm()
+        else:
+            bin_obj = get_object_or_404(Bin, pk=pk)
+            form = BinForm(instance=bin_obj)
+    return render(request, 'crashbin_app/form.html',
+                  {'title': 'Edit bin' if pk else 'New bin', 'form': form, 'menu': 'bins'})
+
+
+@login_required
+def label_new(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        form = LabelForm(request.POST)
+        if form.is_valid():
+            return HttpResponse('<script type="text/javascript">window.close()</script>')
+    else:
+        form = LabelForm()
+    return render(request, 'crashbin_app/form.html',
+                  {'title': 'New label', 'form': form, 'menu': 'labels'})
 
 
 @login_required
@@ -138,11 +155,19 @@ def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     return HttpResponseBadRequest("Invalid method request")
 
 
+@attr.s
+class _ButtonInfo:
+
+    text: str = attr.ib()
+    view: str = attr.ib()
+
+
 def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
     title: str
+    new_button: typing.Optional[_ButtonInfo] = None
 
     if setting == 'maintainer':
         bin_obj = get_object_or_404(Bin, pk=pk)
@@ -151,6 +176,7 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         title = 'Maintainers for {}'.format(bin_obj)
     elif setting == 'label':
         all_elements = Label.objects.order_by('created_at')
+        new_button = _ButtonInfo("New label", 'label_new')
         if request.path.startswith('/bin/'):
             bin_obj = get_object_or_404(Bin, pk=pk)
             selected_elements = bin_obj.labels.all()
@@ -162,11 +188,13 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         else:
             assert False, request.path
     elif setting == 'related':
+        new_button = _ButtonInfo("New bin", 'bin_new_edit')
         bin_obj = get_object_or_404(Bin, pk=pk)
         all_elements = Bin.objects.exclude(id=pk)
         selected_elements = bin_obj.related_bins.all()
         title = 'Related to {}'.format(bin_obj)
     elif setting == 'assigned':
+        new_button = _ButtonInfo("New bin", 'bin_new_edit')
         report_obj = get_object_or_404(Report, pk=pk)
         all_elements = Bin.objects.order_by('created_at')
         selected_elements = [report_obj.bin]
@@ -176,7 +204,8 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
     return render(request, 'crashbin_app/set_settings.html',
                   {'pk': pk, 'setting': setting, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'title': title})
+                   'selected_elements': selected_elements, 'title': title,
+                   'new_button': new_button})
 
 
 def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:

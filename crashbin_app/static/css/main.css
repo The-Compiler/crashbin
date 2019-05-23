@@ -223,6 +223,10 @@ select option {
     font-size: 1.2em;
 }
 
+.title-icon {
+    font-size: 1.5em;
+}
+
 .navbar-icon {
     font-size: 1.5em;
     color: white;

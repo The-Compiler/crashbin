@@ -8,6 +8,7 @@ disable=missing-docstring,
         locally-disabled,
         suppressed-message,
         too-many-ancestors,
+        too-few-public-methods,
         no-self-use
 
 [BASIC]
