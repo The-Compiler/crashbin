@@ -21,9 +21,9 @@
                     </div>
 
                     {% for label in labels %}
-                        <div class="selection-label d-flex flex-row mb-2 rounded bg-light"
-                             style="{% label_style label %}">
-                            <a class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded" href="{% url 'label_detail' pk=label.id %}">
+                        <div class="selection-label d-flex flex-row mb-2 rounded bg-light">
+                            <a class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded" href="{% url 'label_detail' pk=label.id %}"
+                               style="{% label_style label %}">
                                 <span>{{ label }}</span>
                             </a>
                         </div>

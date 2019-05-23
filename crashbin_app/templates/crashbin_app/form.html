@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load crispy_forms_tags %}
+{% load components %}
 
 {% if menu == 'bins' %}
 {% block menu_bins_class %}active{% endblock %}
@@ -7,13 +8,34 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block javascript %}
+{% if delete_button %}
+{% with api_view="api-"|add:delete_button|add:"-detail" list_view=delete_button|add:"_list" %}
+<script>
+ document.getElementById('modalDeleteButton').addEventListener('click', function () {
+     fetch("{% url api_view pk=pk %}", {
+         method: 'DELETE',
+         headers: {'X-CSRFToken': '{{ csrf_token }}'}
+     }).then(response => window.location.replace("{% url list_view %}"));
+ });
+</script>
+{% endwith %}
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4 p-4 bg-white">
 <h2>{{ title }}</h2>
 <form method="POST" class="post-form">
     {% csrf_token %}
     {{ form | crispy }}
+    {% if delete_button %}
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteWarningMessage">Delete {{ delete_button }}</button>
+    {% endif %}
     <button type="submit" class="save btn btn-primary">Save</button>
 </form>
 </div>
+{% if delete_button %}
+{% modal_delete delete_button bin_obj=bin %}
+{% endif %}
 {% endblock %}

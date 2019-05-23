@@ -5,16 +5,6 @@
 {% block menu_labels_class %}active{% endblock %}
 {% block title %}Label: {{ label.name }}{% endblock %}
 
-{% block javascript %}
-    <script>
-        document.getElementById('modalDeleteButton').addEventListener('click', function () {
-            fetch("{% url 'api-label-detail' pk=label.id %}", {
-                method: 'DELETE',
-                headers: {'X-CSRFToken': '{{ csrf_token }}'}
-            }).then(response => window.location.replace("{% url 'label_list' %}"));
-        });
-    </script>
-{% endblock %}
 
 {% block content %}
     <div class="container my-2 p-0">
