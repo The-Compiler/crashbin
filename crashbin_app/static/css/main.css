@@ -45,7 +45,7 @@ a:hover {
 
 .nav-tabs .nav-item .active {
     background-color: var(--main-light-color);
-    border-bottom: 0px;
+    border-bottom: 0;
 }
 
 .nav-link {
@@ -161,6 +161,10 @@ a:hover {
 .report-list .collapsed {
     border-bottom-left-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
+}
+
+.list-group-item > a:hover {
+    text-decoration: underline;
 }
 
 .checkbox-selection label:hover {
