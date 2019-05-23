@@ -112,8 +112,8 @@
                             </a>
                         </div>
                         {% for related_bin in bin.related_bins.all %}
-                            <div class="my-1 p-2 rounded bg-light">
-                                <a class="btn btn-block text-left text-wrap m-0 p-0 border-0"
+                            <div class="my-1 rounded bg-light">
+                                <a class="btn btn-secondary btn-block text-left text-wrap m-0 p-2 border-0"
                                    href="{% url 'bin_detail' pk=related_bin.id %}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
                                 </a>
