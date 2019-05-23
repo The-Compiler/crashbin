@@ -167,27 +167,32 @@ a:hover {
     text-decoration: underline;
 }
 
-.checkbox-selection label:hover {
-    color: black;
+.selection-element > label {
+    background-color: var(--main-light-color);
+}
+
+.selection-element > label:hover {
     background-color: var(--main-color);
 }
 
-.checkbox-selection label:hover > i {
+.selection-element > label:hover i {
     visibility: visible;
+    filter: opacity(50%);
 }
 
-.checkbox-selection input:checked + label {
+.selection-element > input:checked + label {
     color: white;
     background-color: var(--main-dark-color);
 }
 
-.checkbox-selection i {
+.selection-element i {
     color: white;
     visibility: hidden;
 }
 
-.checkbox-selection input:checked ~ label > i {
+.selection-element > input:checked ~ label > i {
     visibility: visible;
+    filter: none;
 }
 
 .form-control {
@@ -253,5 +258,9 @@ select option {
 @media (min-width: 768px) {
     .width-200-md {
         width: 200px;
+    }
+
+    .width-540-md {
+        width: 540px;
     }
 }
