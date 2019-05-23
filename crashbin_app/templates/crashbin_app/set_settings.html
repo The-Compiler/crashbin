@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load components %}
+{% load utils %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -68,8 +69,7 @@
                             <div class="selection-element d-flex flex-row mb-2 rounded bg-light"
                                  style="
                                          {% if setting == 'label' %}
-                                             background-color: {{ element.color }} !important;
-                                             color: white;
+                                             {% label_style element %}
                                          {% endif %}">
                                 <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
                                        id="element-{{ element.id }}"

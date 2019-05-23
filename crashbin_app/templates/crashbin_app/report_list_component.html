@@ -1,3 +1,5 @@
+{% load utils %}
+
 {% for report in reports %}
     <div class="report-list mb-2">
         <div id="report-header-{{ prefix }}{{ report.id }}" class="list-group-header">
@@ -10,7 +12,7 @@
                     <div class="d-flex flex-row-reverse flex-wrap">
                         {% for label in report.labels.all %}
                             <span class="badge text-wrap m-1"
-                                  style="background-color: {{ label.color }}; color: white">{{ label.name }}</span>
+                                  style="{% label_style label %}">{{ label.name }}</span>
                         {% endfor %}
                     </div>
                     <i class="far fa-comment-alt ml-2 my-auto"></i>

@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load components %}
+{% load utils %}
 
 {% block menu_bins_class %}active{% endblock %}
 {% block title %}Bin: {{ bin.name }}{% endblock %}
@@ -94,7 +95,7 @@
                         </div>
                         {% for label in bin.labels.all %}
                             <span class="badge text-left text-wrap my-1 p-2"
-                                  style="background-color: {{ label.color }} ; color: white">
+                                  style="{% label_style label %}">
                                 <p class="my-auto">{{ label.name }}</p>
                             </span>
                         {% empty %}

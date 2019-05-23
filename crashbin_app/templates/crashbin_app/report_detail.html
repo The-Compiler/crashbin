@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load components %}
+{% load utils %}
 
 {% block menu_reports_class %}active{% endblock %}
 {% block title %}Report: {{ report.title }}{% endblock %}
@@ -129,7 +130,7 @@
                         </div>
                         {% for label in report.labels.all %}
                             <span class="badge text-left text-wrap my-1 p-2"
-                                  style="background-color: {{ label.color }} ; color: white">
+                                  style="{% label_style label %}">
                             <p class="my-auto">{{ label.name }}</p>
                         </span>
                         {% empty %}

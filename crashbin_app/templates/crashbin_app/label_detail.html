@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load components %}
+{% load utils %}
 
 {% block menu_labels_class %}active{% endblock %}
 {% block title %}Label: {{ label.name }}{% endblock %}
@@ -33,7 +34,7 @@
                             </a>
                         </div>
                         <p class="m-0">{{ label.description }}</p>
-                        <span class="m-0 p-2 rounded" style="background-color: {{ label.color }} ; color: white">{{ label.color }}</span>
+                        <span class="m-0 p-2 rounded" style="{% label_style label %}">{{ label.color }}</span>
                     </div>
                 </div>
             </div>
