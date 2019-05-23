@@ -164,7 +164,6 @@ class _ButtonInfo:
 
 def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
-    all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
     title: str
     new_button: typing.Optional[_ButtonInfo] = None
