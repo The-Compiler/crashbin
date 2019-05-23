@@ -204,7 +204,8 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
     return render(request, 'crashbin_app/set_settings.html',
                   {'pk': pk, 'setting': setting, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'title': title, 'new_button': new_button})
+                   'selected_elements': selected_elements, 'title': title,
+                   'new_button': new_button})
 
 
 def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
