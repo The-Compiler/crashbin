@@ -48,14 +48,14 @@
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap" scope="row">Sender:</th>
-                                        <td>{{ report.email }}</td>
+                                        <td>{{ report.email|default:'No email available' }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div class="tab-pane fade p-2" id="log" role="tabpanel"
                                  aria-labelledby="log-tab">
-                                <div style="white-space: pre-wrap; word-break: break-word; overflow-x: auto">{{ report.log }}</div>
+                                <div style="white-space: pre-wrap; word-break: break-word; overflow-x: auto">{{ report.log|default:'No log available' }}</div>
                             </div>
                         </div>
                     </div>
