@@ -10,6 +10,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
+from django.utils.http import is_safe_url
 
 from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message, Label
@@ -112,6 +113,11 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
         if not form.is_valid():
             return HttpResponseBadRequest("Invalid form data")
         bin_obj = form.save()
+
+        url = request.GET.get('back')
+        if url and is_safe_url(url, allowed_hosts=None):
+            return redirect(url)
+
         return redirect('bin_detail', pk=bin_obj.pk)
 
     if pk is None:
@@ -152,6 +158,11 @@ def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
         if not form.is_valid():
             return HttpResponseBadRequest("Invalid form data")
         label_obj = form.save()
+
+        url = request.GET.get('back')
+        if url and is_safe_url(url, allowed_hosts=None):
+            return redirect(url)
+
         return redirect('label_list')
 
     if pk is None:
