@@ -107,34 +107,35 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
                   {'bin': bin_obj})
 
 
-def _handle_form_post(request: HttpRequest, form_cls: Form, view: str) -> HttpResponse:
-    form = form_cls(request.POST)
-    if not form.is_valid():
-        return HttpResponseBadRequest("Invalid form data")
-    bin_obj = form.save()
+def _handle_form_post(request: HttpRequest, form: Form, view: str) -> HttpResponse:
+    assert form.is_valid()
+
+    obj = form.save()
 
     url = request.GET.get('back')
     if url and is_safe_url(url, allowed_hosts=None):
         return redirect(url)
 
-    return redirect('bin_detail', pk=bin_obj.pk)
+    return redirect(view, pk=obj.pk)
 
 
 @login_required
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
-    if request.method == 'POST':
-        return _handle_form_post(request, BinForm, 'bin_detail')
+    bin_obj = None if pk is None else get_object_or_404(Bin, pk=pk)
+    form = BinForm(request.POST or None, instance=bin_obj)
+
+    if request.method == 'POST' and form.is_valid():
+        return _handle_form_post(request, form, 'bin_detail')
 
     if pk is None:
         data = {
             'title': 'New bin',
-            'form': BinForm(),
+            'form': form,
         }
     else:
-        bin_obj = get_object_or_404(Bin, pk=pk)
         data = {
             'title': 'Edit bin',
-            'form': BinForm(instance=bin_obj),
+            'form': form,
             'delete_button': '' if bin_obj == Bin.get_inbox() else 'bin',
             'pk': pk,
             'bin': bin_obj,
@@ -158,19 +159,22 @@ def label_list(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
-    if request.method == 'POST':
-        return _handle_form_post(request, LabelForm, 'label_list')
+    label_obj = None if pk is None else get_object_or_404(Label, pk=pk)
+    form = LabelForm(request.POST or None, instance=label_obj)
+
+    if request.method == 'POST' and form.is_valid():
+        return _handle_form_post(request, form, 'label_list')
 
     if pk is None:
         data = {
             'title': 'New label',
-            'form': LabelForm(),
+            'form': form,
         }
     else:
         label_obj = get_object_or_404(Label, pk=pk)
         data = {
             'title': 'Edit label',
-            'form': LabelForm(instance=label_obj),
+            'form': form,
             'delete_button': 'label',
             'pk': pk,
         }
