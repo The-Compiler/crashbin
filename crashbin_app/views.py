@@ -109,9 +109,10 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = BinForm(request.POST)
-        if form.is_valid():
-            bin_obj = form.save()
-            return redirect('bin_detail', pk=bin_obj.pk)
+        if not form.is_valid():
+            return HttpResponseBadRequest("Invalid form data")
+        bin_obj = form.save()
+        return redirect('bin_detail', pk=bin_obj.pk)
     else:
         if pk is None:
             form = BinForm()
@@ -146,9 +147,10 @@ def label_detail(request: HttpRequest, pk: int) -> HttpResponse:
 def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = LabelForm(request.POST)
-        if form.is_valid():
-            label_obj = form.save()
-            return redirect('label_detail', pk=label_obj.pk)
+        if not form.is_valid():
+            return HttpResponseBadRequest("Invalid form data")
+        label_obj = form.save()
+        return redirect('label_detail', pk=label_obj.pk)
     else:
         if pk is None:
             form = LabelForm()
