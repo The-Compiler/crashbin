@@ -3,6 +3,7 @@ import typing
 
 import attr
 from django import urls
+from django.forms import Form
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
@@ -106,19 +107,23 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
                   {'bin': bin_obj})
 
 
+def _handle_form_post(request: HttpRequest, form_cls: Form, view: str) -> HttpResponse:
+    form = form_cls(request.POST)
+    if not form.is_valid():
+        return HttpResponseBadRequest("Invalid form data")
+    bin_obj = form.save()
+
+    url = request.GET.get('back')
+    if url and is_safe_url(url, allowed_hosts=None):
+        return redirect(url)
+
+    return redirect('bin_detail', pk=bin_obj.pk)
+
+
 @login_required
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
-        form = BinForm(request.POST)
-        if not form.is_valid():
-            return HttpResponseBadRequest("Invalid form data")
-        bin_obj = form.save()
-
-        url = request.GET.get('back')
-        if url and is_safe_url(url, allowed_hosts=None):
-            return redirect(url)
-
-        return redirect('bin_detail', pk=bin_obj.pk)
+        return _handle_form_post(request, BinForm, 'bin_detail')
 
     if pk is None:
         data = {
@@ -154,16 +159,7 @@ def label_list(request: HttpRequest) -> HttpResponse:
 @login_required
 def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
-        form = LabelForm(request.POST)
-        if not form.is_valid():
-            return HttpResponseBadRequest("Invalid form data")
-        label_obj = form.save()
-
-        url = request.GET.get('back')
-        if url and is_safe_url(url, allowed_hosts=None):
-            return redirect(url)
-
-        return redirect('label_list')
+        return _handle_form_post(request, LabelForm, 'label_list')
 
     if pk is None:
         data = {
