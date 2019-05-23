@@ -148,20 +148,13 @@ def label_list(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def label_detail(request: HttpRequest, pk: int) -> HttpResponse:
-    label_obj = get_object_or_404(Label, pk=pk)
-    return render(request, 'crashbin_app/label_detail.html',
-                  {'label': label_obj})
-
-
-@login_required
 def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     if request.method == 'POST':
         form = LabelForm(request.POST)
         if not form.is_valid():
             return HttpResponseBadRequest("Invalid form data")
         label_obj = form.save()
-        return redirect('label_detail', pk=label_obj.pk)
+        return redirect('label_list')
     else:
         if pk is None:
             form = LabelForm()
