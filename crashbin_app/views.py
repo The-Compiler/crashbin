@@ -118,10 +118,10 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     form = BinForm(request.POST or None, instance=bin_obj)
 
     if request.method == 'POST' and form.is_valid():
-        bin_obj = form.save()
+        new_bin = form.save()
         if _back_redirect_ok(request):
             return redirect(request.GET['back'])
-        return redirect('bin_detail', pk=bin_obj.pk)
+        return redirect('bin_detail', pk=new_bin.pk)
 
     if pk is None:
         data = {
