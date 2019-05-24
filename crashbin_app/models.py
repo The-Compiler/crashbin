@@ -4,6 +4,7 @@ from typing import Iterable, Optional
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 from django.conf import settings
 import colorful.fields
 import django_mailbox.models
@@ -71,6 +72,15 @@ class Report(models.Model):
             self.outgoingmessage_set.all(),  # type: ignore
             self.notemessage_set.all()  # type: ignore
         ), key=lambda msg: msg.created_at)
+
+    def assign_to_bin(self, new_bin: Bin, *, user: User = None):
+        """Assign this report to a bin."""
+        from crashbin_app import signals
+        old_bin = self.bin
+        self.bin = new_bin
+        self.save()
+        signals.bin_assigned.send(sender=self.__class__, report=self,
+                                  old_bin=old_bin, new_bin=self.bin, user=user)
 
     @staticmethod
     def for_mail_subject(subject: str) -> 'Report':
