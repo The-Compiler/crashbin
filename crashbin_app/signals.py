@@ -10,6 +10,7 @@ from crashbin_app import models
 # pylint: disable=unused-argument
 
 new_report = Signal(providing_args=['report'])
+bin_assigned = Signal(providing_args=['report', 'old_bin', 'new_bin', 'user'])
 
 
 @receiver(django_mailbox.signals.message_received)

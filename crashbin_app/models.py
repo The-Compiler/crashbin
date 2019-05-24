@@ -1,9 +1,10 @@
 import re
 import itertools
-from typing import Iterable, Optional
+from typing import Optional, Sequence
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 from django.conf import settings
 import colorful.fields
 import django_mailbox.models
@@ -65,12 +66,21 @@ class Report(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def all_messages(self) -> Iterable['Message']:
+    def all_messages(self) -> Sequence['Message']:
         return sorted(itertools.chain(
             self.incomingmessage_set.all(),  # type: ignore
             self.outgoingmessage_set.all(),  # type: ignore
             self.notemessage_set.all()  # type: ignore
         ), key=lambda msg: msg.created_at)
+
+    def assign_to_bin(self, new_bin: Bin, *, user: User = None):
+        """Assign this report to a bin."""
+        from crashbin_app import signals
+        old_bin = self.bin
+        self.bin = new_bin
+        self.save()
+        signals.bin_assigned.send(sender=self.__class__, report=self,
+                                  old_bin=old_bin, new_bin=self.bin, user=user)
 
     @staticmethod
     def for_mail_subject(subject: str) -> 'Report':
@@ -101,8 +111,7 @@ class Message(models.Model):
         return '<unknown>'
 
     def __str__(self) -> str:
-        return '<{} from {} at {}>'.format(self.NAME, self.author_str(),
-                                           self.created_at.ctime())
+        return '{} from {} at {}'.format(self.NAME, self.author_str(), self.created_at.ctime())
 
     class Meta:
 
