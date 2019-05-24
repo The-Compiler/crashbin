@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container my-2 p-0">
+    <div class="container width-540-md my-2 p-0">
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
@@ -46,7 +46,9 @@
                         </div>
                         {% if new_button %}
                             <div class="col-sm-auto p-2">
-                                <a class="btn btn-block btn-secondary text-nowrap" href="{% url new_button.view %}" target="_blank">{{ new_button.text }}</a>
+                                <a class="btn btn-block btn-secondary text-nowrap"
+                                   href="{% url new_button.view %}"
+                                   target="_blank">{{ new_button.text }}</a>
                             </div>
                         {% endif %}
                         <div class="col-sm-auto p-2">
@@ -56,7 +58,7 @@
                         </div>
                     </div>
 
-                    <form id="selection" class="checkbox-selection m-0"
+                    <form id="selection" class="m-0"
                           action="
                             {% if '/bin/' in request.path %}
                                 {% url 'bin_settings' pk=pk setting=setting %}
@@ -65,12 +67,7 @@
                             {% endif %}" method="post">
                         {% csrf_token %}
                         {% for element in all_elements %}
-                            <div class="selection-element d-flex flex-row mb-2 rounded bg-light"
-                                 style="
-                                         {% if setting == 'label' %}
-                                             background-color: {{ element.color }} !important;
-                                             color: white;
-                                         {% endif %}">
+                            <div class="selection-element d-flex flex-row mb-2 rounded">
                                 <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
                                        id="element-{{ element.id }}"
                                        name="{{ setting }}"
@@ -79,7 +76,12 @@
                                        checked
                                         {% endif %}>
                                 <label for="element-{{ element.id }}"
-                                       class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded">
+                                       class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded"
+                                       style="
+                                               {% if setting == 'label' %}
+                                                   background-color: {{ element.color }};
+                                                   color: white;
+                                               {% endif %}">
                                     <span>{{ element }}</span>
                                     <i class="fas fa-check my-auto ml-auto"></i>
                                 </label>

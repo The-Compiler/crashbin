@@ -2,18 +2,20 @@
 {% load crispy_forms_tags %}
 
 {% if menu == 'bins' %}
-{% block menu_bins_class %}active{% endblock %}
+    {% block menu_bins_class %}active{% endblock %}
 {% endif %}
 
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4 p-4 bg-white">
-<h2>{{ title }}</h2>
-<form method="POST" class="post-form">
-    {% csrf_token %}
-    {{ form | crispy }}
-    <button type="submit" class="save btn btn-primary">Save</button>
-</form>
-</div>
+    <div class="container my-3 p-0">
+        <div class="d-flex flex-fill flex-column m-2 px-4 pb-4 rounded bg-white">
+            <h1 class="m-0 py-2">{{ title }}</h1>
+            <form method="POST" class="post-form m-0">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit" class="save btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
