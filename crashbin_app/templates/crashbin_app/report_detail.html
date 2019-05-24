@@ -75,7 +75,7 @@
                                                 {% endif %}
                                                 " role="alert">
                                         <p>{{ message.NAME }} from <strong>{{ message.author_str }}</strong><br>at {{ message.created_at.ctime }}:</p>
-                                        <p class="m-0 text-wrap">{{ message.contents }}</p>
+                                        {{ message.contents | linebreaks }}
                                     </div>
                                 </div>
                             {% endfor %}
