@@ -140,6 +140,7 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     return render(request, 'crashbin_app/form.html', data)
 
 
+@login_required
 def label_list(request: HttpRequest) -> HttpResponse:
     labels = Label.objects.order_by('created_at')
     if 'q' in request.GET:
@@ -203,7 +204,6 @@ def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
 @attr.s
 class _ButtonInfo:
-
     text: str = attr.ib()
     view: str = attr.ib()
 
