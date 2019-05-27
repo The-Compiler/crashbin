@@ -1,5 +1,6 @@
 {% extends 'crashbin_app/base.html' %}
 {% load components %}
+{% load utils %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -47,8 +48,7 @@
                         {% if new_button %}
                             <div class="col-sm-auto p-2">
                                 <a class="btn btn-block btn-secondary text-nowrap"
-                                   href="{% url new_button.view %}"
-                                   target="_blank">{{ new_button.text }}</a>
+                                   href="{% url new_button.view %}?back={{ request.path | urlencode }}">{{ new_button.text }}</a>
                             </div>
                         {% endif %}
                         <div class="col-sm-auto p-2">
@@ -77,11 +77,7 @@
                                         {% endif %}>
                                 <label for="element-{{ element.id }}"
                                        class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded"
-                                       style="
-                                               {% if setting == 'label' %}
-                                                   background-color: {{ element.color }};
-                                                   color: white;
-                                               {% endif %}">
+                                       style="{% if setting == 'label' %}{% label_style element %}{% endif %}">
                                     <span>{{ element }}</span>
                                     <i class="fas fa-check my-auto ml-auto"></i>
                                 </label>

@@ -10,6 +10,7 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
+from django.utils.http import is_safe_url
 
 from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message, Label
@@ -105,33 +106,78 @@ def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
                   {'bin': bin_obj})
 
 
+def _back_redirect_ok(request: HttpRequest):
+    if 'back' not in request.GET:
+        return False
+    return is_safe_url(request.GET['back'], allowed_hosts=None)
+
+
 @login_required
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
-    if request.method == 'POST':
-        form = BinForm(request.POST)
-        if form.is_valid():
-            bin_obj = form.save()
-            return redirect('bin_detail', pk=bin_obj.pk)
+    bin_obj = None if pk is None else get_object_or_404(Bin, pk=pk)
+    form = BinForm(request.POST or None, instance=bin_obj)
+
+    if request.method == 'POST' and form.is_valid():
+        new_bin = form.save()
+        if _back_redirect_ok(request):
+            return redirect(request.GET['back'])
+        return redirect('bin_detail', pk=new_bin.pk)
+
+    if pk is None:
+        data = {
+            'title': 'New bin',
+            'form': form,
+        }
     else:
-        if pk is None:
-            form = BinForm()
-        else:
-            bin_obj = get_object_or_404(Bin, pk=pk)
-            form = BinForm(instance=bin_obj)
-    return render(request, 'crashbin_app/form.html',
-                  {'title': 'Edit bin' if pk else 'New bin', 'form': form, 'menu': 'bins'})
+        data = {
+            'title': 'Edit bin',
+            'form': form,
+            'delete_button': '' if bin_obj == Bin.get_inbox() else 'bin',
+            'pk': pk,
+            'bin': bin_obj,
+        }
+
+    return render(request, 'crashbin_app/form.html', data)
+
+
+def label_list(request: HttpRequest) -> HttpResponse:
+    labels = Label.objects.order_by('created_at')
+    if 'q' in request.GET:
+        query = request.GET['q']
+        labels = labels.filter(name__icontains=query)
+    else:
+        query = None
+
+    return render(request,
+                  'crashbin_app/labels.html',
+                  {'labels': labels, 'query': query})
 
 
 @login_required
-def label_new(request: HttpRequest) -> HttpResponse:
-    if request.method == 'POST':
-        form = LabelForm(request.POST)
-        if form.is_valid():
-            return HttpResponse('<script type="text/javascript">window.close()</script>')
+def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
+    label_obj = None if pk is None else get_object_or_404(Label, pk=pk)
+    form = LabelForm(request.POST or None, instance=label_obj)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        if _back_redirect_ok(request):
+            return redirect(request.GET['back'])
+        return redirect('label_list')
+
+    if pk is None:
+        data = {
+            'title': 'New label',
+            'form': form,
+        }
     else:
-        form = LabelForm()
-    return render(request, 'crashbin_app/form.html',
-                  {'title': 'New label', 'form': form, 'menu': 'labels'})
+        label_obj = get_object_or_404(Label, pk=pk)
+        data = {
+            'title': 'Edit label',
+            'form': form,
+            'delete_button': 'label',
+            'pk': pk,
+        }
+    return render(request, 'crashbin_app/form.html', data)
 
 
 @login_required
@@ -176,7 +222,7 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
         title = 'Maintainers for {}'.format(bin_obj)
     elif setting == 'label':
         all_elements = Label.objects.order_by('created_at')
-        new_button = _ButtonInfo("New label", 'label_new')
+        new_button = _ButtonInfo("New label", 'label_new_edit')
         if request.path.startswith('/bin/'):
             bin_obj = get_object_or_404(Bin, pk=pk)
             selected_elements = bin_obj.labels.all()

@@ -1,5 +1,6 @@
 import logging
 import pkgutil
+import attr
 
 from django.conf import settings
 
@@ -24,3 +25,24 @@ def load_plugins() -> None:
             logging.exception("Exception while loading plugin: %s", name)
         else:
             logging.info("Loaded plugin: %s", name)
+
+
+@attr.s
+class Color:
+
+    r: int = attr.ib()
+    g: int = attr.ib()
+    b: int = attr.ib()
+
+    @classmethod
+    def from_hex(cls, color: str):
+        color = color.lstrip('#')
+        return cls(r=int(color[:2], 16),
+                   g=int(color[2:4], 16),
+                   b=int(color[4:], 16))
+
+    def font_color(self) -> str:
+        """Get a color name for a font color."""
+        # https://www.w3.org/Graphics/Color/sRGB
+        luminance = (0.2126*self.r + 0.7152*self.g + 0.0722*self.b) / 255
+        return 'black' if luminance > 0.5 else 'white'
