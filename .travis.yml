@@ -16,3 +16,6 @@ install:
 
 script:
   - tox
+
+after_success:
+  - '[[ $TOXENV == py37 ]] && bash <(curl -s https://codecov.io/bash)'
