@@ -10,7 +10,7 @@
 }
 
 .navbar-dark {
-    background-color: #4D4D4D !important;
+    background-color: #404040 !important;
 }
 
 /*
@@ -25,11 +25,11 @@
 */
 
 a {
-    color: var(--main-dark-color);
+    color: black;
 }
 
 a:hover {
-    color: black;
+    color: #404040;
 }
 
 /*
@@ -181,7 +181,7 @@ a:hover {
 }
 
 .selection-element > input:checked + label {
-    color: white;
+    color: black;
     background-color: var(--main-dark-color);
 }
 
@@ -220,8 +220,8 @@ select option {
 ===== COLORS =====
 */
 :root {
-    --main-color: #d7d7d7;
-    --main-dark-color: #888888;
+    --main-color: #cdcdcd;
+    --main-dark-color: #9b9b9b;
     --main-light-color: #E6E6E6;
 }
 
