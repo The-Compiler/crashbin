@@ -107,11 +107,14 @@ class Message(models.Model):
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
     NAME: Optional[str] = None
 
-    def author_str(self) -> str:
-        return '<unknown>'
-
     def __str__(self) -> str:
         return '{} from {} at {}'.format(self.NAME, self.author_str(), self.created_at.ctime())
+
+    def author_str(self) -> str:
+        raise NotImplementedError
+
+    def contents(self) -> str:
+        raise NotImplementedError
 
     class Meta:
 
