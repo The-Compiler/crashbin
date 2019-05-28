@@ -9,25 +9,34 @@
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
-                    <h1 class="m-0 py-2">{% if query %}Labels matching "{{ query }}"{% else %}All Labels{% endif %}</h1>
+                    <h1 class="m-0 py-2">{% if query %}Labels matching "{{ query }}"{% else %}All
+                        Labels{% endif %}</h1>
                     <div class="row mx-n2 mt-n2 mb-2">
                         <div class="col-sm p-2">
                             {% search request.path %}
                         </div>
                         <div class="col-sm-auto p-2">
-                            <a class="btn btn-block btn-primary text-nowrap" href="{% url 'label_new_edit' %}" role="button">New Label</a>
+                            <a class="btn btn-block btn-primary text-nowrap"
+                               href="{% url 'label_new_edit' %}" role="button">New Label</a>
                         </div>
                     </div>
 
-                    {% for label in labels %}
-                        <div class="selection-label d-flex flex-row mb-2 rounded bg-light">
-                            <a class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded" href="{% url 'label_new_edit' pk=label.id %}"
-                               style="{% label_style label %}">
-                                <span>{{ label }}</span>
+                    <div class="label-list d-flex flex-column">
+                        {% for label in labels %}
+                            <a class="btn btn-secondary mb-2 p-0 text-left border-0"
+                               href="{% url 'label_new_edit' pk=label.id %}" role="button">
+                                <div class="row m-0">
+                                    <div class="col-4 d-flex p-2 rounded-left"
+                                         style="{% label_style label %}">
+                                        <strong class="my-auto flex-fill">{{ label }}</strong>
+                                    </div>
+                                    <div class="col-8 d-flex p-2">
+                                        <span class="my-auto flex-fill text-wrap">{{ label.description|default:'No description' }}</span>
+                                    </div>
+                                </div>
                             </a>
-                        </div>
-                    {% endfor %}
-
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
