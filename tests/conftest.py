@@ -26,22 +26,33 @@ TIMESTAMP = datetime.fromtimestamp(0, tz=timezone.utc)
 
 
 @pytest.fixture
-def incoming_msg_obj(db, report_obj):
-    mailbox = Mailbox.objects.create(name='testmailbox')
-    msg = email.message_from_string(textwrap.dedent("""
-        Date: Tue, 28 May 2019 15:05:40 +0200
-        From: Florian Bruhin <me@the-compiler.org>
-        To: me@the-compiler.org
-        Subject: crashbin test email
-        Message-ID: <20190528130540.h6mfwjmegnlloy4k@hooch.localdomain>
-        MIME-Version: 1.0
-        Content-Type: text/plain; charset=us-ascii
-        Content-Disposition: inline
-        User-Agent: NeoMutt/20180716
+def mail_factory():
+    def create(subject):
+        return email.message_from_string(textwrap.dedent("""
+            Date: Tue, 28 May 2019 15:05:40 +0200
+            From: Florian Bruhin <me@the-compiler.org>
+            To: me@the-compiler.org
+            Subject: {}
+            Message-ID: <20190528130540.h6mfwjmegnlloy4k@hooch.localdomain>
+            MIME-Version: 1.0
+            Content-Type: text/plain; charset=us-ascii
+            Content-Disposition: inline
+            User-Agent: NeoMutt/20180716
 
-        Incoming message
-    """.strip('\n')))
-    mail_obj = mailbox.process_incoming_message(msg)
+            Incoming message
+        """.strip('\n').format(subject)))
+    return create
+
+
+@pytest.fixture
+def mailbox(db):
+    return Mailbox.objects.create(name='testmailbox')
+
+
+@pytest.fixture
+def incoming_msg_obj(db, mailbox, report_obj, mail_factory):
+    mail = mail_factory('crashbin test email')
+    mail_obj = mailbox.process_incoming_message(mail)
     assert mail_obj.subject == 'crashbin test email'
     return IncomingMessage.objects.create(report=report_obj, mail=mail_obj,
                                           created_at=TIMESTAMP)
