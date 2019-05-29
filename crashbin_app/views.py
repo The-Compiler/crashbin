@@ -202,14 +202,13 @@ def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     elif request.path.startswith('/report/'):
         target = get_object_or_404(Report, pk=pk)
     else:
-        assert False, request.path
+        raise AssertionError("Invalid path {}".format(request.path))
 
     if request.method == 'GET':
         return _get_settings(request, target, setting)
-    elif request.method == 'POST':
+    if request.method == 'POST':
         return _set_settings(request, target, setting)
-    else:
-        assert False, request.method
+    raise AssertionError("Invalid method {}".format(request.method))
 
 
 @attr.s
