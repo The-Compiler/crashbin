@@ -241,7 +241,7 @@ def _get_settings(request: HttpRequest, target: typing.Union[Bin, Report],
         all_elements = Bin.objects.exclude(id=target.id)
         selected_elements = target.related_bins.all()
         title = 'Related to {}'.format(target)
-    elif setting == 'assigned':
+    elif setting == 'bin':
         assert isinstance(target, Report)
         new_button = _ButtonInfo("New bin", 'bin_new_edit')
         all_elements = Bin.objects.order_by('created_at')
@@ -280,7 +280,7 @@ def _set_settings(request: HttpRequest, target: typing.Union[Bin, Report],
         target.related_bins.clear()
         for related_bin in query_list:
             target.related_bins.add(Bin.objects.get(id=related_bin))
-    elif setting == 'assigned':
+    elif setting == 'bin':
         assert isinstance(target, Report)
         user = request.user  # type: ignore
         bin_obj = Bin.objects.get(id=query_list[0])
