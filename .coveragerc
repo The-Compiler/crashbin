@@ -6,3 +6,4 @@ omit = .tox/*
 exclude_lines =
     pragma: no cover
     raise NotImplementedError
+    assert False
