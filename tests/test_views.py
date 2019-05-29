@@ -297,6 +297,121 @@ def test_subscribe(bin_obj, admin_user, admin_client):
     assert admin_user not in bin_obj.subscribers.all()
 
 
+class TestSettings:
+
+    def _get_url(self, obj, setting):
+        view = 'bin_settings' if isinstance(obj, Bin) else 'report_settings'
+        return urls.reverse(view, kwargs={'setting': setting, 'pk': obj.id})
+
+    # Getting settings
+
+    def test_get_bin_maintainer(self, bin_obj, admin_client):
+        url = self._get_url(bin_obj, 'maintainer')
+        response = admin_client.get(url)
+        content = response.content.decode('utf-8')
+        assert '>Maintainers for testbin<' in content
+        assert 'type="checkbox"' in content
+        assert '>admin<' in content
+
+    def test_get_bin_label(self, bin_obj, label_obj, admin_client):
+        url = self._get_url(bin_obj, 'label')
+        response = admin_client.get(url)
+        content = response.content.decode('utf-8')
+        assert '>Labels for testbin<' in content
+        assert 'type="checkbox"' in content
+        assert '>testlabel<' in content
+
+    def test_get_report_label(self, report_obj, label_obj, admin_client):
+        url = self._get_url(report_obj, 'label')
+        response = admin_client.get(url)
+        content = response.content.decode('utf-8')
+        assert '>Labels for testreport<' in content
+        assert 'type="checkbox"' in content
+        assert '>testlabel<' in content
+
+    def test_get_bin_related(self, bin_obj, admin_client):
+        url = self._get_url(bin_obj, 'related')
+        response = admin_client.get(url)
+        content = response.content.decode('utf-8')
+        assert '>Related to testbin<' in content
+        assert 'type="checkbox"' in content
+        assert '>testbin<' not in content  # Bin can't relate to itself
+
+    def test_get_report_bin(self, report_obj, bin_obj, admin_client):
+        url = self._get_url(report_obj, 'bin')
+        response = admin_client.get(url)
+        content = response.content.decode('utf-8')
+        assert '>Bin for testreport<' in content
+        assert 'type="radio"' in content
+        assert '>testbin<' in content
+
+    def test_get_invalid(self, report_obj, admin_client):
+        url = self._get_url(report_obj, 'blabla')
+        response = admin_client.get(url)
+        assert response.status_code == HTTPStatus.BAD_REQUEST
+
+    # Setting settings
+
+    def test_set_bin_maintainer(self, bin_obj, bin_detail_url, admin_client, admin_user):
+        assert not bin_obj.maintainers.exists()
+
+        url = self._get_url(bin_obj, 'maintainer')
+        response = admin_client.post(url, {'maintainer': admin_user.id})
+
+        assert response.status_code == HTTPStatus.FOUND
+        assert response.url == bin_detail_url
+        assert bin_obj.maintainers.get() == admin_user
+
+    def test_set_bin_label(self, bin_obj, label_obj, bin_detail_url, admin_client):
+        assert not bin_obj.labels.exists()
+
+        url = self._get_url(bin_obj, 'label')
+        response = admin_client.post(url, {'label': label_obj.id})
+
+        assert response.status_code == HTTPStatus.FOUND
+        assert response.url == bin_detail_url
+        assert bin_obj.labels.get() == label_obj
+
+    def test_set_report_label(self, report_detail_url, report_obj, label_obj, admin_client):
+        assert not report_obj.labels.exists()
+
+        url = self._get_url(report_obj, 'label')
+        response = admin_client.post(url, {'label': label_obj.id})
+
+        assert response.status_code == HTTPStatus.FOUND
+        assert response.url == report_detail_url
+        assert report_obj.labels.get() == label_obj
+
+    def test_set_bin_related(self, bin_obj, bin_detail_url, admin_client):
+        assert not bin_obj.related_bins.exists()
+        new_bin = Bin.objects.create(name='related bin')
+
+        url = self._get_url(bin_obj, 'related')
+        response = admin_client.post(url, {'related': new_bin.id})
+
+        assert response.status_code == HTTPStatus.FOUND
+        assert response.url == bin_detail_url
+        assert bin_obj.related_bins.get() == new_bin
+        assert new_bin.related_bins.get() == bin_obj
+
+    def test_set_report_bin(self, report_detail_url, report_obj, bin_obj, admin_client):
+        assert report_obj.bin == bin_obj
+        inbox_bin = Bin.get_inbox()
+
+        url = self._get_url(report_obj, 'bin')
+        response = admin_client.post(url, {'bin': inbox_bin.id})
+
+        assert response.url == report_detail_url
+        assert response.status_code == HTTPStatus.FOUND
+        report_obj.refresh_from_db()
+        assert report_obj.bin == inbox_bin
+
+    def test_set_invalid(self, report_obj, admin_client):
+        url = self._get_url(report_obj, 'blabla')
+        response = admin_client.post(url)
+        assert response.status_code == HTTPStatus.BAD_REQUEST
+
+
 @pytest.mark.parametrize('view, kwargs', [
     ('home', {}),
     ('search_dispatch', {}),
