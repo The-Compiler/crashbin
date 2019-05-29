@@ -9,8 +9,8 @@
     background-color: var(--main-light-color) !important;
 }
 
-.bg-dark {
-    background-color: var(--main-dark-color) !important;
+.navbar-dark {
+    background-color: #404040 !important;
 }
 
 /*
@@ -25,11 +25,11 @@
 */
 
 a {
-    color: var(--main-dark-color);
+    color: black;
 }
 
 a:hover {
-    color: black;
+    color: #404040;
 }
 
 /*
@@ -125,7 +125,7 @@ a:hover {
 .btn-secondary:not(:disabled):not(.disabled).active,
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show > .btn-secondary.dropdown-toggle {
-    color: white;
+    color: black;
     background-color: var(--main-dark-color);
     border-color: var(--main-dark-color);
 }
@@ -181,12 +181,11 @@ a:hover {
 }
 
 .selection-element > input:checked + label {
-    color: white;
+    color: black;
     background-color: var(--main-dark-color);
 }
 
 .selection-element i {
-    color: white;
     visibility: hidden;
 }
 
@@ -220,8 +219,8 @@ select option {
 ===== COLORS =====
 */
 :root {
-    --main-color: #d7d7d7;
-    --main-dark-color: #4D4D4D;
+    --main-color: #cdcdcd;
+    --main-dark-color: #9b9b9b;
     --main-light-color: #E6E6E6;
 }
 

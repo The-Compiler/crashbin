@@ -20,17 +20,29 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container my-3 p-0">
-        <div class="d-flex flex-fill flex-column m-2 px-4 pb-4 rounded bg-white">
-            <h1 class="m-0 py-2">{{ title }}</h1>
-            <form method="POST" class="post-form m-0">
-                {% csrf_token %}
-                {{ form | crispy }}
-                {% if delete_button %}
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteWarningMessage">Delete {{ delete_button }}</button>
-                {% endif %}
-                <button type="submit" class="save btn btn-primary">Save</button>
-            </form>
+    <div class="container width-540-md my-2 p-0">
+        <div class="row">
+            <div class="col-lg m-2 p-0">
+                <div class="px-4 pb-4 rounded bg-white">
+                    <h1 class="m-0 pt-2">{{ title }}</h1>
+                    <form method="POST" class="m-0">
+                        {% csrf_token %}
+                        {{ form | crispy }}
+                        <div class="row">
+                            <div class="col-auto">
+                                {% if delete_button %}
+                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#deleteWarningMessage">
+                                        Delete {{ delete_button }}</button>
+                                {% endif %}
+                            </div>
+                            <div class="col-auto ml-auto">
+                                <button type="submit" class="save btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 {% if delete_button %}
