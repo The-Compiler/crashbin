@@ -103,15 +103,23 @@ def test_lists(admin_client, bin_obj, label_obj, view, query, match, matches):
     assert (match in content) == matches
 
 
-@pytest.mark.parametrize('scope', ['Reports', 'Bins'])
-def test_search_dispatch(admin_client, bin_obj, report_obj, scope):
-    url = urls.reverse('search_dispatch') + '?q=foo&scope={}'.format(scope)
-    message = 'No {} found'.format(scope.lower())
+class TestSearchDispatch:
 
-    response = admin_client.get(url)
+    @pytest.fixture
+    def search_dispatch_url(self):
+        return urls.reverse('search_dispatch')
 
-    assert response.status_code == HTTPStatus.OK
-    assert message in response.content.decode()
+    @pytest.mark.parametrize('scope', ['Reports', 'Bins'])
+    def test_search_dispatch(self, search_dispatch_url, admin_client, bin_obj, report_obj, scope):
+        message = 'No {} found'.format(scope.lower())
+        response = admin_client.get(search_dispatch_url, {'q': 'foo', 'scope': scope})
+
+        assert response.status_code == HTTPStatus.OK
+        assert message in response.content.decode()
+
+    def test_invalid_scope(self, search_dispatch_url, admin_client, bin_obj, report_obj):
+        response = admin_client.get(search_dispatch_url, {'q': 'foo', 'scope': 'blabla'})
+        assert response.status_code == HTTPStatus.BAD_REQUEST
 
 
 @pytest.fixture
@@ -274,6 +282,19 @@ class TestLabelNewEdit:
         response = admin_client.post(label_edit_url, data)
         assert response.status_code == HTTPStatus.FOUND
         assert response.url == (back_url if is_valid else label_list_url)
+
+
+def test_subscribe(bin_obj, admin_user, admin_client):
+    url = urls.reverse('bin_subscribe', kwargs={'pk': bin_obj.id})
+    assert admin_user not in bin_obj.subscribers.all()
+
+    response = admin_client.post(url)
+    assert response.status_code == HTTPStatus.OK
+    assert admin_user in bin_obj.subscribers.all()
+
+    response = admin_client.post(url)
+    assert response.status_code == HTTPStatus.OK
+    assert admin_user not in bin_obj.subscribers.all()
 
 
 @pytest.mark.parametrize('view, kwargs', [

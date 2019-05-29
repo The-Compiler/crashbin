@@ -299,5 +299,4 @@ def search_dispatch(request: HttpRequest) -> HttpResponse:
         return report_list(request)
     if scope == 'Bins':
         return bin_list(request)
-    assert False, scope
-    return None
+    return HttpResponseBadRequest("Invalid scope {}".format(scope))
