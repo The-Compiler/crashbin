@@ -6,7 +6,7 @@ from django import urls
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
@@ -194,6 +194,7 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     target: typing.Union[Report, Bin]
     if request.path.startswith('/bin/'):
@@ -205,10 +206,10 @@ def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
 
     if request.method == 'GET':
         return _get_settings(request, target, setting)
-    if request.method == 'POST':
+    elif request.method == 'POST':
         return _set_settings(request, target, setting)
-
-    return HttpResponseBadRequest("Invalid method request")
+    else:
+        assert False, request.method
 
 
 @attr.s
