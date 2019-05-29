@@ -5,7 +5,7 @@ from crashbin_app.templatetags import utils
 
 
 def test_label_style(label_obj):
-    expected = 'background-color: #ff0000 !important; color: white !important;'
+    expected = 'background-color: #ff0000; color: white;'
     assert utils.label_style(label_obj) == expected
 
 
