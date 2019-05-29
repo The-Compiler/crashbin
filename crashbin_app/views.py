@@ -185,7 +185,7 @@ def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
 @require_POST
 def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
     user = request.user  # type: ignore
-    bin_obj: Bin = Bin.objects.get(id=pk)
+    bin_obj: Bin = get_object_or_404(Bin, pk=pk)
     if user in bin_obj.subscribers.all():
         bin_obj.subscribers.remove(user)
     else:

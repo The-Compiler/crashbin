@@ -306,6 +306,7 @@ def test_logged_out(client, view, kwargs):
     ('bin_detail', 'get'),
     ('bin_new_edit', 'get'),
     ('bin_new_edit', 'post'),
+    ('bin_subscribe', 'post'),
     ('label_new_edit', 'get'),
     ('label_new_edit', 'post'),
     ('report_reply', 'post'),
