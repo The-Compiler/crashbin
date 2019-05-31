@@ -6,14 +6,21 @@ class BinForm(forms.ModelForm):
 
     class Meta:
         model = Bin
-        fields = 'name', 'description'
+        fields = ('name', 'description')
+
+
+class InboxBinForm(forms.ModelForm):
+
+    class Meta:
+        model = Bin
+        fields = ('description', )
 
 
 class LabelForm(forms.ModelForm):
 
     class Meta:
         model = Label
-        fields = 'name', 'color', 'description'
+        fields = ('name', 'color', 'description')
 
 
 class ReportReplyForm(forms.Form):

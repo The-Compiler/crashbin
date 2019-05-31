@@ -127,6 +127,11 @@ def bin_detail_url(bin_obj):
     return urls.reverse('bin_detail', kwargs={'pk': bin_obj.id})
 
 
+@pytest.fixture
+def inbox_bin():
+    return Bin.get_inbox()
+
+
 def test_bin_detail(admin_client, bin_detail_url):
     response = admin_client.get(bin_detail_url)
     assert response.status_code == HTTPStatus.OK
@@ -186,13 +191,24 @@ class TestBinNewEdit:
         assert bin_obj.name in content
         assert bin_obj.description in content
 
-    def test_edit_inbox(self, admin_client):
-        inbox_bin = Bin.get_inbox()
+    def test_edit_inbox(self, admin_client, inbox_bin):
         url = urls.reverse('bin_new_edit', kwargs={'pk': inbox_bin.id})
         response = admin_client.get(url)
 
         assert response.status_code == HTTPStatus.OK
-        assert b'Delete bin' not in response.content
+        content = response.content.decode('utf-8')
+        assert 'Delete bin' not in content
+        assert 'value="{}"'.format(inbox_bin.name) not in content
+
+    def test_edit_inbox_post(self, admin_client, inbox_bin):
+        data = {'name': 'New name', 'description': 'Bin description'}
+        url = urls.reverse('bin_new_edit', kwargs={'pk': inbox_bin.id})
+        response = admin_client.post(url, data)
+
+        assert response.status_code == HTTPStatus.FOUND
+
+        inbox_bin.refresh_from_db()
+        assert inbox_bin.name == 'Inbox'
 
     @pytest.mark.parametrize('back_url, is_valid', {
         ('/', True),
@@ -394,9 +410,8 @@ class TestSettings:
         assert bin_obj.related_bins.get() == new_bin
         assert new_bin.related_bins.get() == bin_obj
 
-    def test_set_report_bin(self, report_detail_url, report_obj, bin_obj, admin_client):
+    def test_set_report_bin(self, report_detail_url, report_obj, bin_obj, inbox_bin, admin_client):
         assert report_obj.bin == bin_obj
-        inbox_bin = Bin.get_inbox()
 
         url = self._get_url(report_obj, 'bin')
         response = admin_client.post(url, {'bin': inbox_bin.id})
