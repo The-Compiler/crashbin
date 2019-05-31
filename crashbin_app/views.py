@@ -14,7 +14,7 @@ from django.utils.http import is_safe_url
 
 from crashbin_app import utils
 from .models import Report, Bin, NoteMessage, OutgoingMessage, Message, Label
-from .forms import BinForm, ReportReplyForm, LabelForm
+from .forms import InboxBinForm, BinForm, ReportReplyForm, LabelForm
 
 
 @login_required
@@ -115,7 +115,9 @@ def _back_redirect_ok(request: HttpRequest):
 @login_required
 def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     bin_obj = None if pk is None else get_object_or_404(Bin, pk=pk)
-    form = BinForm(request.POST or None, instance=bin_obj)
+    is_inbox = bin_obj == Bin.get_inbox()
+    form_cls = InboxBinForm if is_inbox else BinForm
+    form = form_cls(request.POST or None, instance=bin_obj)
 
     if request.method == 'POST' and form.is_valid():
         new_bin = form.save()
@@ -132,7 +134,7 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
         data = {
             'title': 'Edit bin',
             'form': form,
-            'delete_button': '' if bin_obj == Bin.get_inbox() else 'bin',
+            'delete_button': '' if is_inbox else 'bin',
             'pk': pk,
             'bin': bin_obj,
         }

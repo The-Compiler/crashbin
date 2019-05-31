@@ -192,7 +192,20 @@ class TestBinNewEdit:
         response = admin_client.get(url)
 
         assert response.status_code == HTTPStatus.OK
-        assert b'Delete bin' not in response.content
+        content = response.content.decode('utf-8')
+        assert 'Delete bin' not in content
+        assert 'value="{}"'.format(inbox_bin.name) not in content
+
+    def test_edit_inbox_post(self, admin_client):
+        inbox_bin = Bin.get_inbox()
+        data = {'name': 'New name', 'description': 'Bin description'}
+        url = urls.reverse('bin_new_edit', kwargs={'pk': inbox_bin.id})
+        response = admin_client.post(url, data)
+
+        assert response.status_code == HTTPStatus.FOUND
+
+        inbox_bin.refresh_from_db()
+        assert inbox_bin.name == 'Inbox'
 
     @pytest.mark.parametrize('back_url, is_valid', {
         ('/', True),

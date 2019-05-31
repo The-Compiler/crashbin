@@ -9,6 +9,13 @@ class BinForm(forms.ModelForm):
         fields = 'name', 'description'
 
 
+class InboxBinForm(forms.ModelForm):
+
+    class Meta:
+        model = Bin
+        fields = 'description',
+
+
 class LabelForm(forms.ModelForm):
 
     class Meta:
