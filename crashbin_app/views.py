@@ -6,7 +6,7 @@ from django import urls
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.core import mail
@@ -185,7 +185,7 @@ def label_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
 @require_POST
 def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
     user = request.user  # type: ignore
-    bin_obj: Bin = Bin.objects.get(id=pk)
+    bin_obj: Bin = get_object_or_404(Bin, pk=pk)
     if user in bin_obj.subscribers.all():
         bin_obj.subscribers.remove(user)
     else:
@@ -194,12 +194,21 @@ def bin_subscribe(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
+    target: typing.Union[Report, Bin]
+    if request.path.startswith('/bin/'):
+        target = get_object_or_404(Bin, pk=pk)
+    elif request.path.startswith('/report/'):
+        target = get_object_or_404(Report, pk=pk)
+    else:
+        raise AssertionError("Invalid path {}".format(request.path))
+
     if request.method == 'GET':
-        return _get_settings(request, pk, setting)
+        return _get_settings(request, target, setting)
     if request.method == 'POST':
-        return _set_settings(request, pk, setting)
-    return HttpResponseBadRequest("Invalid method request")
+        return _set_settings(request, target, setting)
+    raise AssertionError("Invalid method {}".format(request.method))
 
 
 @attr.s
@@ -208,7 +217,8 @@ class _ButtonInfo:
     view: str = attr.ib()
 
 
-def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
+def _get_settings(request: HttpRequest, target: typing.Union[Bin, Report],
+                  setting: str) -> HttpResponse:
     Element = typing.Union[User, Label, Bin]
     all_elements: QuerySet
     selected_elements: typing.Iterable[Element]
@@ -216,80 +226,70 @@ def _get_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     new_button: typing.Optional[_ButtonInfo] = None
 
     if setting == 'maintainer':
-        bin_obj = get_object_or_404(Bin, pk=pk)
+        assert isinstance(target, Bin)
         all_elements = User.objects.order_by('id')
-        selected_elements = bin_obj.maintainers.all()
-        title = 'Maintainers for {}'.format(bin_obj)
+        selected_elements = target.maintainers.all()
+        title = 'Maintainers for {}'.format(target)
     elif setting == 'label':
         all_elements = Label.objects.order_by('created_at')
         new_button = _ButtonInfo("New label", 'label_new_edit')
-        if request.path.startswith('/bin/'):
-            bin_obj = get_object_or_404(Bin, pk=pk)
-            selected_elements = bin_obj.labels.all()
-            title = 'Labels for {}'.format(bin_obj)
-        elif request.path.startswith('/report/'):
-            report_obj = get_object_or_404(Report, pk=pk)
-            selected_elements = report_obj.labels.all()
-            title = 'Labels for {}'.format(report_obj)
-        else:
-            assert False, request.path
+        selected_elements = target.labels.all()
+        title = 'Labels for {}'.format(target)
     elif setting == 'related':
+        assert isinstance(target, Bin)
         new_button = _ButtonInfo("New bin", 'bin_new_edit')
-        bin_obj = get_object_or_404(Bin, pk=pk)
-        all_elements = Bin.objects.exclude(id=pk)
-        selected_elements = bin_obj.related_bins.all()
-        title = 'Related to {}'.format(bin_obj)
-    elif setting == 'assigned':
+        all_elements = Bin.objects.exclude(id=target.id)
+        selected_elements = target.related_bins.all()
+        title = 'Related to {}'.format(target)
+    elif setting == 'bin':
+        assert isinstance(target, Report)
         new_button = _ButtonInfo("New bin", 'bin_new_edit')
-        report_obj = get_object_or_404(Report, pk=pk)
         all_elements = Bin.objects.order_by('created_at')
-        selected_elements = [report_obj.bin]
-        title = 'Bin for {}'.format(report_obj)
+        selected_elements = [target.bin]
+        title = 'Bin for {}'.format(target)
     else:
         return HttpResponseBadRequest("Invalid setting request")
 
-    return render(request, 'crashbin_app/set_settings.html',
-                  {'pk': pk, 'setting': setting, 'all_elements': all_elements,
-                   'selected_elements': selected_elements, 'title': title,
-                   'new_button': new_button})
+    data = {
+        'pk': target.id,
+        'setting': setting,
+        'all_elements': all_elements,
+        'selected_elements': selected_elements,
+        'title': title,
+        'new_button': new_button
+    }
+    return render(request, 'crashbin_app/set_settings.html', data)
 
 
-def _set_settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
-    element: typing.Union[Report, Bin]
+def _set_settings(request: HttpRequest, target: typing.Union[Bin, Report],
+                  setting: str) -> HttpResponse:
     redirect_view: str
     query_list: typing.Sequence = request.POST.getlist(key=setting)
 
-    if request.path.startswith('/bin/'):
-        element = Bin.objects.get(id=pk)
-        redirect_view = 'bin_detail'
-    elif request.path.startswith('/report/'):
-        element = Report.objects.get(id=pk)
-        redirect_view = 'report_detail'
-    else:
-        return HttpResponseBadRequest("Invalid request")
-
     if setting == 'maintainer':
-        assert isinstance(element, Bin)
-        element.maintainers.clear()
+        assert isinstance(target, Bin)
+        target.maintainers.clear()
         for maintainer in query_list:
-            element.maintainers.add(User.objects.get(id=maintainer))
+            target.maintainers.add(User.objects.get(id=maintainer))
     elif setting == 'label':
-        element.labels.clear()
+        target.labels.clear()
         for label in query_list:
-            element.labels.add(Label.objects.get(id=label))
+            target.labels.add(Label.objects.get(id=label))
     elif setting == 'related':
-        assert isinstance(element, Bin)
-        element.related_bins.clear()
+        assert isinstance(target, Bin)
+        target.related_bins.clear()
         for related_bin in query_list:
-            element.related_bins.add(Bin.objects.get(id=related_bin))
-    elif setting == 'assigned':
-        assert isinstance(element, Report)
+            target.related_bins.add(Bin.objects.get(id=related_bin))
+    elif setting == 'bin':
+        assert isinstance(target, Report)
         user = request.user  # type: ignore
         bin_obj = Bin.objects.get(id=query_list[0])
-        element.assign_to_bin(bin_obj, user=user)
+        target.assign_to_bin(bin_obj, user=user)
     else:
         return HttpResponseBadRequest("Invalid setting request")
-    return redirect(redirect_view, pk=pk)
+
+    redirect_view = 'bin_detail' if isinstance(target, Bin) else 'report_detail'
+    return redirect(redirect_view, pk=target.id)
 
 
 @login_required
@@ -299,5 +299,4 @@ def search_dispatch(request: HttpRequest) -> HttpResponse:
         return report_list(request)
     if scope == 'Bins':
         return bin_list(request)
-    assert False, scope
-    return None
+    return HttpResponseBadRequest("Invalid scope {}".format(scope))

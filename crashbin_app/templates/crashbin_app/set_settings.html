@@ -68,7 +68,7 @@
                         {% csrf_token %}
                         {% for element in all_elements %}
                             <div class="selection-element d-flex flex-row mb-2 rounded">
-                                <input type="{% if setting == 'assigned' %}radio{% else %}checkbox{% endif %}"
+                                <input type="{% if setting == 'bin' %}radio{% else %}checkbox{% endif %}"
                                        id="element-{{ element.id }}"
                                        name="{{ setting }}"
                                        value="{{ element.id }}" hidden

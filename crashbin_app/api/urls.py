@@ -9,5 +9,5 @@ router.register(r'labels', views.LabelViewSet, basename='api-label')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('report/new/', views.ReportNew.as_view()),
+    path('report/new/', views.ReportNew.as_view(), name='api_report_new'),
 ]
