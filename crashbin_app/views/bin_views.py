@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 
 from crashbin_app.forms import InboxBinForm, BinForm
 from crashbin_app.models import Bin
-from crashbin_app.views.misc_view import back_redirect_ok
+from crashbin_app.utils import back_redirect_ok
 
 
 @login_required

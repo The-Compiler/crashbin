@@ -3,13 +3,20 @@ import pkgutil
 import attr
 
 from django.conf import settings
-
+from django.http import HttpRequest
+from django.utils.http import is_safe_url
 
 config = settings.CRASHBIN_CONFIG  # type: ignore
 
 
 def _on_walk_error(name: str) -> None:
     raise ImportError("Failed to import plugin {}".format(name))
+
+
+def back_redirect_ok(request: HttpRequest):
+    if 'back' not in request.GET:
+        return False
+    return is_safe_url(request.GET['back'], allowed_hosts=None)
 
 
 def load_plugins() -> None:

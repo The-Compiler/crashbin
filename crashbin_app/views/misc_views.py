@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
-from django.utils.http import is_safe_url
 
 from crashbin_app.models import Bin, Report
-from crashbin_app.templatetags.components import report_list, bin_list
+from crashbin_app.views.bin_views import bin_list
+from crashbin_app.views.report_views import report_list
 
 
 @login_required
@@ -27,9 +27,3 @@ def search_dispatch(request: HttpRequest) -> HttpResponse:
     if scope == 'Bins':
         return bin_list(request)
     return HttpResponseBadRequest("Invalid scope {}".format(scope))
-
-
-def back_redirect_ok(request: HttpRequest):
-    if 'back' not in request.GET:
-        return False
-    return is_safe_url(request.GET['back'], allowed_hosts=None)

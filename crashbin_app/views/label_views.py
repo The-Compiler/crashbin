@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from crashbin_app.forms import LabelForm
 from crashbin_app.models import Label
-from crashbin_app.views.misc_view import back_redirect_ok
+from crashbin_app.utils import back_redirect_ok
 
 
 @login_required
