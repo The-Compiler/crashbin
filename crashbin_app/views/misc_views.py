@@ -1,10 +1,11 @@
+import urllib.parse
+
+from django import urls
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from crashbin_app.models import Bin, Report
-from crashbin_app.views.bin_views import bin_list
-from crashbin_app.views.report_views import report_list
 
 
 @login_required
@@ -22,8 +23,14 @@ def home(request: HttpRequest) -> HttpResponse:
 @login_required
 def search_dispatch(request: HttpRequest) -> HttpResponse:
     scope: str = request.GET['scope']
-    if scope == 'Reports':
-        return report_list(request)
-    if scope == 'Bins':
-        return bin_list(request)
-    return HttpResponseBadRequest("Invalid scope {}".format(scope))
+    query: str = urllib.parse.urlencode({'q': request.GET['q']})
+    scope_to_view = {
+        'Reports': 'report_list',
+        'Bins': 'bin_list',
+        'Labels': 'label_list',
+    }
+    if scope not in scope_to_view:
+        return HttpResponseBadRequest("Invalid scope {}".format(scope))
+
+    url: str = urls.reverse(scope_to_view[scope])
+    return redirect('{}?{}'.format(url, query))

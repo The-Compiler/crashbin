@@ -212,6 +212,7 @@ a:hover {
 }
 
 select option {
+    color: black;
     background-color: white;
 }
 

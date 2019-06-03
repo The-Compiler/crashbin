@@ -35,6 +35,10 @@
                                     </div>
                                 </div>
                             </a>
+                        {% empty %}
+                            <div class="alert alert-warning mb-1" role="alert">
+                                No labels found
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
