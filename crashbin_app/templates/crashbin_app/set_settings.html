@@ -11,7 +11,7 @@
             const selectionElements = document.getElementsByClassName('selection-element');
             let visibleCount = 0;
             for (const element of selectionElements) {
-                const name = element.getElementsByTagName('span')[0].innerText.toLowerCase();
+                const name = element.getElementsByTagName('strong')[0].innerText.toLowerCase();
                 if (name.includes(query)) {
                     element.style.setProperty('display', 'initial');
                     visibleCount += 1;
