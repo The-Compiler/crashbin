@@ -34,5 +34,3 @@ def search_dispatch(request: HttpRequest) -> HttpResponse:
 
     url: str = urls.reverse(scope_to_view[scope])
     return redirect('{}?{}'.format(url, query))
-
-
