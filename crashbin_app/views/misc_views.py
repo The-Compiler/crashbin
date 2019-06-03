@@ -1,3 +1,5 @@
+import urllib.parse
+
 from django import urls
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
@@ -21,14 +23,16 @@ def home(request: HttpRequest) -> HttpResponse:
 @login_required
 def search_dispatch(request: HttpRequest) -> HttpResponse:
     scope: str = request.GET['scope']
-    query: str = request.GET['q']
-    if scope == 'Reports':
-        url: str = urls.reverse('report_list')
-        return redirect('{}?q={}'.format(url, query))
-    if scope == 'Bins':
-        url: str = urls.reverse('bin_list')
-        return redirect('{}?q={}'.format(url, query))
-    if scope == 'Labels':
-        url: str = urls.reverse('label_list')
-        return redirect('{}?q={}'.format(url, query))
-    return HttpResponseBadRequest("Invalid scope {}".format(scope))
+    query: str = urllib.parse.urlencode({'q': request.GET['q']})
+    scope_to_view = {
+        'Reports': 'report_list',
+        'Bins': 'bin_list',
+        'Labels': 'label_list',
+    }
+    if scope not in scope_to_view:
+        return HttpResponseBadRequest("Invalid scope {}".format(scope))
+
+    url: str = urls.reverse(scope_to_view[scope])
+    return redirect('{}?{}'.format(url, query))
+
+
