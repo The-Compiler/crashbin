@@ -109,13 +109,17 @@ class TestSearchDispatch:
     def search_dispatch_url(self):
         return urls.reverse('search_dispatch')
 
-    @pytest.mark.parametrize('scope', ['Reports', 'Bins'])
+    @pytest.mark.parametrize('scope', ['Reports', 'Bins', 'Labels'])
     def test_search_dispatch(self, search_dispatch_url, admin_client, bin_obj, report_obj, scope):
-        message = 'No {} found'.format(scope.lower())
-        response = admin_client.get(search_dispatch_url, {'q': 'foo', 'scope': scope})
+        response = admin_client.get(search_dispatch_url, {'q': 'foo&bar', 'scope': scope})
 
-        assert response.status_code == HTTPStatus.OK
-        assert message in response.content.decode()
+        assert response.status_code == HTTPStatus.FOUND
+
+        response2 = admin_client.get(response.url)
+        content = response2.content.decode()
+
+        assert 'No {} found'.format(scope.lower()) in content
+        assert '{} matching "foo&amp;bar"'.format(scope) in content
 
     def test_invalid_scope(self, search_dispatch_url, admin_client, bin_obj, report_obj):
         response = admin_client.get(search_dispatch_url, {'q': 'foo', 'scope': 'blabla'})
