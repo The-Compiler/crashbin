@@ -1,7 +1,11 @@
 from rest_framework import viewsets, mixins, permissions, generics
 
-from crashbin_app.api.serializers import (ReportSerializer, ReportNewSerializer, BinSerializer,
-                                          LabelSerializer)
+from crashbin_app.api.serializers import (
+    ReportSerializer,
+    ReportNewSerializer,
+    BinSerializer,
+    LabelSerializer,
+)
 from crashbin_app.models import Report, Bin, Label
 
 

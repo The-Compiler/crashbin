@@ -3,32 +3,32 @@ from django import template
 register = template.Library()
 
 
-@register.inclusion_tag('crashbin_app/bin_list_component.html')
-def bin_list(bins, prefix=''):
+@register.inclusion_tag("crashbin_app/bin_list_component.html")
+def bin_list(bins, prefix=""):
     """Generate a list showing the given bin and its contents.
 
     If 'prefix' is given, it's prepended to HTML ids so that the component can
     be used multiple times on the same page without conflicting IDs.
     """
-    return {'bins': bins, 'prefix': prefix}
+    return {"bins": bins, "prefix": prefix}
 
 
-@register.inclusion_tag('crashbin_app/report_list_component.html')
-def report_list(reports, prefix=''):
+@register.inclusion_tag("crashbin_app/report_list_component.html")
+def report_list(reports, prefix=""):
     """Generate a list showing the given report and its contents.
 
     If 'prefix' is given, it's prepended to HTML ids so that the component can
     be used multiple times on the same page without conflicting IDs.
     """
-    return {'reports': reports, 'prefix': prefix}
+    return {"reports": reports, "prefix": prefix}
 
 
-@register.inclusion_tag('crashbin_app/modal_delete_component.html')
+@register.inclusion_tag("crashbin_app/modal_delete_component.html")
 def modal_delete(what, bin_obj=None):
-    return {'what': what, 'bin': bin_obj}
+    return {"what": what, "bin": bin_obj}
 
 
-@register.inclusion_tag('crashbin_app/search_component.html')
+@register.inclusion_tag("crashbin_app/search_component.html")
 def search(path):
     """Generate a bin/report search box."""
-    return {'path': path}
+    return {"path": path}

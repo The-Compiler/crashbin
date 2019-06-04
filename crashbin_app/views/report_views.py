@@ -14,23 +14,22 @@ from crashbin_app.models import Report, Message, OutgoingMessage, NoteMessage
 
 @login_required
 def report_list(request: HttpRequest) -> HttpResponse:
-    reports = Report.objects.order_by('created_at')
-    if 'q' in request.GET:
-        query = request.GET['q']
+    reports = Report.objects.order_by("created_at")
+    if "q" in request.GET:
+        query = request.GET["q"]
         reports = reports.filter(title__icontains=query)
     else:
         query = None
 
-    return render(request,
-                  'crashbin_app/reports.html',
-                  {'reports': reports, 'query': query})
+    return render(
+        request, "crashbin_app/reports.html", {"reports": reports, "query": query}
+    )
 
 
 @login_required
 def report_detail(request: HttpRequest, pk: int) -> HttpResponse:
     report = get_object_or_404(Report, pk=pk)
-    return render(request, 'crashbin_app/report_detail.html',
-                  {'report': report})
+    return render(request, "crashbin_app/report_detail.html", {"report": report})
 
 
 @login_required
@@ -44,25 +43,25 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
         logging.error("Invalid reply POST: %s", form.errors)
         return HttpResponseBadRequest("Invalid form data")
 
-    typ = form.cleaned_data['typ']
-    text = form.cleaned_data['text']
+    typ = form.cleaned_data["typ"]
+    text = form.cleaned_data["text"]
     msg: Message
 
-    if typ == 'Reply':
+    if typ == "Reply":
         msg = OutgoingMessage.objects.create(text=text, author=user, report=report)
         mail.send_mail(
-            subject=utils.config.EMAIL['outgoing_subject'].format(report.id),
+            subject=utils.config.EMAIL["outgoing_subject"].format(report.id),
             message=text,
-            from_email=utils.config.EMAIL['outgoing_address'],
+            from_email=utils.config.EMAIL["outgoing_address"],
             recipient_list=[report.email],
             fail_silently=False,
         )
-        fragment = 'reply-{}'.format(msg.id)
-    elif typ == 'Note':
+        fragment = "reply-{}".format(msg.id)
+    elif typ == "Note":
         msg = NoteMessage.objects.create(text=text, author=user, report=report)
-        fragment = 'note-{}'.format(msg.id)
+        fragment = "note-{}".format(msg.id)
     else:
         assert False, typ
 
-    url = urls.reverse('report_detail', kwargs={'pk': pk})
-    return redirect('{}#{}'.format(url, fragment))
+    url = urls.reverse("report_detail", kwargs={"pk": pk})
+    return redirect("{}#{}".format(url, fragment))

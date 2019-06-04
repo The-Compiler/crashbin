@@ -10,23 +10,20 @@ from crashbin_app.utils import back_redirect_ok
 
 @login_required
 def bin_list(request: HttpRequest) -> HttpResponse:
-    bins = Bin.objects.order_by('created_at')
-    if 'q' in request.GET:
-        query = request.GET['q']
+    bins = Bin.objects.order_by("created_at")
+    if "q" in request.GET:
+        query = request.GET["q"]
         bins = bins.filter(name__icontains=query)
     else:
         query = None
 
-    return render(request,
-                  'crashbin_app/bins.html',
-                  {'bins': bins, 'query': query})
+    return render(request, "crashbin_app/bins.html", {"bins": bins, "query": query})
 
 
 @login_required
 def bin_detail(request: HttpRequest, pk: int) -> HttpResponse:
     bin_obj = get_object_or_404(Bin, pk=pk)
-    return render(request, 'crashbin_app/bin_detail.html',
-                  {'bin': bin_obj})
+    return render(request, "crashbin_app/bin_detail.html", {"bin": bin_obj})
 
 
 @login_required
@@ -36,27 +33,24 @@ def bin_new_edit(request: HttpRequest, pk: int = None) -> HttpResponse:
     form_cls = InboxBinForm if is_inbox else BinForm
     form = form_cls(request.POST or None, instance=bin_obj)
 
-    if request.method == 'POST' and form.is_valid():
+    if request.method == "POST" and form.is_valid():
         new_bin = form.save()
         if back_redirect_ok(request):
-            return redirect(request.GET['back'])
-        return redirect('bin_detail', pk=new_bin.pk)
+            return redirect(request.GET["back"])
+        return redirect("bin_detail", pk=new_bin.pk)
 
     if pk is None:
-        data = {
-            'title': 'New bin',
-            'form': form,
-        }
+        data = {"title": "New bin", "form": form}
     else:
         data = {
-            'title': 'Edit bin',
-            'form': form,
-            'delete_button': '' if is_inbox else 'bin',
-            'pk': pk,
-            'bin': bin_obj,
+            "title": "Edit bin",
+            "form": form,
+            "delete_button": "" if is_inbox else "bin",
+            "pk": pk,
+            "bin": bin_obj,
         }
 
-    return render(request, 'crashbin_app/form.html', data)
+    return render(request, "crashbin_app/form.html", data)
 
 
 @login_required

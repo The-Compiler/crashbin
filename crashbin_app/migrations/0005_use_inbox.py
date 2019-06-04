@@ -7,14 +7,17 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crashbin_app', '0004_create_inbox'),
-    ]
+    dependencies = [("crashbin_app", "0004_create_inbox")]
 
     operations = [
         migrations.AlterField(
-            model_name='report',
-            name='bin',
-            field=models.ForeignKey(default=crashbin_app.models.Bin.get_inbox, on_delete=django.db.models.deletion.CASCADE, related_name='reports', to='crashbin_app.Bin'),
-        ),
+            model_name="report",
+            name="bin",
+            field=models.ForeignKey(
+                default=crashbin_app.models.Bin.get_inbox,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reports",
+                to="crashbin_app.Bin",
+            ),
+        )
     ]
