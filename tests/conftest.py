@@ -49,7 +49,9 @@ def mail_factory():
                 User-Agent: NeoMutt/20180716
 
                 Incoming message
-                """.strip("\n")
+                """.strip(
+                    "\n"
+                )
             )
         )
 
