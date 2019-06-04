@@ -97,20 +97,20 @@ class Report(models.Model):
         match = re.fullmatch(pattern, subject)
         if match is None:
             raise InvalidMailError(
-                "Got incoming email with unknown subject: {}".format(subject)
+                f"Got incoming email with unknown subject: {subject}"
             )
 
         try:
             report_id = int(match.group(1))
         except ValueError:
             raise InvalidMailError(
-                "Could not parse report ID from mail subject: {}".format(subject)
+                f"Could not parse report ID from mail subject: {subject}"
             )
 
         try:
             return Report.objects.get(id=report_id)
         except Report.DoesNotExist:
-            raise InvalidMailError("Could not find report for mail: {}".format(subject))
+            raise InvalidMailError(f"Could not find report for mail: {subject}")
 
 
 class Message(models.Model):
@@ -120,9 +120,7 @@ class Message(models.Model):
     NAME: Optional[str] = None
 
     def __str__(self) -> str:
-        return "{} from {} at {}".format(
-            self.NAME, self.author_str(), self.created_at.ctime()
-        )
+        return f"{self.NAME} from {self.author_str()} at {self.created_at.ctime()}"
 
     def author_str(self) -> str:
         raise NotImplementedError

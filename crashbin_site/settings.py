@@ -135,9 +135,7 @@ REST_FRAMEWORK = {
 }
 
 MEDIA_ROOT = config.MEDIA_ROOT
-EMAIL_BACKEND = "django.core.mail.backends.{}.EmailBackend".format(
-    config.EMAIL["backend"]
-)
+EMAIL_BACKEND = f"django.core.mail.backends.{config.EMAIL['backend']}.EmailBackend"
 EMAIL_HOST = config.EMAIL["smtp_host"]
 EMAIL_PORT = config.EMAIL["smtp_port"]
 EMAIL_HOST_USER = config.EMAIL["smtp_user"]

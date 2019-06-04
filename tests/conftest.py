@@ -37,23 +37,19 @@ def mail_factory():
     def create(subject):
         return email.message_from_string(
             textwrap.dedent(
-                """
-            Date: Tue, 28 May 2019 15:05:40 +0200
-            From: Florian Bruhin <me@the-compiler.org>
-            To: me@the-compiler.org
-            Subject: {}
-            Message-ID: <20190528130540.h6mfwjmegnlloy4k@hooch.localdomain>
-            MIME-Version: 1.0
-            Content-Type: text/plain; charset=us-ascii
-            Content-Disposition: inline
-            User-Agent: NeoMutt/20180716
+                f"""
+                Date: Tue, 28 May 2019 15:05:40 +0200
+                From: Florian Bruhin <me@the-compiler.org>
+                To: me@the-compiler.org
+                Subject: {subject}
+                Message-ID: <20190528130540.h6mfwjmegnlloy4k@hooch.localdomain>
+                MIME-Version: 1.0
+                Content-Type: text/plain; charset=us-ascii
+                Content-Disposition: inline
+                User-Agent: NeoMutt/20180716
 
-            Incoming message
-        """.strip(
-                    "\n"
-                ).format(
-                    subject
-                )
+                Incoming message
+                """.strip("\n")
             )
         )
 

@@ -30,7 +30,7 @@ def search_dispatch(request: HttpRequest) -> HttpResponse:
         "Labels": "label_list",
     }
     if scope not in scope_to_view:
-        return HttpResponseBadRequest("Invalid scope {}".format(scope))
+        return HttpResponseBadRequest(f"Invalid scope {scope}")
 
     url: str = urls.reverse(scope_to_view[scope])
-    return redirect("{}?{}".format(url, query))
+    return redirect(f"{url}?{query}")

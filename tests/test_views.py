@@ -22,7 +22,7 @@ def test_home(admin_client):
 def test_report_list(admin_client, report_obj, query, matches):
     url = urls.reverse("report_list")
     if query is not None:
-        url += "?q={}".format(query)
+        url += f"?q={query}"
 
     response = admin_client.get(url)
     assert response.status_code == HTTPStatus.OK
@@ -97,7 +97,7 @@ class TestReportReply:
 def test_lists(admin_client, bin_obj, label_obj, view, query, match, matches):
     url = urls.reverse(view)
     if query is not None:
-        url += "?q={}".format(query)
+        url += f"?q={query}"
 
     response = admin_client.get(url)
     assert response.status_code == HTTPStatus.OK
@@ -123,8 +123,8 @@ class TestSearchDispatch:
         response2 = admin_client.get(response.url)
         content = response2.content.decode()
 
-        assert "No {} found".format(scope.lower()) in content
-        assert '{} matching "foo&amp;bar"'.format(scope) in content
+        assert f"No {scope.lower()} found" in content
+        assert f'{scope} matching "foo&amp;bar"' in content
 
     def test_invalid_scope(
         self, search_dispatch_url, admin_client, bin_obj, report_obj
@@ -209,7 +209,7 @@ class TestBinNewEdit:
         assert response.status_code == HTTPStatus.OK
         content = response.content.decode("utf-8")
         assert "Delete bin" not in content
-        assert 'value="{}"'.format(inbox_bin.name) not in content
+        assert f'value="{inbox_bin.name}"' not in content
 
     def test_edit_inbox_post(self, admin_client, inbox_bin):
         data = {"name": "New name", "description": "Bin description"}
@@ -228,7 +228,7 @@ class TestBinNewEdit:
     def test_back_url(
         self, admin_client, bin_obj, bin_edit_url, bin_detail_url, back_url, is_valid
     ):
-        bin_edit_url += "?back={}".format(back_url)
+        bin_edit_url += f"?back={back_url}"
         data = {"name": bin_obj.name, "description": bin_obj.description}
         response = admin_client.post(bin_edit_url, data)
         assert response.status_code == HTTPStatus.FOUND
@@ -311,7 +311,7 @@ class TestLabelNewEdit:
         back_url,
         is_valid,
     ):
-        label_edit_url += "?back={}".format(back_url)
+        label_edit_url += f"?back={back_url}"
         data = {
             "name": label_obj.name,
             "description": label_obj.description,

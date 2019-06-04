@@ -11,7 +11,7 @@ def test_invalid_incoming_mail(mailbox, mail_factory, caplog):
 
 
 def test_valid_incoming_mail(mailbox, mail_factory, caplog, report_obj):
-    mail = mail_factory("qutebrowser report #{}".format(report_obj.id))
+    mail = mail_factory(f"qutebrowser report #{report_obj.id}")
     mailbox_message = mailbox.process_incoming_message(mail)
     message = models.IncomingMessage.objects.get()
 

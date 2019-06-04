@@ -56,12 +56,12 @@ def report_reply(request: HttpRequest, pk: int) -> HttpResponse:
             recipient_list=[report.email],
             fail_silently=False,
         )
-        fragment = "reply-{}".format(msg.id)
+        fragment = f"reply-{msg.id}"
     elif typ == "Note":
         msg = NoteMessage.objects.create(text=text, author=user, report=report)
-        fragment = "note-{}".format(msg.id)
+        fragment = f"note-{msg.id}"
     else:
         assert False, typ
 
     url = urls.reverse("report_detail", kwargs={"pk": pk})
-    return redirect("{}#{}".format(url, fragment))
+    return redirect(f"{url}#{fragment}")

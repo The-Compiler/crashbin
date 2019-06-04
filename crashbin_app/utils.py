@@ -10,7 +10,7 @@ config = settings.CRASHBIN_CONFIG  # type: ignore
 
 
 def _on_walk_error(name: str) -> None:
-    raise ImportError("Failed to import plugin {}".format(name))
+    raise ImportError(f"Failed to import plugin {name}")
 
 
 def back_redirect_ok(request: HttpRequest):

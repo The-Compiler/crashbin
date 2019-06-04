@@ -20,13 +20,13 @@ def settings(request: HttpRequest, pk: int, setting: str) -> HttpResponse:
     elif request.path.startswith("/report/"):
         target = get_object_or_404(Report, pk=pk)
     else:
-        raise AssertionError("Invalid path {}".format(request.path))
+        raise AssertionError(f"Invalid path {request.path}")
 
     if request.method == "GET":
         return _get_settings(request, target, setting)
     if request.method == "POST":
         return _set_settings(request, target, setting)
-    raise AssertionError("Invalid method {}".format(request.method))
+    raise AssertionError(f"Invalid method {request.method}")
 
 
 @attr.s
@@ -48,24 +48,24 @@ def _get_settings(
         assert isinstance(target, Bin)
         all_elements = User.objects.order_by("id")
         selected_elements = target.maintainers.all()
-        title = "Maintainers for {}".format(target)
+        title = f"Maintainers for {target}"
     elif setting == "label":
         all_elements = Label.objects.order_by("created_at")
         new_button = _ButtonInfo("New label", "label_new_edit")
         selected_elements = target.labels.all()
-        title = "Labels for {}".format(target)
+        title = f"Labels for {target}"
     elif setting == "related":
         assert isinstance(target, Bin)
         new_button = _ButtonInfo("New bin", "bin_new_edit")
         all_elements = Bin.objects.exclude(id=target.id)
         selected_elements = target.related_bins.all()
-        title = "Related to {}".format(target)
+        title = f"Related to {target}"
     elif setting == "bin":
         assert isinstance(target, Report)
         new_button = _ButtonInfo("New bin", "bin_new_edit")
         all_elements = Bin.objects.order_by("created_at")
         selected_elements = [target.bin]
-        title = "Bin for {}".format(target)
+        title = f"Bin for {target}"
     else:
         return HttpResponseBadRequest("Invalid setting request")
 
