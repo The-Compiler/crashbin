@@ -5,14 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crashbin_app', '0005_use_inbox'),
-    ]
+    dependencies = [("crashbin_app", "0005_use_inbox")]
 
     operations = [
         migrations.AddField(
-            model_name='bin',
-            name='is_archived',
+            model_name="bin",
+            name="is_archived",
             field=models.BooleanField(default=False),
-        ),
+        )
     ]

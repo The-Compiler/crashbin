@@ -9,8 +9,8 @@ from crashbin_app import models
 # Receivers need to have a **kwargs argument.
 # pylint: disable=unused-argument
 
-new_report = Signal(providing_args=['report'])
-bin_assigned = Signal(providing_args=['report', 'old_bin', 'new_bin', 'user'])
+new_report = Signal(providing_args=["report"])
+bin_assigned = Signal(providing_args=["report", "old_bin", "new_bin", "user"])
 
 
 @receiver(django_mailbox.signals.message_received)

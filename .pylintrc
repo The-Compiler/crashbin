@@ -10,7 +10,8 @@ disable=missing-docstring,
         too-many-ancestors,
         too-few-public-methods,
         no-self-use,
-        cyclic-import
+        cyclic-import,
+        bad-continuation
 
 [BASIC]
 const-rgx=[a-zA-Z_][a-zA-Z0-9_]{0,30}$

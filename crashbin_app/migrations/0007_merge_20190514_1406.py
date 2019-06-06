@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crashbin_app', '0006_bin_is_archived'),
-        ('crashbin_app', '0006_add_messages'),
+        ("crashbin_app", "0006_bin_is_archived"),
+        ("crashbin_app", "0006_add_messages"),
     ]
 
-    operations = [
-    ]
+    operations = []

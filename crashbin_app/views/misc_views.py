@@ -12,25 +12,25 @@ from crashbin_app.models import Bin, Report
 def home(request: HttpRequest) -> HttpResponse:
     user = request.user  # type: ignore
     data = {
-        'bins': Bin.objects.order_by('created_at'),
-        'reports': Report.objects,
-        'maintained_bins': Bin.objects.filter(maintainers=user),
-        'subscribed_bins': Bin.objects.filter(subscribers=user),
+        "bins": Bin.objects.order_by("created_at"),
+        "reports": Report.objects,
+        "maintained_bins": Bin.objects.filter(maintainers=user),
+        "subscribed_bins": Bin.objects.filter(subscribers=user),
     }
-    return render(request, 'crashbin_app/home.html', data)
+    return render(request, "crashbin_app/home.html", data)
 
 
 @login_required
 def search_dispatch(request: HttpRequest) -> HttpResponse:
-    scope: str = request.GET['scope']
-    query: str = urllib.parse.urlencode({'q': request.GET['q']})
+    scope: str = request.GET["scope"]
+    query: str = urllib.parse.urlencode({"q": request.GET["q"]})
     scope_to_view = {
-        'Reports': 'report_list',
-        'Bins': 'bin_list',
-        'Labels': 'label_list',
+        "Reports": "report_list",
+        "Bins": "bin_list",
+        "Labels": "label_list",
     }
     if scope not in scope_to_view:
-        return HttpResponseBadRequest("Invalid scope {}".format(scope))
+        return HttpResponseBadRequest(f"Invalid scope {scope}")
 
     url: str = urls.reverse(scope_to_view[scope])
-    return redirect('{}?{}'.format(url, query))
+    return redirect(f"{url}?{query}")

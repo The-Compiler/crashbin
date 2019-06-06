@@ -6,14 +6,16 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('crashbin_app', '0002_report_title'),
-    ]
+    dependencies = [("crashbin_app", "0002_report_title")]
 
     operations = [
         migrations.AlterField(
-            model_name='report',
-            name='bin',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reports', to='crashbin_app.Bin'),
-        ),
+            model_name="report",
+            name="bin",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reports",
+                to="crashbin_app.Bin",
+            ),
+        )
     ]
