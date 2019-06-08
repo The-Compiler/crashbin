@@ -10,7 +10,7 @@ from crashbin_app.utils import back_redirect_ok
 
 @login_required
 def bin_list(request: HttpRequest) -> HttpResponse:
-    bins = Bin.objects.order_by("created_at")
+    bins = Bin.objects.all()
     if "q" in request.GET:
         query = request.GET["q"]
         bins = bins.filter(name__icontains=query)

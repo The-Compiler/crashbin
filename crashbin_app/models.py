@@ -22,6 +22,9 @@ class Label(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Bin(models.Model):
 
@@ -45,6 +48,9 @@ class Bin(models.Model):
     def get_inbox():
         """Get the inbox bin to be used for new reports."""
         return Bin.objects.get(name=utils.config.INBOX_BIN)
+
+    class Meta:
+        ordering = ["name"]
 
 
 class InvalidMailError(Exception):
@@ -111,6 +117,9 @@ class Report(models.Model):
             return Report.objects.get(id=report_id)
         except Report.DoesNotExist:
             raise InvalidMailError(f"Could not find report for mail: {subject}")
+
+    class Meta:
+        ordering = ["title"]
 
 
 class Message(models.Model):

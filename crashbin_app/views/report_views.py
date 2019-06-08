@@ -14,7 +14,7 @@ from crashbin_app.models import Report, Message, OutgoingMessage, NoteMessage
 
 @login_required
 def report_list(request: HttpRequest) -> HttpResponse:
-    reports = Report.objects.order_by("created_at")
+    reports = Report.objects.all()
     if "q" in request.GET:
         query = request.GET["q"]
         reports = reports.filter(title__icontains=query)

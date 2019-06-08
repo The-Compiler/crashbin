@@ -9,7 +9,7 @@ from crashbin_app.utils import back_redirect_ok
 
 @login_required
 def label_list(request: HttpRequest) -> HttpResponse:
-    labels = Label.objects.order_by("created_at")
+    labels = Label.objects.all()
     if "q" in request.GET:
         query = request.GET["q"]
         labels = labels.filter(name__icontains=query)
