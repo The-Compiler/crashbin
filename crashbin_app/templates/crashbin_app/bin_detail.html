@@ -57,7 +57,7 @@
                 </div>
                 <div class="row m-0">
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 rounded bg-white">
-                        <h2 class="m-0 py-2 text-left text-wrap text-break">Reports</h2>
+                        <h2 class="m-0 py-2">Reports</h2>
                         {% report_list bin.reports.all %}
                     </div>
                 </div>
@@ -65,10 +65,10 @@
 
             <div class="col-md-auto width-200-md m-2 p-0">
                 <div class="d-flex flex-column px-4 pb-2 rounded bg-white">
-                    <h2 class="m-0 pt-2 text-left text-wrap text-break">Settings</h2>
+                    <h2 class="m-0 pt-2">Settings</h2>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Maintainers</h5>
+                            <h5 class="m-0 mr-2">Maintainers</h5>
                             <a class=" ml-auto my-auto"
                                href="{% url 'bin_settings' pk=bin.id setting='maintainer' %}">
                                 <i class="fas fa-pen"></i>
@@ -86,7 +86,7 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Labels</h5>
+                            <h5 class="m-0 mr-2">Labels</h5>
                             <a class=" ml-auto my-auto"
                                href="{% url 'bin_settings' pk=bin.id setting='label' %}">
                                 <i class="fas fa-pen"></i>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Related</h5>
+                            <h5 class="m-0 mr-2">Related</h5>
                             <a class=" ml-auto my-auto"
                                href="{% url 'bin_settings' pk=bin.id setting='related' %}">
                                 <i class="fas fa-pen"></i>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Actions</h5>
+                            <h5 class="m-0 mr-2">Actions</h5>
                         </div>
                         <button type="button" id="buttonSubscribe"
                                 class="btn btn-{% if user in bin.subscribers.all %}outline-{% endif %}primary my-1">

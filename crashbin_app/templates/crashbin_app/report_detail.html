@@ -21,7 +21,7 @@
             <div class="col-md p-0">
                 <div class="row m-0">
                     <div class="d-flex flex-fill flex-column m-2 px-4 pb-4 rounded bg-white">
-                        <h1 class="m-0 py-2 text-left text-wrap text-break">Report Details</h1>
+                        <h1 class="m-0 py-2">Report Details</h1>
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="overview-tab" data-toggle="tab" href="#overview"
@@ -103,10 +103,10 @@
 
             <div class="col-md-auto width-200-md m-2 p-0">
                 <div class="d-flex flex-column px-4 pb-2 rounded bg-white">
-                    <h2 class="m-0 pt-2 text-left text-wrap text-break">Settings</h2>
+                    <h2 class="m-0 pt-2">Settings</h2>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Bin</h5>
+                            <h5 class="m-0 mr-2">Bin</h5>
                             <a class=" ml-auto my-auto"
                                href="{% url 'report_settings' pk=report.id setting='bin' %}">
                                 <i class="fas fa-pen"></i>
@@ -121,7 +121,7 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Labels</h5>
+                            <h5 class="m-0 mr-2">Labels</h5>
                             <a class=" ml-auto my-auto"
                                href="{% url 'report_settings' pk=report.id setting='label' %}">
                                 <i class="fas fa-pen"></i>
@@ -140,7 +140,7 @@
                     </div>
                     <div class="d-flex flex-column py-2">
                         <div class="d-flex flex-row mb-1 header-underline">
-                            <h5 class="m-0 mr-2 text-left text-wrap text-break">Actions</h5>
+                            <h5 class="m-0 mr-2">Actions</h5>
                         </div>
                         <button type="button" class="btn btn-danger btn-sm my-1" data-toggle="modal"
                                 data-target="#deleteWarningMessage">Delete
