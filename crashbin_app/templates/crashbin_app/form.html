@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-4 rounded bg-white">
-                    <h1 class="m-0 pt-2">{{ title }}</h1>
+                    <h1 class="m-0 pt-2 text-left text-wrap text-break">{{ title }}</h1>
                     <form method="POST" class="m-0">
                         {% csrf_token %}
                         {{ form | crispy }}

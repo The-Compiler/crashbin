@@ -44,15 +44,15 @@
         <div class="row">
             <div class="col-md p-0">
                 <div class="row m-0">
-                    <div class="d-flex flex-fill flex-column m-2 px-4 pb-3 rounded bg-white">
+                    <div class="d-flex flex-fill flex-column m-2 px-4 rounded bg-white">
                         <div class="d-flex flex-row m-0 pt-2">
-                            <h1>{{ bin.name }}</h1>
+                            <h1 class="text-left text-wrap text-break">{{ bin.name }}</h1>
                             <a class="ml-auto my-auto title-icon"
                                 href="{% url 'bin_new_edit' pk=bin.id %}">
                                 <i class="fas fa-pen"></i>
                             </a>
                         </div>
-                        <p class="m-0">{{ bin.description|default:'No description' }}</p>
+                        {{ bin.description|default:'No description'|linebreaks }}
                     </div>
                 </div>
                 <div class="row m-0">
@@ -75,7 +75,7 @@
                             </a>
                         </div>
                         {% for maintainer in bin.maintainers.all %}
-                            <div class="text-left text-wrap my-1 p-2 rounded bg-light">
+                            <div class="text-left text-wrap text-break my-1 p-2 rounded bg-light">
                                 <p class="my-auto">{{ maintainer }}</p>
                             </div>
                         {% empty %}
@@ -93,7 +93,7 @@
                             </a>
                         </div>
                         {% for label in bin.labels.all %}
-                            <span class="badge text-left text-wrap my-1 p-2"
+                            <span class="badge text-left text-wrap text-break my-1 p-2"
                                   style="{% label_style label %}">
                                 <p class="my-auto">{{ label.name }}</p>
                             </span>
@@ -113,7 +113,7 @@
                         </div>
                         {% for related_bin in bin.related_bins.all %}
                             <div class="my-1 rounded bg-light">
-                                <a class="btn btn-secondary btn-block text-left text-wrap m-0 p-2 border-0"
+                                <a class="btn btn-secondary btn-block text-left text-wrap text-break m-0 p-2 border-0"
                                    href="{% url 'bin_detail' pk=related_bin.id %}" role="button">
                                     <p class="my-auto">{{ related_bin.name }}</p>
                                 </a>

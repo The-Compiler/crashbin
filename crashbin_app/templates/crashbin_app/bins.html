@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
-                    <h1 class="m-0 py-2">{% if query %}Bins matching "{{ query }}"{% else %}All Bins{% endif %}</h1>
+                    <h1 class="m-0 py-2 text-left text-wrap text-break">{% if query %}Bins matching "{{ query }}"{% else %}All Bins{% endif %}</h1>
                     <div class="row mx-n2 mt-n2 mb-2">
                         <div class="col-sm p-2">
                             {% search request.path %}

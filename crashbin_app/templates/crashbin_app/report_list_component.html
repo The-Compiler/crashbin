@@ -3,16 +3,16 @@
 {% for report in reports %}
     <div class="report-list mb-2">
         <div id="report-header-{{ prefix }}{{ report.id }}" class="list-group-header">
-            <button class="btn btn-secondary btn-block d-flex flex-wrap p-2 {% if not forloop.first %}collapsed{% endif %}"
+            <button class="btn btn-secondary btn-block d-flex flex-wrap p-2 collapsed"
                     data-toggle="collapse"
                     data-target="#report-collapse-{{ prefix }}{{ report.id }}"
                     aria-expanded="true"
                     aria-controls="report-collapse-{{ prefix }}{{ report.id }}">
-                <h6 class="text-justify my-auto pl-1">{{ report.title }}</h6>
+                <h6 class="text-left text-wrap text-break my-auto pl-1">{{ report.title }}</h6>
                 <div class="d-flex flex-row ml-auto my-auto pr-1">
                     <div class="d-flex flex-row-reverse flex-wrap">
                         {% for label in report.labels.all %}
-                            <span class="badge text-wrap m-1"
+                            <span class="badge text-wrap text-break m-1"
                                   style="{% label_style label %}">{{ label.name }}</span>
                         {% endfor %}
                     </div>
@@ -22,7 +22,7 @@
             </button>
         </div>
         <div id="report-collapse-{{ prefix }}{{ report.id }}"
-             class="collapse {% if forloop.first %}show{% endif %}"
+             class="collapse"
              aria-labelledby="report-header-{{ prefix }}{{ report.id }}">
             <div>
                 <ul class="list-group">
@@ -30,7 +30,7 @@
                         <li class="list-group-item p-0">
                             <a class="btn btn-block d-flex flex-wrap"
                                href="{% url 'report_detail' pk=report.id %}" role="button">
-                                <p class="text-left m-0 my-auto">{{ message.NAME }} from <strong>{{ message.author_str }}</strong> at {{ message.created_at.ctime }}</p>
+                                <p class="text-left text-wrap text-break m-0 my-auto">{{ message.NAME }} from <strong>{{ message.author_str }}</strong> at {{ message.created_at.ctime }}</p>
                             </a>
                         </li>
                     {% endfor %}

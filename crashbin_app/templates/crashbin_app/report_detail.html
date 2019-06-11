@@ -40,15 +40,15 @@
                                     <tbody>
                                     <tr>
                                         <th class="text-nowrap" scope="row">Title:</th>
-                                        <td>{{ report.title }}</td>
+                                        <td class="text-left text-wrap text-break">{{ report.title }}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap" scope="row">Created at:</th>
-                                        <td>{{ report.created_at }}</td>
+                                        <td class="text-left text-wrap text-break">{{ report.created_at }}</td>
                                     </tr>
                                     <tr>
                                         <th class="text-nowrap" scope="row">Sender:</th>
-                                        <td>{{ report.email|default:'No email available' }}</td>
+                                        <td class="text-left text-wrap text-break">{{ report.email|default:'No email available' }}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -113,7 +113,7 @@
                             </a>
                         </div>
                         <div class="my-1 rounded bg-light">
-                            <a class="btn btn-secondary btn-block text-left text-wrap m-0 p-2 border-0"
+                            <a class="btn btn-secondary btn-block text-left text-wrap text-break m-0 p-2 border-0"
                                href="{% url 'bin_detail' pk=report.bin.id %}" role="button">
                                 <p class="my-auto">{{ report.bin.name }}</p>
                             </a>
@@ -128,7 +128,7 @@
                             </a>
                         </div>
                         {% for label in report.labels.all %}
-                            <span class="badge text-left text-wrap my-1 p-2"
+                            <span class="badge text-left text-wrap text-break my-1 p-2"
                                   style="{% label_style label %}">
                             <p class="my-auto">{{ label.name }}</p>
                         </span>
