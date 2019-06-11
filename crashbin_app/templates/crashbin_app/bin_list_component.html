@@ -7,11 +7,11 @@
                     data-toggle="collapse"
                     data-target="#bin-collapse-{{ prefix }}{{ bin.id }}"
                     aria-expanded="true" aria-controls="bin-collapse-{{ prefix }}{{ bin.id }}">
-                <h6 class="text-justify my-auto p-1">{{ bin.name }}</h6>
+                <h6 class="text-left text-wrap text-break my-auto p-1">{{ bin.name }}</h6>
                 <div class="d-flex flex-row ml-auto my-auto pr-1">
                     <div class="d-flex flex-row-reverse flex-wrap">
                         {% for label in bin.labels.all %}
-                            <span class="badge text-wrap m-1"
+                            <span class="badge text-wrap text-break m-1"
                                   style="{% label_style label %}">{{ label.name }}</span>
                         {% endfor %}
                     </div>
@@ -29,11 +29,11 @@
                         <li class="list-group-item p-0">
                             <a class="btn btn-block d-flex flex-wrap"
                                href="{% url 'report_detail' pk=report.id %}" role="button">
-                                <p class="text-justify m-0 my-auto">{{ report.title }}</p>
+                                <p class="text-left text-wrap text-break m-0 my-auto">{{ report.title }}</p>
                                 <div class="d-flex flex-row ml-auto my-auto">
                                     <div class="d-flex flex-row-reverse flex-wrap">
                                         {% for label in report.labels.all %}
-                                            <span class="badge text-wrap m-1"
+                                            <span class="badge text-wrap text-break m-1"
                                                   style="{% label_style label %}">{{ label.name }}</span>
                                         {% endfor %}
                                     </div>

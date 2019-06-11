@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
-                    <h1 class="m-0 py-2">{% if query %}Labels matching "{{ query }}"{% else %}All
+                    <h1 class="m-0 py-2 text-left text-wrap text-break">{% if query %}Labels matching "{{ query }}"{% else %}All
                         Labels{% endif %}</h1>
                     <div class="row mx-n2 mt-n2 mb-2">
                         <div class="col-sm p-2">
@@ -23,7 +23,7 @@
 
                     <div class="label-list d-flex flex-column">
                         {% for label in labels %}
-                            <a class="btn btn-secondary mb-2 p-0 text-left border-0"
+                            <a class="btn btn-secondary mb-2 p-0 text-left text-wrap text-break border-0"
                                href="{% url 'label_new_edit' pk=label.id %}" role="button">
                                 <div class="row m-0">
                                     <div class="col-4 d-flex p-2 rounded-left"
@@ -31,7 +31,7 @@
                                         <strong class="my-auto flex-fill">{{ label }}</strong>
                                     </div>
                                     <div class="col-8 d-flex p-2">
-                                        <span class="my-auto flex-fill text-wrap">{{ label.description|default:'No description' }}</span>
+                                        <span class="my-auto flex-fill text-left text-wrap text-break">{{ label.description|default:'No description' }}</span>
                                     </div>
                                 </div>
                             </a>

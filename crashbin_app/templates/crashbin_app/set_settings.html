@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-lg m-2 p-0">
                 <div class="px-4 pb-3 rounded bg-white">
-                    <h1 class="m-0 pt-2">{{ title }}</h1>
+                    <h1 class="m-0 pt-2 text-left text-wrap text-break">{{ title }}</h1>
 
                     <div class="row mx-n2 mb-2">
                         <div class="col-sm p-2">
@@ -76,7 +76,7 @@
                                        checked
                                         {% endif %}>
                                 <label for="element-{{ element.id }}"
-                                       class="m-0 p-2 d-flex flex-row flex-fill text-wrap rounded"
+                                       class="m-0 p-2 d-flex flex-row flex-fill text-left text-wrap text-break rounded"
                                        style="{% if setting == 'label' %}{% label_style element %}{% endif %}">
                                     <strong>{{ element }}</strong>
                                     <i class="fas fa-check my-auto ml-auto"></i>
