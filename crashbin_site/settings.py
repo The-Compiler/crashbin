@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import typing  # pylint: disable=unused-import
 
 try:
     import crashbin_settings as config  # type: ignore

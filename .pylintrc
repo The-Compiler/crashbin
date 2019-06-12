@@ -4,12 +4,10 @@ load-plugins=pylint_django
 [MESSAGES CONTROL]
 enable=all
 disable=missing-docstring,
-        fixme,
         locally-disabled,
         suppressed-message,
         too-many-ancestors,
         too-few-public-methods,
-        no-self-use,
         cyclic-import,
         bad-continuation
 

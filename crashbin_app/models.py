@@ -1,6 +1,6 @@
 import re
 import itertools
-from typing import Optional, Sequence
+import typing
 
 from django.db import models
 from django.utils import timezone
@@ -45,7 +45,7 @@ class Bin(models.Model):
         return self.name
 
     @staticmethod
-    def get_inbox():
+    def get_inbox() -> "Bin":
         """Get the inbox bin to be used for new reports."""
         return Bin.objects.get(name=utils.config.INBOX_BIN)
 
@@ -72,7 +72,7 @@ class Report(models.Model):
     def __str__(self) -> str:
         return self.title
 
-    def all_messages(self) -> Sequence["Message"]:
+    def all_messages(self) -> typing.Sequence["Message"]:
         return sorted(
             itertools.chain(
                 self.incomingmessage_set.all(),  # type: ignore
@@ -82,7 +82,7 @@ class Report(models.Model):
             key=lambda msg: msg.created_at,
         )
 
-    def assign_to_bin(self, new_bin: Bin, *, user: User = None):
+    def assign_to_bin(self, new_bin: Bin, *, user: User = None) -> None:
         """Assign this report to a bin."""
         from crashbin_app import signals
 
@@ -126,7 +126,7 @@ class Message(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     report = models.ForeignKey(Report, on_delete=models.CASCADE)
-    NAME: Optional[str] = None
+    NAME: typing.Optional[str] = None
 
     def __str__(self) -> str:
         return f"{self.NAME} from {self.author_str()} at {self.created_at.ctime()}"
@@ -179,10 +179,10 @@ class OutgoingMessage(Message):
     )
     NAME = "Reply"
 
-    def author_str(self):
+    def author_str(self) -> str:
         if self.author is None:
             return "<unknown>"
         return self.author.get_username()
 
-    def contents(self):
+    def contents(self) -> str:
         return self.text
