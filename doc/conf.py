@@ -1,3 +1,7 @@
+import os
+import sys
+import os.path
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -13,7 +17,10 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-
+sys.path.append(os.path.abspath('../'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crashbin_site.settings')
+import django
+django.setup()
 
 # -- Project information -----------------------------------------------------
 
@@ -30,6 +37,7 @@ author = 'Florian Bruhin, Luca Tavernini'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+    'sphinx.ext.intersphinx',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,3 +60,6 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# -- Extension Options --------------------------------------------------------
+intersphinx_mapping = {'py': ('https://docs.python.org/3', None)}

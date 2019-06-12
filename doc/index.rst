@@ -10,11 +10,14 @@ Welcome to Crashbin's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   quickstart
+   configuring
+   integrating
+   extending
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. Indices and tables
+   ==================
+   
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
