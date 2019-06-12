@@ -84,7 +84,7 @@ def _set_settings(
     request: HttpRequest, target: typing.Union[Bin, Report], setting: str
 ) -> HttpResponse:
     redirect_view: str
-    query_list: typing.Sequence = request.POST.getlist(key=setting)
+    query_list: typing.Sequence[str] = request.POST.getlist(key=setting)
 
     if setting == "maintainer":
         assert isinstance(target, Bin)
