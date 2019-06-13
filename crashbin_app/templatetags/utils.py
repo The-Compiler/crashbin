@@ -19,7 +19,7 @@ def label_style(label: Label) -> str:
 
 
 @register.simple_tag(takes_context=True)
-def active_class(context, name) -> str:
+def active_class(context: template.Context, name: str) -> str:
     path = context["request"].path
 
     conditions = [

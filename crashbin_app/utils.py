@@ -13,7 +13,7 @@ def _on_walk_error(name: str) -> None:
     raise ImportError(f"Failed to import plugin {name}")
 
 
-def back_redirect_ok(request: HttpRequest):
+def back_redirect_ok(request: HttpRequest) -> bool:
     if "back" not in request.GET:
         return False
     return is_safe_url(request.GET["back"], allowed_hosts=None)
@@ -43,7 +43,7 @@ class Color:
     b: int = attr.ib()
 
     @classmethod
-    def from_hex(cls, color: str):
+    def from_hex(cls, color: str) -> "Color":
         color = color.lstrip("#")
         return cls(r=int(color[:2], 16), g=int(color[2:4], 16), b=int(color[4:], 16))
 

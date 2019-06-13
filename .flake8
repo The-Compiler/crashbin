@@ -1,5 +1,2 @@
 [flake8]
-ignore=E203
-max-line-length = 100
-exclude=crashbin_app/migrations/,
-        crashbin_site/settings.py
+ignore=E203,E501
