@@ -11,7 +11,12 @@ from crashbin_app import models
 # Receivers need to have a **kwargs argument.
 # pylint: disable=unused-argument
 
+#: Emitted when a new report is received by Crashbin. The Report object is
+#: passed as the ``report`` argument.
 new_report = Signal(providing_args=["report"])
+#: Emitted when a report is assigned to a new bin.
+#: Receivers are called with ``report``, ``old_bin``, ``new_bin`` and ``user``
+#: arguments.
 bin_assigned = Signal(providing_args=["report", "old_bin", "new_bin", "user"])
 
 
