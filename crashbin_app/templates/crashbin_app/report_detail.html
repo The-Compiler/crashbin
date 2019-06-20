@@ -12,6 +12,15 @@
                 headers: {'X-CSRFToken': '{{ csrf_token }}'}
             }).then(response => window.location.replace("{% url 'report_list' %}"));
         });
+
+        // Submit textareas with Ctrl-Enter
+        for (const elem of document.getElementsByTagName('textarea')) {
+           elem.addEventListener('keydown', ev => {
+               if (ev.ctrlKey && ev.keyCode === 13) {
+                   elem.form.submit();
+               }
+           });
+        };
     </script>
 {% endblock %}
 
